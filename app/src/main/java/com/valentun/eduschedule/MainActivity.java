@@ -7,7 +7,6 @@ import android.widget.Toast;
 import com.valentun.parser.Parser;
 
 public class MainActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -15,9 +14,12 @@ public class MainActivity extends AppCompatActivity {
 
         Parser parser = new Parser();
 
-        parser.parseFrom("//unused data {data}")
-                .subscribe(data ->
-                        Toast.makeText(this, "Parsed", Toast.LENGTH_SHORT).show()
-                );
+        String json = TestUtils.getTestData(this);
+
+        parser.parseFrom(json)
+                .subscribe(school -> {
+                    String name = school.getName();
+                    Toast.makeText(this, name + " parsed", Toast.LENGTH_LONG).show();
+                });
     }
 }
