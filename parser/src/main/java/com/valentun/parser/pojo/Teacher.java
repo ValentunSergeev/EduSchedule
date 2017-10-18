@@ -12,7 +12,7 @@ public class Teacher extends NamedEntity {
         super(id, name);
         this.schedule = new SparseArray<>();
 
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 6; i++) {
             schedule.put(i, new ArrayList<>());
         }
     }
