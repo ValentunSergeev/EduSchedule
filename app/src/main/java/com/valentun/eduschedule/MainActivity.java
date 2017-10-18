@@ -18,8 +18,10 @@ public class MainActivity extends AppCompatActivity {
 
         parser.parseFrom(json)
                 .subscribe(school -> {
-                    String name = school.getName();
-                    Toast.makeText(this, name + " parsed", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, String.valueOf("Parse time: " +
+                                    parser.getParseTime() / 1000.0 +
+                                    "seconds"),
+                            Toast.LENGTH_LONG).show();
                 });
     }
 }

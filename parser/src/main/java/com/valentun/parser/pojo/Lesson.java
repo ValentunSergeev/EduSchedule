@@ -1,66 +1,37 @@
 package com.valentun.parser.pojo;
 
-public class Lesson {
-    private Teacher teacher;
-    private NamedEntity room;
-    private NamedEntity subject;
-    private Group group;
-    private Period period;
+@SuppressWarnings("unchecked")
+public abstract class Lesson {
+    protected Period period;
+    protected Group group;
 
-    public Teacher getTeacher() {
-        return teacher;
+    public boolean isSingle() {
+        return this instanceof SingleLesson;
     }
 
-    public NamedEntity getRoom() {
-        return room;
+    public boolean isSubGroup() {
+        return this instanceof SubGroupLesson;
     }
 
-    public Group getGroup() {
-        return group;
+    public <T extends Lesson>  T asSub() {
+        return (T) this;
     }
 
     public Period getPeriod() {
         return period;
     }
 
-    public NamedEntity getSubject() {
-        return subject;
+    public Lesson setPeriod(Period period) {
+        this.period = period;
+        return this;
     }
 
-    public class Builder {
-        private Lesson lesson;
+    public Group getGroup() {
+        return group;
+    }
 
-        public Builder() {
-            lesson = new Lesson();
-        }
-
-        public Builder setTeacher(Teacher teacher) {
-            lesson.teacher = teacher;
-            return this;
-        }
-
-        public Builder setRoom(NamedEntity room) {
-            lesson.room = room;
-            return this;
-        }
-
-        public Builder setGroup(Group group) {
-            lesson.group = group;
-            return this;
-        }
-
-        public Builder setPeriod(Period period) {
-            lesson.period = period;
-            return this;
-        }
-
-        public Builder setSubject(NamedEntity subject) {
-            lesson.subject = subject;
-            return this;
-        }
-
-        public Lesson build() {
-            return lesson;
-        }
+    public Lesson setGroup(Group group) {
+        this.group = group;
+        return this;
     }
 }

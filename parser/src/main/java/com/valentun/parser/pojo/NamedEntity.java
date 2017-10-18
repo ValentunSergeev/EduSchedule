@@ -1,16 +1,20 @@
 package com.valentun.parser.pojo;
 
-class NamedEntity {
-    protected final int id;
+public class NamedEntity {
+    protected final String id;
     protected final String name;
 
-    NamedEntity(int id, String name) {
+    NamedEntity(String id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
+    }
+
+    public int getIntId() {
+        return Integer.parseInt(id);
     }
 
     public String getName() {

@@ -1,18 +1,18 @@
 package com.valentun.parser.pojo;
 
 public class Period {
-    private final int lessonNumber;
+    private final int id;
     private final String startTime;
     private final String endTime;
 
-    public Period(int lessonNumber, String startTime, String endTime) {
-        this.lessonNumber = lessonNumber;
+    public Period(int id, String startTime, String endTime) {
+        this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
     }
 
-    public int getLessonNumber() {
-        return lessonNumber;
+    public int getId() {
+        return id;
     }
 
     public String getStartTime() {
