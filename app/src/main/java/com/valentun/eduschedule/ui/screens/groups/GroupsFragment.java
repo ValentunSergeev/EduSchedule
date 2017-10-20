@@ -1,4 +1,4 @@
-package com.valentun.eduschedule.screens.groups;
+package com.valentun.eduschedule.ui.screens.groups;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;

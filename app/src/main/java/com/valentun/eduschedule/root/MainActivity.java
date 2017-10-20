@@ -2,25 +2,34 @@ package com.valentun.eduschedule.root;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.MenuItem;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.valentun.eduschedule.Constants.SCREENS;
 import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.R;
 import com.valentun.eduschedule.databinding.ActivityMainBinding;
-import com.valentun.eduschedule.screens.groups.GroupsFragment;
+import com.valentun.eduschedule.ui.common.BackButtonListener;
+import com.valentun.eduschedule.ui.screens.groups.GroupsFragment;
 
 import javax.inject.Inject;
 
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.NavigatorHolder;
 import ru.terrakok.cicerone.android.SupportFragmentNavigator;
+import ru.terrakok.cicerone.commands.Command;
+import ru.terrakok.cicerone.commands.Forward;
 import ru.terrakok.cicerone.commands.Replace;
 
-public class MainActivity extends MvpAppCompatActivity {
+public class MainActivity extends MvpAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Inject
     NavigatorHolder navigatorHolder;
@@ -29,6 +38,9 @@ public class MainActivity extends MvpAppCompatActivity {
 
     ActivityMainBinding binding;
 
+    private ActionBar actionBar;
+    private ActionBarDrawerToggle drawerToggle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         MyApplication.INSTANCE.getAppComponent().inject(this);
@@ -36,10 +48,29 @@ public class MainActivity extends MvpAppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
+        initToolBar();
+
         navigator = new MainNavigator(getSupportFragmentManager(), R.id.main_container);
 
-        if (savedInstanceState == null)
+        if (savedInstanceState == null) {
+            binding.navView.setCheckedItem(R.id.nav_item_groups);
             navigator.applyCommand(new Replace(SCREENS.GROUPS_LIST, null));
+        }
+    }
+
+    private void initToolBar() {
+        setSupportActionBar(binding.toolbar);
+        actionBar = getSupportActionBar();
+
+        drawerToggle = new ActionBarDrawerToggle(this,
+                binding.drawerLayout,
+                binding.toolbar,
+                R.string.open_drawer,
+                R.string.close_drawer);
+        binding.drawerLayout.addDrawerListener(drawerToggle);
+        binding.drawerLayout.setFitsSystemWindows(true);
+        binding.navView.setNavigationItemSelectedListener(this);
+        drawerToggle.syncState();
     }
 
     @Override
@@ -52,6 +83,37 @@ public class MainActivity extends MvpAppCompatActivity {
     protected void onPause() {
         navigatorHolder.removeNavigator();
         super.onPause();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        String screen;
+
+        switch (item.getItemId()) {
+            case R.id.nav_item_groups:
+                screen = SCREENS.GROUPS_LIST;
+                break;
+            default:
+                screen = SCREENS.GROUPS_LIST;
+        }
+
+        navigator.applyCommand(new Replace(screen, null));
+        binding.drawerLayout.closeDrawer(GravityCompat.START);
+
+        return true;
+    }
+
+    @SuppressWarnings("UnnecessaryReturnStatement")
+    @Override
+    public void onBackPressed() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.main_container);
+        if (fragment != null
+                && fragment instanceof BackButtonListener
+                && ((BackButtonListener) fragment).onBackPressed()) {
+            return;
+        } else {
+            super.onBackPressed();
+        }
     }
 
     private class MainNavigator extends SupportFragmentNavigator {

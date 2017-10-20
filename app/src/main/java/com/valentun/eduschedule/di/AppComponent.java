@@ -6,7 +6,7 @@ import com.valentun.eduschedule.di.modules.AppModule;
 import com.valentun.eduschedule.di.modules.DataModule;
 import com.valentun.eduschedule.di.modules.NavigationModule;
 import com.valentun.eduschedule.di.modules.NetworkModule;
-import com.valentun.eduschedule.screens.groups.GroupsPresenter;
+import com.valentun.eduschedule.ui.screens.groups.GroupsPresenter;
 
 import javax.inject.Singleton;
 

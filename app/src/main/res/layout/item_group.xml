@@ -6,7 +6,7 @@
             type="com.valentun.parser.pojo.NamedEntity" />
         <variable
             name="handler"
-            type="com.valentun.eduschedule.screens.groups.GroupsAdapter.EventHandler" />
+            type="com.valentun.eduschedule.ui.screens.groups.GroupsAdapter.EventHandler" />
     </data>
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"

@@ -1,7 +1,5 @@
-package com.valentun.eduschedule.screens.groups;
+package com.valentun.eduschedule.ui.screens.groups;
 
-
-import android.widget.LinearLayout;
 
 import com.arellomobile.mvp.MvpView;
 import com.valentun.parser.pojo.Group;
