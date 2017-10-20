@@ -4,7 +4,7 @@ public class NamedEntity {
     protected final String id;
     protected final String name;
 
-    NamedEntity(String id, String name) {
+    public NamedEntity(String id, String name) {
         this.id = id;
         this.name = name;
     }

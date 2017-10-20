@@ -55,11 +55,8 @@ public class Parser {
         isLogEnabled = logEnabled;
     }
 
-    public Observable<School> parseFrom(String rawData) {
-        return Observable.just(rawData)
-                .subscribeOn(Schedulers.io())
-                .map(this::parse)
-                .observeOn(AndroidSchedulers.mainThread());
+    public School parseFrom(String rawData) throws Exception {
+        return parse(rawData);
     }
 
     private School parse(String data) throws Exception {

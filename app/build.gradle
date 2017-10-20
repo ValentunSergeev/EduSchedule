@@ -28,19 +28,44 @@ android {
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/ASL2.0'
     }
+    dataBinding {
+        enabled = true
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
+ext {
+    supportLibraryVersion = "26.0.2"
+    moxyVersion = "1.5.3"
+    daggerVersion = "2.12"
+    ciceroneVersion = "2.1.0"
+    retrofitVersion = "2.3.0"
+    okHttpVersion = "3.9.0"
+}
+
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:26.+'
+    compile "com.android.support:appcompat-v7:$supportLibraryVersion"
+    compile "com.android.support:design:$supportLibraryVersion"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    testCompile 'junit:junit:4.12'
+
+    // MVP Moxy
+    compile "com.arello-mobile:moxy:$moxyVersion"
+    compile "com.arello-mobile:moxy-app-compat:$moxyVersion"
+    annotationProcessor "com.arello-mobile:moxy-compiler:$moxyVersion"
+
+    //DI
+    compile "com.google.dagger:dagger:$daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
+
+    // Navigation
+    compile "ru.terrakok.cicerone:cicerone:$ciceroneVersion"
+
+    compile "com.squareup.retrofit2:converter-jackson:$retrofitVersion"
+    compile "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
+    compile "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+
     compile project(':parser')
 }

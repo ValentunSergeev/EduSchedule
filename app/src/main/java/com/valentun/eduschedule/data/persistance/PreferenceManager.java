@@ -1,14 +1,21 @@
-package com.valentun.eduschedule;
+package com.valentun.eduschedule.data.persistance;
+
 
 import android.content.Context;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-@SuppressWarnings("ALL")
-public class TestUtils {
-    public static String getTestData(Context context) {
-        String json = null;
+public class PreferenceManager {
+    private Context context;
+
+    public PreferenceManager(Context context) {
+        this.context = context;
+    }
+
+    // TODO remove
+    public String getTestData() {
+        String json;
         try {
             InputStream is = context.getAssets().open("test_data.json");
             int size = is.available();
