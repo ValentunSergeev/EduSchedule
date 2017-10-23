@@ -49,7 +49,6 @@ ext {
 dependencies {
     compile "com.android.support:appcompat-v7:$supportLibraryVersion"
     compile "com.android.support:design:$supportLibraryVersion"
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
     // MVP Moxy
     compile "com.arello-mobile:moxy:$moxyVersion"
@@ -68,4 +67,5 @@ dependencies {
     compile "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
 
     compile project(':parser')
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
 }

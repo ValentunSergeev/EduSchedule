@@ -1,11 +1,14 @@
-package com.valentun.eduschedule.ui.screens.groups;
+package com.valentun.eduschedule.ui.screens.main.groups;
 
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+import com.valentun.eduschedule.Constants;
 import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.data.Repository;
 import com.valentun.eduschedule.di.AppComponent;
+import com.valentun.eduschedule.ui.common.views.ListView;
+import com.valentun.parser.pojo.Group;
 import com.valentun.parser.pojo.NamedEntity;
 
 import javax.inject.Inject;
@@ -13,7 +16,7 @@ import javax.inject.Inject;
 import ru.terrakok.cicerone.Router;
 
 @InjectViewState
-public class GroupsPresenter extends MvpPresenter<GroupsView> {
+public class GroupsPresenter extends MvpPresenter<ListView<Group>> {
     @Inject
     Router router;
     @Inject
@@ -29,7 +32,7 @@ public class GroupsPresenter extends MvpPresenter<GroupsView> {
     // ======= region GroupsPresenter =======
 
     void itemClicked(NamedEntity group) {
-        router.showSystemMessage(group.getName());
+        router.navigateTo(Constants.SCREENS.GROUP_DETAIL, group);
     }
 
     //endregion
@@ -47,7 +50,7 @@ public class GroupsPresenter extends MvpPresenter<GroupsView> {
     private void getData() {
         repository.getSchool()
                 .subscribe(school -> {
-                    getViewState().showGroups(school.getGroups());
+                    getViewState().showData(school.getGroups());
                 });
     }
 

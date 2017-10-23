@@ -1,4 +1,4 @@
-package com.valentun.eduschedule.ui.common;
+package com.valentun.eduschedule.ui.common.callbacks;
 
 
 public interface BackButtonListener {

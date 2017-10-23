@@ -2,6 +2,8 @@ package com.valentun.parser.pojo;
 
 import android.util.SparseArray;
 
+import com.valentun.parser.Config;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +14,7 @@ public class Teacher extends NamedEntity {
         super(id, name);
         this.schedule = new SparseArray<>();
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < Config.DAYS_IN_WEEK; i++) {
             schedule.put(i, new ArrayList<>());
         }
     }

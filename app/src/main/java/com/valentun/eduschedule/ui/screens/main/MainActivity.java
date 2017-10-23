@@ -1,5 +1,6 @@
-package com.valentun.eduschedule.root;
+package com.valentun.eduschedule.ui.screens.main;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,8 +18,10 @@ import com.valentun.eduschedule.Constants.SCREENS;
 import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.R;
 import com.valentun.eduschedule.databinding.ActivityMainBinding;
-import com.valentun.eduschedule.ui.common.BackButtonListener;
-import com.valentun.eduschedule.ui.screens.groups.GroupsFragment;
+import com.valentun.eduschedule.ui.common.callbacks.BackButtonListener;
+import com.valentun.eduschedule.ui.screens.detail_group.DetailGroupActivity;
+import com.valentun.eduschedule.ui.screens.main.groups.GroupsFragment;
+import com.valentun.parser.pojo.NamedEntity;
 
 import javax.inject.Inject;
 
@@ -29,15 +32,14 @@ import ru.terrakok.cicerone.commands.Command;
 import ru.terrakok.cicerone.commands.Forward;
 import ru.terrakok.cicerone.commands.Replace;
 
-public class MainActivity extends MvpAppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends MvpAppCompatActivity implements
+        NavigationView.OnNavigationItemSelectedListener {
 
-    @Inject
-    NavigatorHolder navigatorHolder;
+    @Inject NavigatorHolder navigatorHolder;
 
     private Navigator navigator;
 
-    ActivityMainBinding binding;
-
+    private ActivityMainBinding binding;
     private ActionBar actionBar;
     private ActionBarDrawerToggle drawerToggle;
 
@@ -122,6 +124,18 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
         }
 
         @Override
+        public void applyCommand(Command command) {
+            if (command instanceof Forward) {
+                Forward forward = (Forward) command;
+                if (forward.getScreenKey().equals(SCREENS.GROUP_DETAIL)) {
+                    showDetail(forward);
+                    return;
+                }
+            }
+            super.applyCommand(command);
+        }
+
+        @Override
         protected Fragment createFragment(String screenKey, Object data) {
             switch (screenKey) {
                 case SCREENS.GROUPS_LIST:
@@ -140,6 +154,16 @@ public class MainActivity extends MvpAppCompatActivity implements NavigationView
         @Override
         protected void exit() {
             finish();
+        }
+
+        private void showDetail(Forward forward) {
+            NamedEntity data = (NamedEntity) forward.getTransitionData();
+
+            Intent intent = new Intent(MainActivity.this, DetailGroupActivity.class);
+            intent.putExtra(Intent.EXTRA_TEXT, data.getId());
+            intent.putExtra(Intent.EXTRA_TITLE, data.getName());
+
+            startActivity(intent);
         }
     }
 }

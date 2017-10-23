@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="lesson"
+            type="com.valentun.parser.pojo.SingleLesson" />
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/lesson_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="0dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="0dp"
+            android:text="@{String.valueOf(lesson.period.id)}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            app:layout_constraintBottom_toBottomOf="@+id/lesson_teacher_group"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/lesson_name"
+            tools:text="1" />
+
+        <TextView
+            android:id="@+id/lesson_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@{lesson.subject.name}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toRightOf="@+id/lesson_start_time"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Math" />
+
+        <TextView
+            android:id="@+id/lesson_end_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{lesson.period.endTime}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintBottom_toBottomOf="@+id/lesson_number"
+            app:layout_constraintLeft_toLeftOf="@+id/lesson_start_time"
+            tools:text="9:00" />
+
+        <TextView
+            android:id="@+id/lesson_start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:text="@{lesson.period.startTime}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintLeft_toRightOf="@+id/lesson_number"
+            app:layout_constraintTop_toTopOf="@+id/lesson_number"
+            tools:text="8:20" />
+
+        <TextView
+            android:id="@+id/lesson_teacher_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@{lesson.teacher.name}"
+            app:layout_constraintLeft_toLeftOf="@+id/lesson_name"
+            app:layout_constraintTop_toBottomOf="@+id/lesson_name"
+            tools:text="Kozlova T.A." />
+
+        <TextView
+            android:id="@+id/lesson_room_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:text="@{lesson.room.name}"
+            app:layout_constraintBottom_toBottomOf="@+id/lesson_teacher_group"
+            app:layout_constraintLeft_toRightOf="@+id/lesson_teacher_group"
+            app:layout_constraintTop_toTopOf="@+id/lesson_teacher_group"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="326" />
+
+        <View
+            android:id="@id/divider"
+            style="@style/ConstraintBottomDivider"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/lesson_teacher_group" />
+    </android.support.constraint.ConstraintLayout>
+</layout>

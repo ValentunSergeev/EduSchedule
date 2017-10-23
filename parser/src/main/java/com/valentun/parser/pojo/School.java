@@ -26,4 +26,12 @@ public class School {
     public List<Group> getGroups() {
         return groups;
     }
+
+    public Group getGroup(String id) {
+        for (Group group : groups) {
+            if (group.getId().equals(id))
+                return group;
+        }
+        return null;
+    }
 }

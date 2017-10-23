@@ -1,17 +1,23 @@
 package com.valentun.parser.pojo;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SubGroupLesson extends Lesson {
-    private Map<NamedEntity, SingleLesson> subLessons = new HashMap<>();
+    private List<SingleLesson> lessons = new ArrayList<>();
+    private List<NamedEntity> subGroups = new ArrayList<>();
 
-    public Map<NamedEntity, SingleLesson> getSubLessons() {
-        return subLessons;
+    public List<SingleLesson> getSubLessons() {
+        return lessons;
+    }
+
+    public List<NamedEntity> getSubGroups() {
+        return subGroups;
     }
 
     public SubGroupLesson addSubLesson(NamedEntity subGroup, SingleLesson lesson) {
-        subLessons.put(subGroup, lesson);
+        lessons.add(lesson);
+        subGroups.add(subGroup);
         return this;
     }
 }

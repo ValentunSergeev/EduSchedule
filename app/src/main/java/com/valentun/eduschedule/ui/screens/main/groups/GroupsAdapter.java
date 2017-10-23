@@ -1,4 +1,4 @@
-package com.valentun.eduschedule.ui.screens.groups;
+package com.valentun.eduschedule.ui.screens.main.groups;
 
 
 import android.support.v7.widget.RecyclerView;

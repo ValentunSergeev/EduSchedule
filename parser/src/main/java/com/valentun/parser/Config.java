@@ -19,4 +19,6 @@ public class Config {
 
     static final String MIDDLE_KEY = "6";
     static final String SCHOOL_NAME = "SCHOOL_NAME";
+
+    public static final int DAYS_IN_WEEK = 6;
 }

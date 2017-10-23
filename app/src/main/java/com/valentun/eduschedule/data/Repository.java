@@ -1,12 +1,18 @@
 package com.valentun.eduschedule.data;
 
 
+import android.util.Log;
+
 import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.data.network.RestService;
 import com.valentun.eduschedule.data.persistance.PreferenceManager;
 import com.valentun.eduschedule.di.AppComponent;
 import com.valentun.parser.Parser;
+import com.valentun.parser.pojo.Group;
+import com.valentun.parser.pojo.Lesson;
 import com.valentun.parser.pojo.School;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -17,10 +23,14 @@ import okhttp3.OkHttpClient;
 
 @SuppressWarnings("WeakerAccess")
 public class Repository implements IRepository {
-    @Inject RestService restService;
-    @Inject OkHttpClient okHttpClient;
-    @Inject PreferenceManager preferenceManager;
-    @Inject Parser parser;
+    @Inject
+    RestService restService;
+    @Inject
+    OkHttpClient okHttpClient;
+    @Inject
+    PreferenceManager preferenceManager;
+    @Inject
+    Parser parser;
 
     private School school;
 
@@ -44,5 +54,19 @@ public class Repository implements IRepository {
                     .doOnNext(result -> this.school = result)
                     .observeOn(AndroidSchedulers.mainThread());
         }
+    }
+
+    @Override
+    public Observable<List<Lesson>> getGroupSchedule(String groupId, int dayNumber) {
+        Log.d("", "");
+        return Observable.just(school)
+                .subscribeOn(Schedulers.io())
+                .map(school1 -> {
+                            Group group = school1.getGroup(groupId);
+                            List<Lesson> lessons = group.getSchedule().get(dayNumber);
+                            return lessons;
+                        }
+                )
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }

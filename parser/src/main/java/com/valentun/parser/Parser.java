@@ -20,10 +20,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
-
 // TODO order lessons in schedule by period number
 
 @SuppressWarnings({"WeakerAccess", "unused"})
@@ -167,7 +163,7 @@ public class Parser {
                 .setPeriod(period);
 
         if (lesson.isSubGroup()) {
-            Collection<SingleLesson> subLessons = lesson.<SubGroupLesson>asSub().getSubLessons().values();
+            Collection<SingleLesson> subLessons = lesson.<SubGroupLesson>asSub().getSubLessons();
             for (SingleLesson subLesson : subLessons) {
                 if (subLesson != null) {
                     subLesson.setGroup(group)
