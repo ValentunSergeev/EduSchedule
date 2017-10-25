@@ -7,10 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import com.valentun.eduschedule.Constants;
 import com.valentun.eduschedule.utils.DateUtils;
 
-/**
- * Created by Sergey on 25.10.2017.
- */
-
 class WeekTeacherPageAdapter extends FragmentStatePagerAdapter {
     private String teacherId;
 

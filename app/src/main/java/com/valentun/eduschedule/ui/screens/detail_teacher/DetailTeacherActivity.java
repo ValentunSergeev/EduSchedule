@@ -10,9 +10,6 @@ import com.valentun.eduschedule.R;
 import com.valentun.eduschedule.databinding.ActivityDetailBinding;
 import com.valentun.eduschedule.utils.DateUtils;
 
-/**
- * Created by Sergey on 25.10.2017.
- */
 public class DetailTeacherActivity extends MvpAppCompatActivity {
 
     private ActivityDetailBinding binding;

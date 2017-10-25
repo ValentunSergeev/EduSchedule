@@ -10,9 +10,6 @@ import com.valentun.parser.pojo.Lesson;
 
 import javax.inject.Inject;
 
-/**
- * Created by Sergey on 25.10.2017.
- */
 @SuppressWarnings("WeakerAccess")
 @InjectViewState
 public class DayTeacherPresenter extends MvpPresenter<ListView<Lesson>> {

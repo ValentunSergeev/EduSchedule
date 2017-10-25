@@ -12,10 +12,6 @@ import com.valentun.parser.pojo.Lesson;
 
 import java.util.List;
 
-/**
- * Created by Sergey on 25.10.2017.
- */
-
 public class DayTeacherAdapter extends RecyclerView.Adapter<DayTeacherAdapter.LessonHolder> {
     private static final int SINGLE_LESSON = R.layout.item_teacher_lesson;
     private List<Lesson> lessons;
@@ -28,7 +24,7 @@ public class DayTeacherAdapter extends RecyclerView.Adapter<DayTeacherAdapter.Le
     public DayTeacherAdapter.LessonHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater =
                 LayoutInflater.from(parent.getContext());
-        ViewDataBinding binding = DataBindingUtil.inflate(layoutInflater, viewType, parent, false);
+        ViewDataBinding binding = DataBindingUtil.inflate(layoutInflater, SINGLE_LESSON, parent, false);
         return new DayTeacherAdapter.LessonHolder(binding);
     }
 
@@ -37,11 +33,6 @@ public class DayTeacherAdapter extends RecyclerView.Adapter<DayTeacherAdapter.Le
         Lesson lesson = lessons.get(position);
 
         holder.bind(lesson);
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return SINGLE_LESSON;
     }
 
     @Override

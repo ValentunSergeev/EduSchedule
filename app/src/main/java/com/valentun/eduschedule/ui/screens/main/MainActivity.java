@@ -96,11 +96,9 @@ public class MainActivity extends MvpAppCompatActivity implements
         switch (item.getItemId()) {
             case R.id.nav_item_groups:
                 screen = SCREENS.GROUPS_LIST;
-                binding.navView.setCheckedItem(R.id.nav_item_groups);
                 break;
             case R.id.nav_item_teachers:
                 screen = SCREENS.TEACHERS_LIST;
-                binding.navView.setCheckedItem(R.id.nav_item_teachers);
                 break;
             default:
                 screen = SCREENS.GROUPS_LIST;

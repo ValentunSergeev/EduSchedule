@@ -11,10 +11,6 @@ import com.valentun.parser.pojo.Lesson;
 
 import java.util.List;
 
-/**
- * Created by Sergey on 25.10.2017.
- */
-
 public class DayTeacherFragment extends RecyclerViewFragment<Lesson>
         implements ListView<Lesson> {
 

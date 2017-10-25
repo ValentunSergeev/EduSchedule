@@ -14,9 +14,6 @@ import javax.inject.Inject;
 
 import ru.terrakok.cicerone.Router;
 
-/**
- * Created by Sergey on 24.10.2017.
- */
 @InjectViewState
 public class TeachersPresenter extends MvpPresenter<ListView<Teacher>> {
     @Inject

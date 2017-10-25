@@ -10,10 +10,6 @@ import com.valentun.parser.pojo.Teacher;
 
 import java.util.List;
 
-/**
- * Created by Sergey on 24.10.2017.
- */
-
 public class TeachersAdapter extends RecyclerView.Adapter<TeachersAdapter.TeachersHolder> {
     private List<Teacher> teachers;
     private EventHandler handler;

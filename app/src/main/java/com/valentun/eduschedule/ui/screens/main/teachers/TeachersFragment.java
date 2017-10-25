@@ -11,10 +11,6 @@ import com.valentun.parser.pojo.Teacher;
 
 import java.util.List;
 
-/**
- * Created by Sergey on 24.10.2017.
- */
-
 public class TeachersFragment extends RecyclerViewFragment<Teacher> implements ListView<Teacher>, TeachersAdapter.EventHandler {
     @InjectPresenter
     TeachersPresenter presenter;

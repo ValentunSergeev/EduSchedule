@@ -9,10 +9,6 @@ import com.valentun.eduschedule.R;
 
 import static android.support.v7.appcompat.R.style;
 
-/**
- * Created by Sergey on 25.10.2017.
- */
-
 public class DayTeacherBindingAdapter {
     @BindingAdapter("lesson_name_teacher")
     public static void bindLessonName(TextView view, String subjectName) {
