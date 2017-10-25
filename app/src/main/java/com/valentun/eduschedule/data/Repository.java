@@ -11,6 +11,7 @@ import com.valentun.parser.Parser;
 import com.valentun.parser.pojo.Group;
 import com.valentun.parser.pojo.Lesson;
 import com.valentun.parser.pojo.School;
+import com.valentun.parser.pojo.Teacher;
 
 import java.util.List;
 
@@ -63,8 +64,20 @@ public class Repository implements IRepository {
                 .subscribeOn(Schedulers.io())
                 .map(school1 -> {
                             Group group = school1.getGroup(groupId);
-                            List<Lesson> lessons = group.getSchedule().get(dayNumber);
-                            return lessons;
+                            return group.getSchedule().get(dayNumber);
+                        }
+                )
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    @Override
+    public Observable<List<Lesson>> getTeacherSchedule(String teacherId, int dayNumber) {
+        Log.d("", "");
+        return Observable.just(school)
+                .subscribeOn(Schedulers.io())
+                .map(school1 -> {
+                    Teacher teacher = school1.getTeacher(teacherId);
+                    return teacher.getSchedule().get(dayNumber);
                         }
                 )
                 .observeOn(AndroidSchedulers.mainThread());

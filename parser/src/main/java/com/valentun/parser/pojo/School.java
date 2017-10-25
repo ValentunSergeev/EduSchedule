@@ -23,6 +23,13 @@ public class School {
         return teachers;
     }
 
+    public Teacher getTeacher(String id) {
+        for (Teacher teacher : teachers) {
+            if (teacher.getId().equals(id))
+                return teacher;
+        }
+        return null;
+    }
     public List<Group> getGroups() {
         return groups;
     }

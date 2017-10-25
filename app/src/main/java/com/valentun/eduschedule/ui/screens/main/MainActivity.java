@@ -20,7 +20,9 @@ import com.valentun.eduschedule.R;
 import com.valentun.eduschedule.databinding.ActivityMainBinding;
 import com.valentun.eduschedule.ui.common.callbacks.BackButtonListener;
 import com.valentun.eduschedule.ui.screens.detail_group.DetailGroupActivity;
+import com.valentun.eduschedule.ui.screens.detail_teacher.DetailTeacherActivity;
 import com.valentun.eduschedule.ui.screens.main.groups.GroupsFragment;
+import com.valentun.eduschedule.ui.screens.main.teachers.TeachersFragment;
 import com.valentun.parser.pojo.NamedEntity;
 
 import javax.inject.Inject;
@@ -55,8 +57,8 @@ public class MainActivity extends MvpAppCompatActivity implements
         navigator = new MainNavigator(getSupportFragmentManager(), R.id.main_container);
 
         if (savedInstanceState == null) {
-            binding.navView.setCheckedItem(R.id.nav_item_groups);
-            navigator.applyCommand(new Replace(SCREENS.GROUPS_LIST, null));
+            binding.navView.setCheckedItem(R.id.nav_item_teachers);
+            navigator.applyCommand(new Replace(SCREENS.TEACHERS_LIST, null));
         }
     }
 
@@ -94,6 +96,11 @@ public class MainActivity extends MvpAppCompatActivity implements
         switch (item.getItemId()) {
             case R.id.nav_item_groups:
                 screen = SCREENS.GROUPS_LIST;
+                binding.navView.setCheckedItem(R.id.nav_item_groups);
+                break;
+            case R.id.nav_item_teachers:
+                screen = SCREENS.TEACHERS_LIST;
+                binding.navView.setCheckedItem(R.id.nav_item_teachers);
                 break;
             default:
                 screen = SCREENS.GROUPS_LIST;
@@ -131,6 +138,10 @@ public class MainActivity extends MvpAppCompatActivity implements
                     showDetail(forward);
                     return;
                 }
+                if (forward.getScreenKey().equals(SCREENS.TEACHER_DETAIL)) {
+                    showDetail(forward);
+                    return;
+                }
             }
             super.applyCommand(command);
         }
@@ -140,6 +151,8 @@ public class MainActivity extends MvpAppCompatActivity implements
             switch (screenKey) {
                 case SCREENS.GROUPS_LIST:
                     return new GroupsFragment();
+                case SCREENS.TEACHERS_LIST:
+                    return new TeachersFragment();
                 default:
                     throw new UnsupportedOperationException("Unknown screen key");
             }
@@ -158,11 +171,16 @@ public class MainActivity extends MvpAppCompatActivity implements
 
         private void showDetail(Forward forward) {
             NamedEntity data = (NamedEntity) forward.getTransitionData();
-
-            Intent intent = new Intent(MainActivity.this, DetailGroupActivity.class);
+            Class activity = DetailGroupActivity.class;
+            if (forward.getScreenKey().equals(SCREENS.GROUP_DETAIL)) {
+                activity = DetailGroupActivity.class;
+            }
+            if (forward.getScreenKey().equals(SCREENS.TEACHER_DETAIL)) {
+                activity = DetailTeacherActivity.class;
+            }
+            Intent intent = new Intent(MainActivity.this, activity);
             intent.putExtra(Intent.EXTRA_TEXT, data.getId());
             intent.putExtra(Intent.EXTRA_TITLE, data.getName());
-
             startActivity(intent);
         }
     }

@@ -4,8 +4,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/coordinator_layout"
-        android:fitsSystemWindows="true"
-        style="@style/FullExpandLayout">
+        style="@style/FullExpandLayout"
+        android:fitsSystemWindows="true">
 
         <android.support.design.widget.AppBarLayout
             android:id="@+id/appbar_layout"
@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:visibility="visible"
                 app:tabGravity="fill"
-                app:tabMinWidth="2000dp"
+                app:tabMinWidth="800dp"
                 app:tabMode="scrollable"
                 app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
@@ -35,8 +35,8 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/detail_pager"
             style="@style/FullExpandLayout"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:animateLayoutChanges="true" />
+            android:animateLayoutChanges="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     </android.support.design.widget.CoordinatorLayout>
 </layout>

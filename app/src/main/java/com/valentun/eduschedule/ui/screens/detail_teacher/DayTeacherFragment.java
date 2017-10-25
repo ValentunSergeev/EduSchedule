@@ -1,4 +1,4 @@
-package com.valentun.eduschedule.ui.screens.detail_group;
+package com.valentun.eduschedule.ui.screens.detail_teacher;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -11,41 +11,44 @@ import com.valentun.parser.pojo.Lesson;
 
 import java.util.List;
 
-public class DayFragment extends RecyclerViewFragment<Lesson>
+/**
+ * Created by Sergey on 25.10.2017.
+ */
+
+public class DayTeacherFragment extends RecyclerViewFragment<Lesson>
         implements ListView<Lesson> {
 
     private static final String DAY_NUMBER_KEY = "DAY_NUMBER";
-    private static final String GROUP_ID_KEY = "GROUP_ID";
+    private static final String TEACHER_ID_KEY = "TEACHER_ID";
+    @InjectPresenter
+    DayTeacherPresenter presenter;
 
-    public static DayFragment newInstance(String groupId, int dayNumber) {
+    public static DayTeacherFragment newInstance(String teacherId, int dayNumber) {
         Bundle bundle = new Bundle();
         bundle.putInt(DAY_NUMBER_KEY, dayNumber);
-        bundle.putString(GROUP_ID_KEY, groupId);
+        bundle.putString(TEACHER_ID_KEY, teacherId);
 
-        DayFragment fragment = new DayFragment();
+        DayTeacherFragment fragment = new DayTeacherFragment();
         fragment.setArguments(bundle);
 
         return fragment;
     }
 
-    @InjectPresenter
-    DayPresenter presenter;
-
     @ProvidePresenter
-    public DayPresenter providePresenter() {
-        return new DayPresenter(getGroupId(), getDayNumber());
+    public DayTeacherPresenter providePresenter() {
+        return new DayTeacherPresenter(getTeacherId(), getDayNumber());
     }
 
     @Override
     protected RecyclerView.Adapter getAdapter(List<Lesson> data) {
-        return new DayAdapter(data);
+        return new DayTeacherAdapter(data);
     }
 
     private int getDayNumber() {
         return getArguments().getInt(DAY_NUMBER_KEY);
     }
 
-    private String getGroupId() {
-        return getArguments().getString(GROUP_ID_KEY);
+    private String getTeacherId() {
+        return getArguments().getString(TEACHER_ID_KEY);
     }
 }
