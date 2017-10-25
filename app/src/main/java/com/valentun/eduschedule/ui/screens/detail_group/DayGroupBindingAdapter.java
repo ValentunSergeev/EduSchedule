@@ -9,7 +9,7 @@ import com.valentun.eduschedule.R;
 
 import static android.support.v7.appcompat.R.style;
 
-public class DayBindingAdapter {
+public class DayGroupBindingAdapter {
 
     @BindingAdapter("lesson_name")
     public static void bindLessonName(TextView view, String subjectName) {

@@ -10,5 +10,8 @@ public class Constants {
     public static class SCREENS {
         public static final String GROUPS_LIST = "GROUPS_LIST";
         public static final String GROUP_DETAIL = "GROUP_DETAIL";
+        public static final String TEACHER_DETAIL = "TEACHER_DETAIL";
+        public static final String TEACHERS_LIST = "TEACHERS_LIST";
+
     }
 }

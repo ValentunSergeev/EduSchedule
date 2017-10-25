@@ -12,4 +12,6 @@ public interface IRepository {
     Observable<School> getSchool();
 
     Observable<List<Lesson>> getGroupSchedule(String groupId, int dayNumber);
+
+    Observable<List<Lesson>> getTeacherSchedule(String teacherId, int dayNumber);
 }

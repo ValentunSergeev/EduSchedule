@@ -1,4 +1,4 @@
-package com.valentun.eduschedule.ui.screens.detail_group;
+package com.valentun.eduschedule.ui.screens.detail_teacher;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -10,7 +10,7 @@ import com.valentun.eduschedule.R;
 import com.valentun.eduschedule.databinding.ActivityDetailBinding;
 import com.valentun.eduschedule.utils.DateUtils;
 
-public class DetailGroupActivity extends MvpAppCompatActivity {
+public class DetailTeacherActivity extends MvpAppCompatActivity {
 
     private ActivityDetailBinding binding;
     private ActionBar actionBar;
@@ -20,9 +20,7 @@ public class DetailGroupActivity extends MvpAppCompatActivity {
         super.onCreate(savedInstanceState);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
-
         initToolbar();
-
         initPager();
     }
 
@@ -34,11 +32,11 @@ public class DetailGroupActivity extends MvpAppCompatActivity {
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
 
-        setTitle(getGroupName());
+        setTitle(getTeacherName());
     }
 
     private void initPager() {
-        binding.detailPager.setAdapter(new WeekGroupPageAdapter(getGroupId(), this));
+        binding.detailPager.setAdapter(new WeekTeacherPageAdapter(getTeacherId(), this));
         binding.detailPager.setOffscreenPageLimit(4);
 
         binding.tabLayout.setupWithViewPager(binding.detailPager);
@@ -47,11 +45,11 @@ public class DetailGroupActivity extends MvpAppCompatActivity {
 
     }
 
-    private String getGroupId() {
+    private String getTeacherId() {
         return getIntent().getStringExtra(Intent.EXTRA_TEXT);
     }
 
-    private String getGroupName() {
+    private String getTeacherName() {
         return getIntent().getStringExtra(Intent.EXTRA_TITLE);
     }
 }

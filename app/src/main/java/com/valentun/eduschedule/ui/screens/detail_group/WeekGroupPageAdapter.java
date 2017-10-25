@@ -8,17 +8,17 @@ import com.valentun.eduschedule.Constants;
 import com.valentun.eduschedule.utils.DateUtils;
 
 
-class WeekPageAdapter extends FragmentStatePagerAdapter {
+class WeekGroupPageAdapter extends FragmentStatePagerAdapter {
     private String groupId;
 
-    WeekPageAdapter(String groupId, AppCompatActivity activity) {
+    WeekGroupPageAdapter(String groupId, AppCompatActivity activity) {
         super(activity.getSupportFragmentManager());
         this.groupId = groupId;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return DayFragment.newInstance(groupId, position);
+        return DayGroupFragment.newInstance(groupId, position);
     }
 
     @Override
