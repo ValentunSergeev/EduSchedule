@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="group"
@@ -8,16 +9,15 @@
             name="handler"
             type="com.valentun.eduschedule.ui.screens.main.groups.GroupsAdapter.EventHandler" />
     </data>
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="@{() -> handler.itemClicked(group)}">
 
         <TextView
             android:id="@+id/item_group_name"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="@dimen/size_normal"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:text="@{group.name}"

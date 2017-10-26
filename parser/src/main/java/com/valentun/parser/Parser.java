@@ -16,6 +16,7 @@ import com.valentun.parser.pojo.Teacher;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -74,6 +75,8 @@ public class Parser {
 
         parseSchedule();
 
+        sortTeachersSchedule();
+
         School school = createSchool();
 
         long end = System.currentTimeMillis();
@@ -82,6 +85,24 @@ public class Parser {
 
         log(String.valueOf(parseTime / 1000.0));
         return school;
+    }
+
+    private void sortTeachersSchedule() {
+        for (Teacher teacher : teachers) {
+            for (int i = 0; i < teacher.getSchedule().size(); i++) {
+                List<Lesson> lessons = teacher.getSchedule().get(i);
+
+                Collections.sort(lessons, (lesson1, lesson2) -> {
+                    int id1 = lesson1.getPeriod().getId();
+                    int id2 = lesson2.getPeriod().getId();
+                    if (id1 > id2)
+                        return 1;
+                    else if (id2 > id1)
+                        return -1;
+                    else return 0;
+                });
+            }
+        }
     }
 
     private List<Period> parsePeriods() {

@@ -16,16 +16,14 @@
             android:id="@+id/lesson_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="0dp"
+            android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:text="@{String.valueOf(lesson.period.id)}"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            app:layout_constraintLeft_toLeftOf="@+id/divider"
+            app:layout_constraintLeft_toLeftOf="parent"
             tools:text="1"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="0dp" />
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <TextView
             android:id="@+id/lesson_end_time"
@@ -33,12 +31,9 @@
             android:layout_height="wrap_content"
             android:text="@{lesson.period.endTime}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:visibility="visible"
             app:layout_constraintLeft_toLeftOf="@+id/lesson_start_time"
             tools:text="9:00"
-            android:layout_marginLeft="0dp"
-            app:layout_constraintBottom_toBottomOf="@+id/lesson_number"
-            android:layout_marginBottom="0dp" />
+            app:layout_constraintBottom_toBottomOf="@+id/lesson_number" />
 
         <TextView
             android:id="@+id/lesson_start_time"
@@ -55,11 +50,12 @@
 
         <TextView
             android:id="@+id/lesson_name_1"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginTop="16dp"
             app:lesson_name="@{lesson.subLessons[0].subject.name}"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
@@ -108,7 +104,7 @@
 
         <TextView
             android:id="@+id/lesson_name_2"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:layout_marginRight="16dp"
@@ -161,7 +157,6 @@
             android:layout_marginBottom="0dp" />
 
         <View
-            android:id="@id/divider"
             style="@style/ConstraintBottomDivider" />
 
     </android.support.constraint.ConstraintLayout>
