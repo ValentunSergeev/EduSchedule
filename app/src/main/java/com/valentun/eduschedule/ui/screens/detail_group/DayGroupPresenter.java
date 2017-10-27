@@ -8,6 +8,8 @@ import com.valentun.eduschedule.di.AppComponent;
 import com.valentun.eduschedule.ui.common.views.ListView;
 import com.valentun.parser.pojo.Lesson;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 @SuppressWarnings("WeakerAccess")
@@ -16,18 +18,38 @@ public class DayGroupPresenter extends MvpPresenter<ListView<Lesson>> {
     @Inject
     Repository repository;
 
+    private List<Lesson> lessons;
+
+    private String groupId;
+    private int dayNumber;
+
     public DayGroupPresenter(String groupId, int dayNumber) {
         initDagger();
 
+        this.groupId = groupId;
+        this.dayNumber = dayNumber;
+
         getViewState().showProgress();
-        getData(groupId, dayNumber);
     }
 
-    private void getData(String groupId, int dayNumber) {
-        repository.getGroupSchedule(groupId, dayNumber)
-                .subscribe(lessons -> {
-                    getViewState().showData(lessons);
-                });
+    public void getData() {
+        if (lessons == null) {
+            repository.getGroupSchedule(groupId, dayNumber)
+                    .subscribe(lessons -> {
+                        this.lessons = lessons;
+
+                        showData(lessons);
+                    });
+        } else {
+            showData(lessons);
+        }
+    }
+
+    private void showData(List<Lesson> lessons) {
+        if (lessons.size() > 0)
+            getViewState().showData(lessons);
+        else
+            getViewState().showPlaceholder();
     }
 
     private void initDagger() {

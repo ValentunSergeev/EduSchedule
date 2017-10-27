@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,7 @@ import com.valentun.eduschedule.ui.common.callbacks.BackButtonListener;
 import com.valentun.eduschedule.ui.screens.detail_group.DetailGroupActivity;
 import com.valentun.eduschedule.ui.screens.detail_teacher.DetailTeacherActivity;
 import com.valentun.eduschedule.ui.screens.main.groups.GroupsFragment;
+import com.valentun.eduschedule.ui.screens.main.my_schedule.MyScheduleFragment;
 import com.valentun.eduschedule.ui.screens.main.teachers.TeachersFragment;
 import com.valentun.parser.pojo.NamedEntity;
 
@@ -35,7 +37,7 @@ import ru.terrakok.cicerone.commands.Forward;
 import ru.terrakok.cicerone.commands.Replace;
 
 public class MainActivity extends MvpAppCompatActivity implements
-        NavigationView.OnNavigationItemSelectedListener {
+        NavigationView.OnNavigationItemSelectedListener, IBarView {
 
     @Inject NavigatorHolder navigatorHolder;
 
@@ -57,8 +59,8 @@ public class MainActivity extends MvpAppCompatActivity implements
         navigator = new MainNavigator(getSupportFragmentManager(), R.id.main_container);
 
         if (savedInstanceState == null) {
-            binding.navView.setCheckedItem(R.id.nav_item_teachers);
-            navigator.applyCommand(new Replace(SCREENS.TEACHERS_LIST, null));
+            binding.navView.setCheckedItem(R.id.nav_item_my_schedule);
+            navigator.applyCommand(new Replace(SCREENS.MY_SCHEDULE, null));
         }
     }
 
@@ -100,6 +102,9 @@ public class MainActivity extends MvpAppCompatActivity implements
             case R.id.nav_item_teachers:
                 screen = SCREENS.TEACHERS_LIST;
                 break;
+            case R.id.nav_item_my_schedule:
+                screen = SCREENS.MY_SCHEDULE;
+                break;
             default:
                 screen = SCREENS.GROUPS_LIST;
         }
@@ -121,6 +126,11 @@ public class MainActivity extends MvpAppCompatActivity implements
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public AppBarLayout getToolbarContainer() {
+        return binding.appbarLayout;
     }
 
     private class MainNavigator extends SupportFragmentNavigator {
@@ -151,6 +161,8 @@ public class MainActivity extends MvpAppCompatActivity implements
                     return new GroupsFragment();
                 case SCREENS.TEACHERS_LIST:
                     return new TeachersFragment();
+                case SCREENS.MY_SCHEDULE:
+                    return new MyScheduleFragment();
                 default:
                     throw new UnsupportedOperationException("Unknown screen key");
             }

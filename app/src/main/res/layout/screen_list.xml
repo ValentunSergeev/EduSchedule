@@ -1,19 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <data />
+
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/groups_list"
+            android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
         <ProgressBar
-            android:id="@+id/groups_progress"
+            android:id="@+id/progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center" />
+
+        <TextView
+            android:id="@+id/placeholder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/list_empty_placeholder"
+            android:layout_marginLeft="@dimen/size_normal"
+            android:layout_marginRight="@dimen/size_normal"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            android:visibility="gone" />
     </FrameLayout>
 </layout>

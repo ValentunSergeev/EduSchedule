@@ -19,7 +19,7 @@ public class GroupsAdapter extends RecyclerView.Adapter<GroupsAdapter.GroupsHold
         void itemClicked(NamedEntity item);
     }
 
-    GroupsAdapter(List<Group> groups, EventHandler handler) {
+    public GroupsAdapter(List<Group> groups, EventHandler handler) {
         this.groups = groups;
         this.handler = handler;
     }

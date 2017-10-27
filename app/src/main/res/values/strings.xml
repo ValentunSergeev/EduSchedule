@@ -5,4 +5,11 @@
     <string name="close_drawer">Close drawer</string>
     <string name="no_lesson">(No Lesson)</string>
     <string name="teachers">Teachers</string>
+    <string name="my_schedule">My schedule</string>
+    <string name="change_group">Change group</string>
+    <string name="group_selector_title">Choose your group</string>
+    <string name="list_empty_placeholder">No items here</string>
+    <string name="no_lessons">There are no lessons on this day</string>
+    <string name="no_groups">No groups found</string>
+    <string name="no_teachers">No teachers found</string>
 </resources>

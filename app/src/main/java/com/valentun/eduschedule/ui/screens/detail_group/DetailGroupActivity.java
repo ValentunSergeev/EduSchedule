@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
+import com.valentun.eduschedule.Constants;
 import com.valentun.eduschedule.R;
 import com.valentun.eduschedule.databinding.ActivityDetailBinding;
 import com.valentun.eduschedule.utils.DateUtils;
@@ -39,7 +40,7 @@ public class DetailGroupActivity extends MvpAppCompatActivity {
 
     private void initPager() {
         binding.detailPager.setAdapter(new WeekGroupPageAdapter(getGroupId(), this));
-        binding.detailPager.setOffscreenPageLimit(4);
+        binding.detailPager.setOffscreenPageLimit(Constants.DAY_NUMBER);
 
         binding.tabLayout.setupWithViewPager(binding.detailPager);
 

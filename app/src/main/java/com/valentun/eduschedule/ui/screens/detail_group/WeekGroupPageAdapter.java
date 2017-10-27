@@ -1,6 +1,7 @@
 package com.valentun.eduschedule.ui.screens.detail_group;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 
@@ -8,11 +9,16 @@ import com.valentun.eduschedule.Constants;
 import com.valentun.eduschedule.utils.DateUtils;
 
 
-class WeekGroupPageAdapter extends FragmentStatePagerAdapter {
+public class WeekGroupPageAdapter extends FragmentStatePagerAdapter {
     private String groupId;
 
     WeekGroupPageAdapter(String groupId, AppCompatActivity activity) {
         super(activity.getSupportFragmentManager());
+        this.groupId = groupId;
+    }
+
+    public WeekGroupPageAdapter(String groupId, FragmentManager manager) {
+        super(manager);
         this.groupId = groupId;
     }
 

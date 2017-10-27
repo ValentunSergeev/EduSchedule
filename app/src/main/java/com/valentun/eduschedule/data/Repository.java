@@ -1,8 +1,6 @@
 package com.valentun.eduschedule.data;
 
 
-import android.util.Log;
-
 import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.data.network.RestService;
 import com.valentun.eduschedule.data.persistance.PreferenceManager;
@@ -59,27 +57,50 @@ public class Repository implements IRepository {
 
     @Override
     public Observable<List<Lesson>> getGroupSchedule(String groupId, int dayNumber) {
-        Log.d("", "");
-        return Observable.just(school)
-                .subscribeOn(Schedulers.io())
+        return getSchool()
                 .map(school1 -> {
                             Group group = school1.getGroup(groupId);
                             return group.getSchedule().get(dayNumber);
                         }
-                )
-                .observeOn(AndroidSchedulers.mainThread());
+                );
     }
 
     @Override
     public Observable<List<Lesson>> getTeacherSchedule(String teacherId, int dayNumber) {
-        Log.d("", "");
-        return Observable.just(school)
-                .subscribeOn(Schedulers.io())
+        return getSchool()
                 .map(school1 -> {
                     Teacher teacher = school1.getTeacher(teacherId);
                     return teacher.getSchedule().get(dayNumber);
                         }
-                )
-                .observeOn(AndroidSchedulers.mainThread());
+                );
     }
+
+    @Override
+    public Observable<List<Group>> getGroups() {
+        return getSchool().map(School::getGroups);
+    }
+
+    // ======= region selected Group =======
+
+    @Override
+    public boolean isGroupChosen() {
+        return preferenceManager.isGroupChosen();
+    }
+
+    @Override
+    public String getGroupId() {
+        return preferenceManager.getGroupId();
+    }
+
+    @Override
+    public void setGroupId(String groupId) {
+        preferenceManager.setGroup(groupId);
+    }
+
+    @Override
+    public void clearGroupId() {
+        preferenceManager.clearGroup();
+    }
+
+    // end
 }

@@ -15,6 +15,7 @@ import javax.inject.Inject;
 
 import ru.terrakok.cicerone.Router;
 
+@SuppressWarnings("WeakerAccess")
 @InjectViewState
 public class GroupsPresenter extends MvpPresenter<ListView<Group>> {
     @Inject
@@ -48,9 +49,9 @@ public class GroupsPresenter extends MvpPresenter<ListView<Group>> {
     }
 
     private void getData() {
-        repository.getSchool()
-                .subscribe(school -> {
-                    getViewState().showData(school.getGroups());
+        repository.getGroups()
+                .subscribe(groups -> {
+                    getViewState().showData(groups);
                 });
     }
 

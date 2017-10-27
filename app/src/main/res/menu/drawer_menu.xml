@@ -4,6 +4,10 @@
         android:id="@+id/nav_main_group"
         android:checkableBehavior="single">
 
+        <item android:id="@+id/nav_item_my_schedule"
+            android:icon="@drawable/ic_star"
+            android:title="@string/my_schedule" />
+
         <item
             android:id="@+id/nav_item_groups"
             android:icon="@drawable/ic_group"
