@@ -13,5 +13,6 @@ public class Constants {
         public static final String TEACHER_DETAIL = "TEACHER_DETAIL";
         public static final String TEACHERS_LIST = "TEACHERS_LIST";
 
+        public static final String MY_SCHEDULE = "MY_SCHEDULE";
     }
 }

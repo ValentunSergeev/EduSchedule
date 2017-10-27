@@ -31,6 +31,11 @@ public class GroupsFragment extends RecyclerViewFragment<Group>
     }
 
     @Override
+    protected String getPlaceholderText() {
+        return getString(R.string.no_groups);
+    }
+
+    @Override
     public void itemClicked(NamedEntity item) {
         presenter.itemClicked(item);
     }

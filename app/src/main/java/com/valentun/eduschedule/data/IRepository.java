@@ -1,6 +1,7 @@
 package com.valentun.eduschedule.data;
 
 
+import com.valentun.parser.pojo.Group;
 import com.valentun.parser.pojo.Lesson;
 import com.valentun.parser.pojo.School;
 
@@ -14,4 +15,11 @@ public interface IRepository {
     Observable<List<Lesson>> getGroupSchedule(String groupId, int dayNumber);
 
     Observable<List<Lesson>> getTeacherSchedule(String teacherId, int dayNumber);
+
+    Observable<List<Group>> getGroups();
+
+    boolean isGroupChosen();
+    String getGroupId();
+    void setGroupId(String groupId);
+    void clearGroupId();
 }

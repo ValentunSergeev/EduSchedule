@@ -34,21 +34,35 @@ public abstract class RecyclerViewFragment<T> extends MvpAppCompatFragment imple
     }
 
     private void setupRecyclerView() {
-        binding.groupsList.setHasFixedSize(true);
-        binding.groupsList.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.list.setHasFixedSize(true);
+        binding.list.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     @Override
     public void showData(List<T> data) {
-        binding.groupsProgress.setVisibility(View.GONE);
-        binding.groupsList.setAdapter(getAdapter(data));
+        binding.progress.setVisibility(View.GONE);
+        binding.list.setAdapter(getAdapter(data));
     }
 
     @Override
     public void showProgress() {
-        binding.groupsList.setAdapter(null);
-        binding.groupsProgress.setVisibility(View.VISIBLE);
+        binding.list.setAdapter(null);
+        binding.progress.setVisibility(View.VISIBLE);
+    }
+
+    protected boolean isHasAdapter() {
+        return binding.list.getAdapter() != null;
+    }
+
+    @Override
+    public void showPlaceholder() {
+        binding.progress.setVisibility(View.GONE);
+
+        binding.placeholder.setVisibility(View.VISIBLE);
+        binding.placeholder.setText(getPlaceholderText());
     }
 
     protected abstract RecyclerView.Adapter getAdapter(List<T> data);
+
+    protected abstract String getPlaceholderText();
 }

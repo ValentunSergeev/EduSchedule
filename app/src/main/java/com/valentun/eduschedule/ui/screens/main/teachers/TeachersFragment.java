@@ -11,7 +11,8 @@ import com.valentun.parser.pojo.Teacher;
 
 import java.util.List;
 
-public class TeachersFragment extends RecyclerViewFragment<Teacher> implements ListView<Teacher>, TeachersAdapter.EventHandler {
+public class TeachersFragment extends RecyclerViewFragment<Teacher>
+        implements ListView<Teacher>, TeachersAdapter.EventHandler {
     @InjectPresenter
     TeachersPresenter presenter;
 
@@ -25,6 +26,11 @@ public class TeachersFragment extends RecyclerViewFragment<Teacher> implements L
     @Override
     protected RecyclerView.Adapter getAdapter(List<Teacher> data) {
         return new TeachersAdapter(data, this);
+    }
+
+    @Override
+    protected String getPlaceholderText() {
+        return getString(R.string.no_teachers);
     }
 
     @Override
