@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="school"
+            type="com.valentun.eduschedule.data.dto.SchoolInfo" />
+
+        <variable
+            name="handler"
+            type="com.valentun.eduschedule.ui.screens.school_selector.SchoolsAdapter.EventHandler" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> handler.itemClicked(school)}">
+
+        <TextView
+            android:id="@+id/item_teacher_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/size_normal"
+            android:text="@{school.name}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+            tools:text="School name" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom"
+            android:background="@color/divider" />
+
+    </FrameLayout>
+</layout>

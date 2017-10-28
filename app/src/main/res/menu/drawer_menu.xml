@@ -4,7 +4,8 @@
         android:id="@+id/nav_main_group"
         android:checkableBehavior="single">
 
-        <item android:id="@+id/nav_item_my_schedule"
+        <item
+            android:id="@+id/nav_item_my_schedule"
             android:icon="@drawable/ic_star"
             android:title="@string/my_schedule" />
 
@@ -15,7 +16,14 @@
         <item
             android:id="@+id/nav_item_teachers"
             android:icon="@drawable/ic_teacher"
-            android:title="@string/teachers"
-            />
+            android:title="@string/teachers" />
+    </group>
+
+    <group android:id="@+id/nav_bottom_group">
+
+        <item
+            android:id="@+id/nav_item_change_school"
+            android:icon="@drawable/ic_exit"
+            android:title="@string/change_school" />
     </group>
 </menu>

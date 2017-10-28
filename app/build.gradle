@@ -68,4 +68,6 @@ dependencies {
 
     compile project(':parser')
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
+
+    compile 'org.jsoup:jsoup:1.10.3'
 }

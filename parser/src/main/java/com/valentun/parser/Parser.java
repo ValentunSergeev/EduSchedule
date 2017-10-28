@@ -127,7 +127,10 @@ public class Parser {
     private void parseSchedule() {
         Iterator<Entry<String, JsonNode>> groupIterator = root
                 .get(Config.CLASS_SCHEDULE)
-                .get(Config.MIDDLE_KEY).fields();
+                .fields()
+                .next()
+                .getValue()
+                .fields();
 
         while (groupIterator.hasNext()) {
             Entry<String, JsonNode> entry = groupIterator.next();

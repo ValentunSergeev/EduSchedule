@@ -12,4 +12,7 @@
     <string name="no_lessons">There are no lessons on this day</string>
     <string name="no_groups">No groups found</string>
     <string name="no_teachers">No teachers found</string>
+    <string name="no_schools">No schools found</string>
+    <string name="select_group">Select your group</string>
+    <string name="change_school">Change school</string>
 </resources>

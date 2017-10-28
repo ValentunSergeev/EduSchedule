@@ -3,7 +3,7 @@ package com.valentun.eduschedule.ui.screens.main.my_schedule;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.valentun.eduschedule.MyApplication;
-import com.valentun.eduschedule.data.Repository;
+import com.valentun.eduschedule.data.IRepository;
 import com.valentun.eduschedule.di.AppComponent;
 
 import javax.inject.Inject;
@@ -12,7 +12,7 @@ import javax.inject.Inject;
 @InjectViewState
 public class MySchedulePresenter extends MvpPresenter<MyScheduleView> {
     @Inject
-    Repository repository;
+    IRepository repository;
 
     public MySchedulePresenter() {
         initDagger();

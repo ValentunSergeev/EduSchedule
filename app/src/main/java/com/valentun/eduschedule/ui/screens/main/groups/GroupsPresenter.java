@@ -5,7 +5,7 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.valentun.eduschedule.Constants;
 import com.valentun.eduschedule.MyApplication;
-import com.valentun.eduschedule.data.Repository;
+import com.valentun.eduschedule.data.IRepository;
 import com.valentun.eduschedule.di.AppComponent;
 import com.valentun.eduschedule.ui.common.views.ListView;
 import com.valentun.parser.pojo.Group;
@@ -21,7 +21,7 @@ public class GroupsPresenter extends MvpPresenter<ListView<Group>> {
     @Inject
     Router router;
     @Inject
-    Repository repository;
+    IRepository repository;
 
     public GroupsPresenter() {
         initDagger();

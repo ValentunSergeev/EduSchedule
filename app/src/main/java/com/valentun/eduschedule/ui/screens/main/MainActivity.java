@@ -15,6 +15,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
+import com.arellomobile.mvp.MvpView;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.valentun.eduschedule.Constants.SCREENS;
 import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.R;
@@ -25,6 +27,7 @@ import com.valentun.eduschedule.ui.screens.detail_teacher.DetailTeacherActivity;
 import com.valentun.eduschedule.ui.screens.main.groups.GroupsFragment;
 import com.valentun.eduschedule.ui.screens.main.my_schedule.MyScheduleFragment;
 import com.valentun.eduschedule.ui.screens.main.teachers.TeachersFragment;
+import com.valentun.eduschedule.ui.screens.school_selector.SchoolSelectActivity;
 import com.valentun.parser.pojo.NamedEntity;
 
 import javax.inject.Inject;
@@ -37,9 +40,13 @@ import ru.terrakok.cicerone.commands.Forward;
 import ru.terrakok.cicerone.commands.Replace;
 
 public class MainActivity extends MvpAppCompatActivity implements
-        NavigationView.OnNavigationItemSelectedListener, IBarView {
+        NavigationView.OnNavigationItemSelectedListener, IBarView, MvpView {
 
-    @Inject NavigatorHolder navigatorHolder;
+    @Inject
+    NavigatorHolder navigatorHolder;
+
+    @InjectPresenter
+    MainPresenter presenter;
 
     private Navigator navigator;
 
@@ -105,8 +112,11 @@ public class MainActivity extends MvpAppCompatActivity implements
             case R.id.nav_item_my_schedule:
                 screen = SCREENS.MY_SCHEDULE;
                 break;
+            case R.id.nav_item_change_school:
+                screen = SCREENS.SCHOOL_SELECTOR;
+                break;
             default:
-                screen = SCREENS.GROUPS_LIST;
+                screen = SCREENS.MY_SCHEDULE;
         }
 
         navigator.applyCommand(new Replace(screen, null));
@@ -140,13 +150,19 @@ public class MainActivity extends MvpAppCompatActivity implements
 
         @Override
         public void applyCommand(Command command) {
-            if (command instanceof Forward) {
-                Forward forward = (Forward) command;
-                if (forward.getScreenKey().equals(SCREENS.GROUP_DETAIL)) {
-                    showDetail(forward);
+            if (command instanceof Replace) {
+                Replace forward = (Replace) command;
+                if (forward.getScreenKey().equals(SCREENS.SCHOOL_SELECTOR)) {
+                    presenter.schoolChangeClicked();
+                    showSchoolSelector();
                     return;
                 }
-                if (forward.getScreenKey().equals(SCREENS.TEACHER_DETAIL)) {
+            }
+
+            if (command instanceof Forward) {
+                Forward forward = (Forward) command;
+                if (forward.getScreenKey().equals(SCREENS.GROUP_DETAIL) ||
+                        forward.getScreenKey().equals(SCREENS.TEACHER_DETAIL)) {
                     showDetail(forward);
                     return;
                 }
@@ -179,6 +195,11 @@ public class MainActivity extends MvpAppCompatActivity implements
             finish();
         }
 
+        private void showSchoolSelector() {
+            Intent intent = new Intent(MainActivity.this, SchoolSelectActivity.class);
+            startActivity(intent);
+        }
+
         private void showDetail(Forward forward) {
             NamedEntity data = (NamedEntity) forward.getTransitionData();
             Class activity = DetailGroupActivity.class;
@@ -188,6 +209,7 @@ public class MainActivity extends MvpAppCompatActivity implements
             if (forward.getScreenKey().equals(SCREENS.TEACHER_DETAIL)) {
                 activity = DetailTeacherActivity.class;
             }
+
             Intent intent = new Intent(MainActivity.this, activity);
             intent.putExtra(Intent.EXTRA_TEXT, data.getId());
             intent.putExtra(Intent.EXTRA_TITLE, data.getName());

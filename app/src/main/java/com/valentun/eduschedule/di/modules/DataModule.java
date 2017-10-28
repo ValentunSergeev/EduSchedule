@@ -2,6 +2,7 @@ package com.valentun.eduschedule.di.modules;
 
 import android.content.Context;
 
+import com.valentun.eduschedule.data.IRepository;
 import com.valentun.eduschedule.data.Repository;
 import com.valentun.eduschedule.data.persistance.PreferenceManager;
 import com.valentun.parser.Parser;
@@ -27,7 +28,7 @@ public class DataModule {
 
     @Provides
     @Singleton
-    Repository provideRepository() {
+    IRepository provideRepository() {
         return new Repository();
     }
 }

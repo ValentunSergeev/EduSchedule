@@ -1,12 +1,18 @@
 package com.valentun.eduschedule.data.network;
 
 
-import com.valentun.parser.pojo.NamedEntity;
+import com.valentun.eduschedule.data.dto.SchoolInfo;
+
+import java.util.List;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 public interface RestService {
-    @GET("schools")
-    Observable<NamedEntity> getSchools();
+    @GET("schools/{id}.json")
+    Observable<SchoolInfo> getSchoolInfo(@Path("id") int id);
+
+    @GET("schools.json")
+    Observable<List<SchoolInfo>> getSchools();
 }

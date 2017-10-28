@@ -3,7 +3,7 @@ package com.valentun.eduschedule.ui.screens.detail_teacher;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.valentun.eduschedule.MyApplication;
-import com.valentun.eduschedule.data.Repository;
+import com.valentun.eduschedule.data.IRepository;
 import com.valentun.eduschedule.di.AppComponent;
 import com.valentun.eduschedule.ui.common.views.ListView;
 import com.valentun.parser.pojo.Lesson;
@@ -16,7 +16,7 @@ import javax.inject.Inject;
 @InjectViewState
 public class DayTeacherPresenter extends MvpPresenter<ListView<Lesson>> {
     @Inject
-    Repository repository;
+    IRepository repository;
 
     private List<Lesson> lessons;
 
