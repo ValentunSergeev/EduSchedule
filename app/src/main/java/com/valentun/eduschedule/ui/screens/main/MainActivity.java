@@ -198,6 +198,8 @@ public class MainActivity extends MvpAppCompatActivity implements
         private void showSchoolSelector() {
             Intent intent = new Intent(MainActivity.this, SchoolSelectActivity.class);
             startActivity(intent);
+
+            exit();
         }
 
         private void showDetail(Forward forward) {

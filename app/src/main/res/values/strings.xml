@@ -15,4 +15,5 @@
     <string name="no_schools">No schools found</string>
     <string name="select_group">Select your group</string>
     <string name="change_school">Change school</string>
+    <string name="select_school">Select your school</string>
 </resources>
