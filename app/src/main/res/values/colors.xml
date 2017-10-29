@@ -1,23 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--<color name="primaryColor">#1976d2</color>-->
-    <!--<color name="primaryLightColor">#63a4ff</color>-->
-    <!--<color name="primaryDarkColor">#004ba0</color>-->
-    <!--<color name="secondaryColor">#ff3d00</color>-->
-    <!--<color name="secondaryLightColor">#ff7539</color>-->
-    <!--<color name="secondaryDarkColor">#c30000</color>-->
-    <!--<color name="primaryTextColor">#ffffff</color>-->
-    <!--<color name="secondaryTextColor">#ffffff</color>-->
-
-    <!--<color name="primaryColor">#2e7d32</color>-->
-    <!--<color name="primaryLightColor">#60ad5e</color>-->
-    <!--<color name="primaryDarkColor">#005005</color>-->
-    <!--<color name="secondaryColor">#ff3d00</color>-->
-    <!--<color name="secondaryLightColor">#ff7539</color>-->
-    <!--<color name="secondaryDarkColor">#c30000</color>-->
-    <!--<color name="primaryTextColor">#ffffff</color>-->
-    <!--<color name="secondaryTextColor">#ffffff</color>-->
-
     <color name="primaryColor">#0097a7</color>
     <color name="primaryLightColor">#56c8d8</color>
     <color name="primaryDarkColor">#006978</color>
@@ -26,6 +8,7 @@
     <color name="secondaryDarkColor">#c67c00</color>
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#ffffff</color>
+
     <color name="divider">#1F000000</color>
     <color name="icon">#727272</color>
 </resources>

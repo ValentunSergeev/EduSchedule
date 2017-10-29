@@ -24,6 +24,5 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent" />
-        <!--android:text="@{school.name}"-->
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>
