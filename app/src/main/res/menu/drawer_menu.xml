@@ -26,4 +26,9 @@
             android:icon="@drawable/ic_exit"
             android:title="@string/change_school" />
     </group>
+
+    <item
+        android:id="@+id/nav_logo_info"
+        android:enabled="false"
+        android:title="@string/nav_license" />
 </menu>
