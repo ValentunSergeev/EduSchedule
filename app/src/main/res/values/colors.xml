@@ -8,6 +8,7 @@
     <color name="secondaryDarkColor">#c67c00</color>
     <color name="primaryTextColor">#ffffff</color>
     <color name="secondaryTextColor">#ffffff</color>
+
     <color name="divider">#1F000000</color>
     <color name="icon">#727272</color>
 </resources>
