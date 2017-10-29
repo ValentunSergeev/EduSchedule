@@ -15,7 +15,9 @@
     <string name="no_teachers">Списка учителей не найдено</string>
     <string name="open_drawer">Открыть шторку</string>
     <string name="select_group">Выбеирте вашу группу</string>
-    <string name="select_school">Выберите вашу школу</string>
-    <string name="teachers">Расписание учителей</string>
+    <string name="select_school">Выберите ваше обр. учреждение</string>
+    <string name="teachers">Расписание преподавателей</string>
     <string name="nav_school">Школа</string>
+    <string name="nav_license">Icon made by Icon Pond</string>
+    <string name="license">Icons made by Icon Pond www.flaticon.com is licensed by Creative Commons BY 3.0</string>
 </resources>
