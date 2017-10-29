@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Расписание занятий</string>
+    <string name="change_group">Изменить свою группу</string>
+    <string name="change_school">Выбрать другую школу</string>
+    <string name="close_drawer">Закрыть</string>
+    <string name="group_selector_title">Выберите ваше расписание</string>
+    <string name="groups">Расписание групп</string>
+    <string name="list_empty_placeholder">Нет элементов</string>
+    <string name="my_schedule">Моё расписание</string>
+    <string name="no_groups">Группы не найдены</string>
+    <string name="no_lesson">Нет урока</string>
+    <string name="no_lessons">В этот день нет уроков</string>
+    <string name="no_schools">Школ не найдено</string>
+    <string name="no_teachers">Списка учителей не найдено</string>
+    <string name="open_drawer">Открыть шторку</string>
+    <string name="select_group">Выбеирте вашу группу</string>
+    <string name="select_school">Выберите вашу школу</string>
+    <string name="teachers">Расписание учителей</string>
+    <string name="nav_school">Школа</string>
+</resources>

@@ -85,6 +85,11 @@ public class Repository implements IRepository {
     }
 
     @Override
+    public Observable<String> getSchoolName() {
+        return getSchool(getSchoolId()).map(School::getName);
+    }
+
+    @Override
     public Observable<List<Group>> getGroups() {
         return getSchool(getSchoolId()).map(School::getGroups);
     }
@@ -123,6 +128,7 @@ public class Repository implements IRepository {
         preferenceManager.clearGroup();
     }
 
+
     // end
 
     // ======= region selected School =======
@@ -131,6 +137,7 @@ public class Repository implements IRepository {
     public boolean isSchoolChosen() {
         return preferenceManager.isSchoolChosen();
     }
+
 
     @Override
     public int getSchoolId() {
@@ -141,6 +148,7 @@ public class Repository implements IRepository {
     public void setSchoolId(int schoolId) {
         preferenceManager.setSchool(schoolId);
     }
+
 
     @Override
     public void clearSchoolId() {

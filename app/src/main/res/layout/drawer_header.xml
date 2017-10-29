@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout style="@style/FullWidthLayout"
-    android:background="@color/colorPrimary"
-    android:layout_height="@dimen/drawer_height"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/FullWidthLayout"
+    android:layout_height="@dimen/drawer_height">
 
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/nav_head">
+
+        <TextView
+            android:id="@+id/school_name"
+            style="@style/TitleWhiteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:text="@string/nav_school"
+            android:textAppearance="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent" />
+        <!--android:text="@{school.name}"-->
+    </android.support.constraint.ConstraintLayout>
 </FrameLayout>

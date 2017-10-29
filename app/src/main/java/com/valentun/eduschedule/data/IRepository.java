@@ -20,16 +20,24 @@ public interface IRepository {
 
     Observable<List<Teacher>> getTeachers();
 
+    Observable<String> getSchoolName();
+
     Observable<List<SchoolInfo>> getSchools();
 
     boolean isGroupChosen();
+
     String getGroupId();
+
     void setGroupId(String groupId);
+
     void clearGroupId();
 
     boolean isSchoolChosen();
+
     int getSchoolId();
+
     void setSchoolId(int schoolId);
+
     void clearSchoolId();
 
     Observable<School> getSchool(int schoolId);
