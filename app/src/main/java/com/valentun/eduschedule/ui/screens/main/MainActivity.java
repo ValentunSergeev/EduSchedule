@@ -13,15 +13,16 @@ import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
-import com.arellomobile.mvp.MvpView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.valentun.eduschedule.Constants.SCREENS;
 import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.R;
 import com.valentun.eduschedule.databinding.ActivityMainBinding;
 import com.valentun.eduschedule.ui.common.callbacks.BackButtonListener;
+import com.valentun.eduschedule.ui.common.views.MainView;
 import com.valentun.eduschedule.ui.screens.detail_group.DetailGroupActivity;
 import com.valentun.eduschedule.ui.screens.detail_teacher.DetailTeacherActivity;
 import com.valentun.eduschedule.ui.screens.main.groups.GroupsFragment;
@@ -40,7 +41,7 @@ import ru.terrakok.cicerone.commands.Forward;
 import ru.terrakok.cicerone.commands.Replace;
 
 public class MainActivity extends MvpAppCompatActivity implements
-        NavigationView.OnNavigationItemSelectedListener, IBarView, MvpView {
+        NavigationView.OnNavigationItemSelectedListener, IBarView, MainView {
 
     @Inject
     NavigatorHolder navigatorHolder;
@@ -67,8 +68,15 @@ public class MainActivity extends MvpAppCompatActivity implements
 
         if (savedInstanceState == null) {
             binding.navView.setCheckedItem(R.id.nav_item_my_schedule);
+            presenter.loadName();
             navigator.applyCommand(new Replace(SCREENS.MY_SCHEDULE, null));
         }
+    }
+
+    @Override
+    public void showName(String name) {
+        TextView school_name = binding.navView.getHeaderView(0).findViewById(R.id.school_name);
+        school_name.setText(name);
     }
 
     private void initToolBar() {

@@ -10,7 +10,7 @@
     <string name="my_schedule">Моё расписание</string>
     <string name="no_groups">Группы не найдены</string>
     <string name="no_lesson">Нет урока</string>
-    <string name="no_lessons">В этот день у группы нет уроков</string>
+    <string name="no_lessons">В этот день нет уроков</string>
     <string name="no_schools">Школ не найдено</string>
     <string name="no_teachers">Списка учителей не найдено</string>
     <string name="open_drawer">Открыть шторку</string>

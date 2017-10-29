@@ -10,7 +10,6 @@ import java.util.List;
 @StateStrategyType(AddToEndSingleStrategy.class)
 public interface ListView<T> extends MvpView {
     void showData(List<T> items);
-
     void showPlaceholder();
     void showProgress();
 }

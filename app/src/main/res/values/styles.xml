@@ -5,8 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="colorAccent">@color/primaryColor</item>
-
+        <item name="colorAccent">@color/secondaryLightColor</item>
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
     </style>
@@ -21,18 +20,22 @@
         <item name="android:layout_height">match_parent</item>
     </style>
 
-    <style name="TabTheme">
-        <item name="android:background">@color/primaryLightColor</item>
-        <item name="colorControlNormal">@color/secondaryTextColor</item>
+    <style name="TabTheme" parent="AppTheme.AppBarOverlay">
+        <item name="android:background">@color/primaryColor</item>
+        <item name="colorControlNormal">@color/primaryTextColor</item>
+    </style>
+
+    <style name="TitleWhiteText">
+        <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
 
-    <style name="FullWidthLayout">
+    <style name="FullWidthLayout" parent="AppTheme">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="FullExpandFromParent">
+    <style name="FullExpandFromParent" parent="AppTheme">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">0dp</item>
         <item name="layout_constraintBottom_toBottomOf">parent</item>
@@ -41,11 +44,10 @@
         <item name="layout_constraintTop_toTopOf">parent</item>
     </style>
 
-    <style name="FullWidthFromParent">
+    <style name="FullWidthFromParent" parent="AppTheme">
         <item name="android:layout_width">0dp</item>
         <item name="layout_constraintLeft_toLeftOf">parent</item>
         <item name="layout_constraintRight_toRightOf">parent</item>
-        <item name="colorControlNormal">@color/primaryTextColor</item>
     </style>
 
     <style name="ConstraintBottomDivider">
@@ -59,11 +61,9 @@
 
     <!-- activity_root -->
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="colorControlNormal">@color/primaryTextColor</item>
     </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
-        <item name="colorControlNormal">@color/primaryTextColor</item>
     </style>
 
     <style name="NavigationDrawer" parent="Widget.Design.NavigationView">
