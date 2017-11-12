@@ -3,6 +3,8 @@ package com.valentun.eduschedule.ui.common.fragments;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -40,8 +42,12 @@ public abstract class RecyclerViewFragment<T> extends MvpAppCompatFragment imple
 
     @Override
     public void showData(List<T> data) {
-        binding.progress.setVisibility(View.GONE);
+        hideProgress();
         binding.list.setAdapter(getAdapter(data));
+    }
+
+    private void hideProgress() {
+        binding.progress.setVisibility(View.GONE);
     }
 
     @Override
@@ -56,13 +62,27 @@ public abstract class RecyclerViewFragment<T> extends MvpAppCompatFragment imple
 
     @Override
     public void showPlaceholder() {
-        binding.progress.setVisibility(View.GONE);
+        hideProgress();
 
         binding.placeholder.setVisibility(View.VISIBLE);
         binding.placeholder.setText(getPlaceholderText());
     }
 
+    @Override
+    public void showError(@StringRes int errorRes) {
+        hideProgress();
+
+        Snackbar.make(binding.getRoot(), errorRes, Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.retry, v -> {
+                    showProgress();
+                    retryClicked();
+                })
+                .show();
+    }
+
     protected abstract RecyclerView.Adapter getAdapter(List<T> data);
 
     protected abstract String getPlaceholderText();
+
+    protected abstract void retryClicked();
 }

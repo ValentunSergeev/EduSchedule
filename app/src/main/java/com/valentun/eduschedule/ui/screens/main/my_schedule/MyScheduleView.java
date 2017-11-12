@@ -1,5 +1,7 @@
 package com.valentun.eduschedule.ui.screens.main.my_schedule;
 
+import android.support.annotation.StringRes;
+
 import com.arellomobile.mvp.MvpView;
 import com.arellomobile.mvp.viewstate.strategy.AddToEndSingleStrategy;
 import com.arellomobile.mvp.viewstate.strategy.StateStrategyType;
@@ -14,4 +16,6 @@ public interface MyScheduleView extends MvpView{
     void showMySchedule(String groupId);
 
     void showGroups(List<Group> groups);
+
+    void showGroupLoadingError(@StringRes int errorMessage);
 }

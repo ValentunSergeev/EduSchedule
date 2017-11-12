@@ -3,6 +3,8 @@ package com.valentun.eduschedule.ui.screens.main.my_schedule;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -95,7 +97,7 @@ public class MyScheduleFragment extends MvpAppCompatFragment
         binding.detailPager.setVisibility(View.GONE);
         binding.groupsSelector.setVisibility(View.GONE);
 
-        binding.progress.setVisibility(View.VISIBLE);
+        showGroupsProgress();
 
         activity.setTitle(getString(R.string.group_selector_title));
 
@@ -126,7 +128,20 @@ public class MyScheduleFragment extends MvpAppCompatFragment
     }
 
     @Override
+    public void showGroupLoadingError(@StringRes int errorMessage) {
+        showGroupsProgress();
+
+        Snackbar.make(binding.getRoot(), errorMessage, Snackbar.LENGTH_INDEFINITE)
+                .setAction(R.string.retry, v -> presenter.loadGroups())
+                .show();
+    }
+
+    @Override
     public void itemClicked(NamedEntity item) {
         presenter.groupSelected(item.getId());
+    }
+
+    private void showGroupsProgress() {
+        binding.progress.setVisibility(View.VISIBLE);
     }
 }

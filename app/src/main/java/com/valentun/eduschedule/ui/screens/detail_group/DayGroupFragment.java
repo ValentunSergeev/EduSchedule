@@ -53,6 +53,11 @@ public class DayGroupFragment extends RecyclerViewFragment<Lesson>
     }
 
     @Override
+    protected void retryClicked() {
+        presenter.getData();
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 

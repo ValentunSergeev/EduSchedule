@@ -6,6 +6,7 @@ import com.valentun.eduschedule.Constants;
 import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.data.IRepository;
 import com.valentun.eduschedule.data.dto.SchoolInfo;
+import com.valentun.eduschedule.data.network.ErrorHandler;
 import com.valentun.eduschedule.di.AppComponent;
 import com.valentun.eduschedule.ui.common.views.ListView;
 
@@ -35,11 +36,11 @@ public class SchoolSelectPresenter extends MvpPresenter<ListView<SchoolInfo>> {
         router.replaceScreen(Constants.SCREENS.SPLASH);
     }
 
-    private void getData() {
+    public void getData() {
         repository.getSchools().subscribe(schools -> {
             getViewState().showData(schools);
         }, error -> {
-            router.showSystemMessage(error.getMessage());
+            getViewState().showError(ErrorHandler.getErrorMessage(error));
         });
     }
 

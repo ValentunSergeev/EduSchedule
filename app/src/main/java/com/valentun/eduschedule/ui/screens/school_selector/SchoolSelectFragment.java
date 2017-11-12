@@ -27,6 +27,11 @@ public class SchoolSelectFragment extends RecyclerViewFragment<SchoolInfo>
         return getString(R.string.no_schools);
     }
 
+    @Override
+    protected void retryClicked() {
+        presenter.getData();
+    }
+
 
     @Override
     public void itemClicked(SchoolInfo item) {

@@ -4,6 +4,7 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.data.IRepository;
+import com.valentun.eduschedule.data.network.ErrorHandler;
 import com.valentun.eduschedule.di.AppComponent;
 
 import javax.inject.Inject;
@@ -30,6 +31,8 @@ public class MySchedulePresenter extends MvpPresenter<MyScheduleView> {
         repository.getGroups()
                 .subscribe(groups -> {
                     getViewState().showGroups(groups);
+                }, error -> {
+                    getViewState().showGroupLoadingError(ErrorHandler.getErrorMessage(error));
                 });
     }
 

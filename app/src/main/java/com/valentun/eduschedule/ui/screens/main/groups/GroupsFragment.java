@@ -36,6 +36,11 @@ public class GroupsFragment extends RecyclerViewFragment<Group>
     }
 
     @Override
+    protected void retryClicked() {
+        presenter.getData();
+    }
+
+    @Override
     public void itemClicked(NamedEntity item) {
         presenter.itemClicked(item);
     }
