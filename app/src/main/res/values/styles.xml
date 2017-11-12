@@ -29,6 +29,11 @@
         <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
+    <style name="IndicatorStyle">
+        <item name="android:background">@drawable/indicator</item>
+        <item name="android:layout_width">@dimen/indicator_size</item>
+        <item name="android:layout_height">@dimen/indicator_size</item>
+    </style>
 
     <style name="FullWidthLayout" parent="AppTheme">
         <item name="android:layout_width">match_parent</item>
