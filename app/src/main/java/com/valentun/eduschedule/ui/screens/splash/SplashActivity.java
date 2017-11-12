@@ -2,14 +2,15 @@ package com.valentun.eduschedule.ui.screens.splash;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
-import com.arellomobile.mvp.MvpView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.valentun.eduschedule.Constants;
 import com.valentun.eduschedule.MyApplication;
+import com.valentun.eduschedule.R;
 import com.valentun.eduschedule.ui.screens.main.MainActivity;
 import com.valentun.eduschedule.ui.screens.school_selector.SchoolSelectActivity;
 
@@ -20,7 +21,7 @@ import ru.terrakok.cicerone.NavigatorHolder;
 import ru.terrakok.cicerone.android.SupportAppNavigator;
 
 
-public class SplashActivity extends MvpAppCompatActivity implements MvpView {
+public class SplashActivity extends MvpAppCompatActivity implements SplashView {
     @Inject
     NavigatorHolder navigatorHolder;
 
@@ -32,8 +33,8 @@ public class SplashActivity extends MvpAppCompatActivity implements MvpView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         MyApplication.INSTANCE.getAppComponent().inject(this);
-
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash);
 
         navigator = new SplashNavigator(this);
     }
@@ -48,6 +49,20 @@ public class SplashActivity extends MvpAppCompatActivity implements MvpView {
     protected void onPause() {
         navigatorHolder.removeNavigator();
         super.onPause();
+    }
+
+    @Override
+    public void showError(@StringRes int stringRes) {
+        new SplashErrorDialog(stringRes).show(this)
+                .subscribe(buttonId -> {
+                    switch (buttonId) {
+                        case SplashErrorDialog.POSITIVE_CLICK:
+                            presenter.retry();
+                            break;
+                        case SplashErrorDialog.NEGATIVE_CLICK:
+                            presenter.exit();
+                    }
+                });
     }
 
     private class SplashNavigator extends SupportAppNavigator {

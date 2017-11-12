@@ -20,4 +20,9 @@
     <string name="nav_school">School</string>
     <string name="nav_license">Icon made by Icon Pond</string>
     <string name="license">Icons made by Icon Pond www.flaticon.com is licensed by Creative Commons BY 3.0</string>
+    <string name="no_internet">No internet connection</string>
+    <string name="timeout">Too long server response time</string>
+    <string name="unknown_error">Ops, something went wrong</string>
+    <string name="exit">Exit</string>
+    <string name="retry">Retry</string>
 </resources>
