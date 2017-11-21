@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -89,6 +90,11 @@ public class SplashActivity extends MvpAppCompatActivity implements SplashView {
         @Override
         protected Fragment createFragment(String screenKey, Object data) {
             return null;
+        }
+
+        @Override
+        protected void showSystemMessage(String message) {
+            Toast.makeText(SplashActivity.this, message, Toast.LENGTH_LONG).show();
         }
     }
 }

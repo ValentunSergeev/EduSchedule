@@ -20,4 +20,10 @@
     <string name="nav_school">Школа</string>
     <string name="nav_license">Icon made by Icon Pond</string>
     <string name="license">Icons made by Icon Pond www.flaticon.com is licensed by Creative Commons BY 3.0</string>
+    <string name="cached_version_used">Отсутствует интернет соединение. Используем кэшированную версию от %s</string>
+    <string name="exit">Выйти</string>
+    <string name="no_internet">Отсуствует интернет соединение</string>
+    <string name="retry">Повторить</string>
+    <string name="timeout">Привышено время ожидания. Попробуйте еще раз</string>
+    <string name="unknown_error">Опс, что то пошло не  так</string>
 </resources>

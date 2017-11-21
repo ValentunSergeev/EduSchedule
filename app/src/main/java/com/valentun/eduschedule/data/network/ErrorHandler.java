@@ -5,7 +5,7 @@ import android.support.annotation.StringRes;
 import com.valentun.eduschedule.R;
 
 public class ErrorHandler {
-    private static final String NO_INTERNET_PREFIX = "Unable to resolve";
+    public static final String NO_INTERNET_PREFIX = "Unable to resolve";
     private static final String TIMEOUT_PREFIX = "Timeout";
 
     @StringRes

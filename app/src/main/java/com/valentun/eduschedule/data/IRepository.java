@@ -41,4 +41,7 @@ public interface IRepository {
     void clearSchoolId();
 
     Observable<School> getSchool(int schoolId);
+
+    boolean isCachedSchedule();
+    String getCachedTime();
 }

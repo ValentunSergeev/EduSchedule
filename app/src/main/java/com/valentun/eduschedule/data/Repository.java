@@ -1,8 +1,9 @@
 package com.valentun.eduschedule.data;
 
-
 import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.data.dto.SchoolInfo;
+import com.valentun.eduschedule.data.network.ErrorHandler;
+import com.valentun.eduschedule.data.network.NetworkStatusChecker;
 import com.valentun.eduschedule.data.network.RestService;
 import com.valentun.eduschedule.data.persistance.PreferenceManager;
 import com.valentun.eduschedule.di.AppComponent;
@@ -18,12 +19,16 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -42,6 +47,7 @@ public class Repository implements IRepository {
     Parser parser;
 
     private School school;
+    private boolean isCachedSchedule = false;
 
     public Repository() {
         AppComponent component = MyApplication.INSTANCE.getAppComponent();
@@ -55,12 +61,34 @@ public class Repository implements IRepository {
         if (school != null) {
             return Observable.just(school);
         } else {
-            return restService.getSchoolInfo(schoolId)
-                    .map(this::getPathToData)
-                    .map(this::getRawSchool)
-                    .map(parser::parseFrom)
-                    .doOnNext(result -> this.school = result)
-                    .observeOn(AndroidSchedulers.mainThread());
+            if (NetworkStatusChecker.isNetworkAvailable()) {
+                return restService.getSchoolInfo(schoolId)
+                        .map(this::getPathToData)
+                        .map(this::getRawSchool)
+                        .doOnNext(preferenceManager::cacheSchedule)
+                        .map(parser::parseFrom)
+                        .doOnNext(result -> {
+                            this.school = result;
+                            isCachedSchedule = false;
+                        })
+                        .observeOn(AndroidSchedulers.mainThread());
+            } else {
+                if (preferenceManager.isHasCachedSchedule()) {
+                    return Observable.just(schoolId)
+                            .subscribeOn(Schedulers.io())
+                            .map(id -> {
+                                String raw = preferenceManager.getCachedSchedule();
+                                return parser.parseFrom(raw);
+                            })
+                            .doOnNext(result -> {
+                                this.school = result;
+                                isCachedSchedule = true;
+                            })
+                            .observeOn(AndroidSchedulers.mainThread());
+                } else {
+                    return Observable.error(new RuntimeException(ErrorHandler.NO_INTERNET_PREFIX));
+                }
+            }
         }
     }
 
@@ -78,8 +106,8 @@ public class Repository implements IRepository {
     public Observable<List<Lesson>> getTeacherSchedule(String teacherId, int dayNumber) {
         return getSchool(getSchoolId())
                 .map(school1 -> {
-                    Teacher teacher = school1.getTeacher(teacherId);
-                    return teacher.getSchedule().get(dayNumber);
+                            Teacher teacher = school1.getTeacher(teacherId);
+                            return teacher.getSchedule().get(dayNumber);
                         }
                 );
     }
@@ -158,6 +186,22 @@ public class Repository implements IRepository {
 
     // end
 
+    // ======= region cached school =======
+
+    public boolean isCachedSchedule() {
+        return isCachedSchedule;
+    }
+
+    public String getCachedTime() {
+        long time = preferenceManager.getCachedTime();
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyy hh:mm", Locale.getDefault());
+
+        return formatter.format(new Date(time));
+    }
+
+    // end
+
     private String getRawSchool(String path) throws Exception {
         Response response = okHttpClient.newCall(new Request.Builder()
                 .url(path)
@@ -197,5 +241,4 @@ public class Repository implements IRepository {
             return base + "/";
         }
     }
-
 }

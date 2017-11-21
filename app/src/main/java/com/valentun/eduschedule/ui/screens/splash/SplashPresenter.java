@@ -4,6 +4,7 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.valentun.eduschedule.Constants;
 import com.valentun.eduschedule.MyApplication;
+import com.valentun.eduschedule.R;
 import com.valentun.eduschedule.data.IRepository;
 import com.valentun.eduschedule.data.network.ErrorHandler;
 import com.valentun.eduschedule.di.AppComponent;
@@ -33,6 +34,12 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
 
     private void getSchoolData(int schoolId) {
         repository.getSchool(schoolId).subscribe(school -> {
+            if (repository.isCachedSchedule())
+                router.showSystemMessage(MyApplication.INSTANCE.getString(
+                        R.string.cached_version_used,
+                        repository.getCachedTime()
+                ));
+
             router.replaceScreen(Constants.SCREENS.MAIN);
         }, error -> {
             getViewState().showError(ErrorHandler.getErrorMessage(error));
