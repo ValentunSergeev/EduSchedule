@@ -44,4 +44,7 @@ public interface IRepository {
 
     boolean isCachedSchedule();
     String getCachedTime();
+
+    List<Teacher> findTeachers(CharSequence filter);
+    List<Group> findGroups(CharSequence filter);
 }

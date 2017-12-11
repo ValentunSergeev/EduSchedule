@@ -1,5 +1,7 @@
 package com.valentun.eduschedule.data;
 
+import android.text.TextUtils;
+
 import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.data.dto.SchoolInfo;
 import com.valentun.eduschedule.data.network.ErrorHandler;
@@ -200,6 +202,40 @@ public class Repository implements IRepository {
         return formatter.format(new Date(time));
     }
 
+    @Override
+    public List<Teacher> findTeachers(CharSequence filter) {
+        return getTeachers()
+                .flatMap(list -> Observable.fromIterable(list))
+                .filter(item -> {
+                    String name = item.getName();
+
+                    if (TextUtils.isEmpty(name))
+                        return true;
+
+                    return name.toLowerCase()
+                            .contains(filter.toString().toLowerCase());
+                })
+                .toList()
+                .blockingGet();
+    }
+
+    @Override
+    public List<Group> findGroups(CharSequence filter) {
+        return getGroups()
+                .flatMap(list -> Observable.fromIterable(list))
+                .filter(item -> {
+                    String name = item.getName();
+
+                    if (TextUtils.isEmpty(name))
+                        return true;
+
+                    return name.toLowerCase()
+                            .contains(filter.toString().toLowerCase());
+                })
+                .toList()
+                .blockingGet();
+    }
+
     // end
 
     private String getRawSchool(String path) throws Exception {
@@ -226,7 +262,7 @@ public class Repository implements IRepository {
         for (Element script : scriptElements) {
             String src = script.attr("src");
 
-            if (src.startsWith(SCRIPT_PREFIX)) {
+            if (src.contains(SCRIPT_PREFIX)) {
                 result = normalizePath(info.getDataPath()) + src;
             }
         }

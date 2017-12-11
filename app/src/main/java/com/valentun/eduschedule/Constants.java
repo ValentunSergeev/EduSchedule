@@ -6,6 +6,7 @@ public class Constants {
 
     public static final long MAX_TIMEOUT = 10_000;
     public static final int DAY_NUMBER = 6;
+    public static final long SEARCH_DELAY = 300;
 
     public static class SCREENS {
         public static final String GROUPS_LIST = "GROUPS_LIST";

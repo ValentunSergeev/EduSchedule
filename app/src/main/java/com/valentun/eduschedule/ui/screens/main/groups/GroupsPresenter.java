@@ -1,6 +1,9 @@
 package com.valentun.eduschedule.ui.screens.main.groups;
 
 
+import android.widget.Filter;
+import android.widget.Filterable;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.valentun.eduschedule.Constants;
@@ -8,9 +11,12 @@ import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.data.IRepository;
 import com.valentun.eduschedule.data.network.ErrorHandler;
 import com.valentun.eduschedule.di.AppComponent;
+import com.valentun.eduschedule.ui.common.BaseFilter;
 import com.valentun.eduschedule.ui.common.views.ListView;
 import com.valentun.parser.pojo.Group;
 import com.valentun.parser.pojo.NamedEntity;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -23,6 +29,18 @@ public class GroupsPresenter extends MvpPresenter<ListView<Group>> {
     Router router;
     @Inject
     IRepository repository;
+
+    Filter filter = new BaseFilter<Group>() {
+        @Override
+        protected void showResult(List<Group> result) {
+            getViewState().showData(result);
+        }
+
+        @Override
+        protected List<Group> findResult(CharSequence query) {
+            return repository.findGroups(query);
+        }
+    };
 
     public GroupsPresenter() {
         initDagger();

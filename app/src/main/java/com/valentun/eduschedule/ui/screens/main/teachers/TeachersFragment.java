@@ -1,6 +1,8 @@
 package com.valentun.eduschedule.ui.screens.main.teachers;
 
 import android.support.v7.widget.RecyclerView;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.valentun.eduschedule.R;
@@ -15,6 +17,11 @@ public class TeachersFragment extends RecyclerViewFragment<Teacher>
         implements ListView<Teacher>, TeachersAdapter.EventHandler {
     @InjectPresenter
     TeachersPresenter presenter;
+
+    @Override
+    protected Filterable getFilterable() {
+        return () -> presenter.filter;
+    }
 
     @Override
     public void onStart() {

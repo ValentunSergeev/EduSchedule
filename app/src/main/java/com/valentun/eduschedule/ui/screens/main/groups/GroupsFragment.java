@@ -1,6 +1,7 @@
 package com.valentun.eduschedule.ui.screens.main.groups;
 
 import android.support.v7.widget.RecyclerView;
+import android.widget.Filterable;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.valentun.eduschedule.R;
@@ -23,6 +24,11 @@ public class GroupsFragment extends RecyclerViewFragment<Group>
         super.onStart();
 
         getActivity().setTitle(R.string.groups);
+    }
+
+    @Override
+    protected Filterable getFilterable() {
+        return () -> presenter.filter;
     }
 
     @Override
