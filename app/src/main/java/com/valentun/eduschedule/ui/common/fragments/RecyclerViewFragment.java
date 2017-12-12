@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -16,7 +15,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
 import android.widget.Filterable;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
@@ -47,15 +45,9 @@ public abstract class RecyclerViewFragment<T> extends MvpAppCompatFragment
                 binding.progress.setVisibility(View.VISIBLE);
                 binding.list.setVisibility(View.GONE);
 
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        filterable.getFilter().filter(newText, i -> {
-                            hideProgress();
-                            binding.list.setVisibility(View.VISIBLE);
-                        });
-                    }
-                }, Constants.SEARCH_DELAY);
+                handler.postDelayed(() -> filterable.getFilter().filter(newText, i -> {
+                    binding.list.setVisibility(View.VISIBLE);
+                }), Constants.SEARCH_DELAY);
             return true;
         }
     };

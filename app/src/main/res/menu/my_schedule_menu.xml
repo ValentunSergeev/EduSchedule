@@ -7,4 +7,9 @@
         android:title="@string/change_group"
         app:showAsAction="never" />
 
+    <item android:id="@id/action_search"
+        android:title="@string/action_search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="ifRoom"/>
+
 </menu>

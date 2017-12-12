@@ -2,17 +2,22 @@ package com.valentun.eduschedule.ui.screens.main.my_schedule;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.SearchView;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filterable;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -28,21 +33,47 @@ import com.valentun.parser.pojo.NamedEntity;
 
 import java.util.List;
 
+// TODO split into two different fragments (choose group and my schedule)
 public class MyScheduleFragment extends MvpAppCompatFragment
         implements MyScheduleView, GroupsAdapter.EventHandler {
+
     ScreenMyScheduleBinding binding;
-
-    private IBarView barView;
-    private Activity activity;
-
-    private TabLayout tabLayout;
 
     @InjectPresenter
     MySchedulePresenter presenter;
 
+    private IBarView barView;
+    private Activity activity;
+    private TabLayout tabLayout;
+
+    private boolean isSearchVisible = true;
+
+    private SearchView.OnQueryTextListener listener = new SearchView.OnQueryTextListener() {
+        private Handler handler = new Handler();
+        private Filterable filterable = () -> presenter.filter;
+
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            handler.removeCallbacksAndMessages(null);
+
+            showGroupsProgress();
+            binding.groupsSelector.setVisibility(View.GONE);
+
+            handler.postDelayed(() -> filterable.getFilter().filter(newText, i ->
+                            binding.groupsSelector.setVisibility(View.VISIBLE)),
+                    Constants.SEARCH_DELAY);
+            return true;
+        }
+    };
+
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         barView = (IBarView) getActivity();
         activity = getActivity();
 
@@ -54,7 +85,7 @@ public class MyScheduleFragment extends MvpAppCompatFragment
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         binding.detailPager.setOffscreenPageLimit(Constants.DAY_NUMBER);
@@ -65,13 +96,20 @@ public class MyScheduleFragment extends MvpAppCompatFragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setRetainInstance(true);
         setHasOptionsMenu(true);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.my_schedule_menu, menu);
+
+        MenuItem item = menu.findItem(R.id.action_search);
+        item.setVisible(isSearchVisible);
+
+        SearchView searchView = (SearchView) item.getActionView();
+        searchView.setInputType(InputType.TYPE_CLASS_NUMBER);
+        searchView.setOnQueryTextListener(listener);
     }
 
     @Override
@@ -101,6 +139,10 @@ public class MyScheduleFragment extends MvpAppCompatFragment
 
         activity.setTitle(getString(R.string.group_selector_title));
 
+        isSearchVisible = true;
+
+        getActivity().invalidateOptionsMenu();
+
         presenter.loadGroups();
     }
 
@@ -108,6 +150,10 @@ public class MyScheduleFragment extends MvpAppCompatFragment
     public void showMySchedule(String groupId) {
         binding.groupsSelector.setVisibility(View.GONE);
         binding.progress.setVisibility(View.GONE);
+
+        isSearchVisible = false;
+
+        getActivity().invalidateOptionsMenu();
 
         binding.detailPager.setVisibility(View.VISIBLE);
         tabLayout.setVisibility(View.VISIBLE);

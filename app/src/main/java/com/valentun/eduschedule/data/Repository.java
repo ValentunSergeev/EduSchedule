@@ -29,6 +29,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
@@ -202,14 +203,33 @@ public class Repository implements IRepository {
         return formatter.format(new Date(time));
     }
 
+    @SuppressWarnings("SimplifiableIfStatement")
     @Override
     public List<Teacher> findTeachers(CharSequence filter) {
         return getTeachers()
-                .flatMap(list -> Observable.fromIterable(list))
+                .flatMap(Observable::fromIterable)
                 .filter(item -> {
                     String name = item.getName();
 
-                    if (TextUtils.isEmpty(name))
+                    if (TextUtils.isEmpty(filter))
+                        return true;
+
+                    return name.toLowerCase()
+                            .contains(filter.toString().toLowerCase());
+                })
+                .toList()
+                .blockingGet();
+    }
+
+    @SuppressWarnings("SimplifiableIfStatement")
+    @Override
+    public List<Group> findGroups(CharSequence filter) {
+        return getGroups()
+                .flatMap(Observable::fromIterable)
+                .filter(item -> {
+                    String name = item.getName();
+
+                    if (TextUtils.isEmpty(filter))
                         return true;
 
                     return name.toLowerCase()
@@ -220,20 +240,19 @@ public class Repository implements IRepository {
     }
 
     @Override
-    public List<Group> findGroups(CharSequence filter) {
-        return getGroups()
-                .flatMap(list -> Observable.fromIterable(list))
+    public Single<List<SchoolInfo>> findSchools(CharSequence filter) {
+        return getSchools()
+                .flatMap(Observable::fromIterable)
                 .filter(item -> {
                     String name = item.getName();
 
-                    if (TextUtils.isEmpty(name))
+                    if (TextUtils.isEmpty(filter))
                         return true;
 
                     return name.toLowerCase()
                             .contains(filter.toString().toLowerCase());
                 })
-                .toList()
-                .blockingGet();
+                .toList();
     }
 
     // end

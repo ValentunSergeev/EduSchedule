@@ -10,6 +10,7 @@ import com.valentun.parser.pojo.Teacher;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 
 public interface IRepository {
     Observable<List<Lesson>> getGroupSchedule(String groupId, int dayNumber);
@@ -47,4 +48,5 @@ public interface IRepository {
 
     List<Teacher> findTeachers(CharSequence filter);
     List<Group> findGroups(CharSequence filter);
+    Single<List<SchoolInfo>> findSchools(CharSequence filter);
 }
