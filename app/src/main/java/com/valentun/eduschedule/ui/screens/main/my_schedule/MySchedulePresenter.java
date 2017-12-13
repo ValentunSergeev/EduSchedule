@@ -1,19 +1,15 @@
 package com.valentun.eduschedule.ui.screens.main.my_schedule;
 
-import android.widget.Filter;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+import com.valentun.eduschedule.Constants;
 import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.data.IRepository;
-import com.valentun.eduschedule.data.network.ErrorHandler;
 import com.valentun.eduschedule.di.AppComponent;
-import com.valentun.eduschedule.ui.common.BaseFilter;
-import com.valentun.parser.pojo.Group;
-
-import java.util.List;
 
 import javax.inject.Inject;
+
+import ru.terrakok.cicerone.Router;
 
 @SuppressWarnings("WeakerAccess")
 @InjectViewState
@@ -21,52 +17,34 @@ public class MySchedulePresenter extends MvpPresenter<MyScheduleView> {
     @Inject
     IRepository repository;
 
+    @Inject
+    Router router;
+
     public MySchedulePresenter() {
         initDagger();
 
         if (repository.isGroupChosen()) {
             getViewState().showMySchedule(repository.getGroupId());
         } else {
-            getViewState().showGroupSelector();
+            openGroupSelector();
         }
     }
-
-    Filter filter = new BaseFilter<Group>() {
-        @Override
-        protected void showResult(List<Group> result) {
-            getViewState().showGroups(result);
-        }
-
-        @Override
-        protected List<Group> findResult(CharSequence query) {
-            return repository.findGroups(query);
-        }
-    };
 
     // ======= region MySchedulePresenter =======
-
-    void loadGroups() {
-        repository.getGroups()
-                .subscribe(groups -> {
-                    getViewState().showGroups(groups);
-                }, error -> {
-                    getViewState().showGroupLoadingError(ErrorHandler.getErrorMessage(error));
-                });
-    }
-
-    void groupSelected(String groupId) {
-        repository.setGroupId(groupId);
-
-        getViewState().showMySchedule(groupId);
-    }
 
     void changeGroupClicked() {
         repository.clearGroupId();
 
-        getViewState().showGroupSelector();
+        openGroupSelector();
     }
-    
+
     // end
+
+    // ======= region private methods =======
+
+    private void openGroupSelector() {
+        router.navigateTo(Constants.SCREENS.CHOOSE_GROUP);
+    }
 
     private void initDagger() {
         AppComponent component = MyApplication.INSTANCE.getAppComponent();
@@ -75,4 +53,6 @@ public class MySchedulePresenter extends MvpPresenter<MyScheduleView> {
             component.inject(this);
         }
     }
+
+    // end
 }

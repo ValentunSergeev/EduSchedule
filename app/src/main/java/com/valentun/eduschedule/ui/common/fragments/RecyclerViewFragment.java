@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -91,10 +92,6 @@ public abstract class RecyclerViewFragment<T> extends MvpAppCompatFragment
         return binding.list.getAdapter() != null;
     }
 
-    protected Filterable getFilterable() {
-        return null;
-    }
-
     @Override
     public void showPlaceholder() {
         hideProgress();
@@ -115,6 +112,21 @@ public abstract class RecyclerViewFragment<T> extends MvpAppCompatFragment
                 .show();
     }
 
+    /**
+     *  Override to add {@link SearchView} to toolbar
+    **/
+    protected Filterable getFilterable() {
+        return null;
+    }
+
+    /**
+     *  Override to change {@link SearchView} input type.
+     *  Won't work if {@link RecyclerViewFragment#getFilterable()} isn't overridden
+     **/
+    protected int getFilterType() {
+        return InputType.TYPE_CLASS_TEXT;
+    }
+
     protected abstract RecyclerView.Adapter getAdapter(List<T> data);
 
     protected abstract String getPlaceholderText();
@@ -128,7 +140,7 @@ public abstract class RecyclerViewFragment<T> extends MvpAppCompatFragment
 
             final MenuItem searchItem = menu.findItem(R.id.action_search);
             final SearchView searchView = (SearchView) searchItem.getActionView();
-            // TODO add different input types
+            searchView.setInputType(getFilterType());
             searchView.setOnQueryTextListener(listener);
         }
     }

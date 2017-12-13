@@ -1,4 +1,4 @@
-package com.valentun.eduschedule.ui.screens.main.groups;
+package com.valentun.eduschedule.ui.screens.main.choose_group;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
@@ -6,25 +6,26 @@ import android.widget.Filterable;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.valentun.eduschedule.R;
-import com.valentun.eduschedule.ui.common.views.ListView;
 import com.valentun.eduschedule.ui.common.fragments.RecyclerViewFragment;
+import com.valentun.eduschedule.ui.common.views.ListView;
+import com.valentun.eduschedule.ui.screens.main.groups.GroupsAdapter;
+import com.valentun.eduschedule.utils.UIUtils;
 import com.valentun.parser.pojo.Group;
 import com.valentun.parser.pojo.NamedEntity;
 
 import java.util.List;
 
-
-public class GroupsFragment extends RecyclerViewFragment<Group>
-        implements ListView<Group>, GroupsAdapter.EventHandler {
+public class ChooseGroupFragment extends RecyclerViewFragment<Group>
+        implements ListView<Group>,GroupsAdapter.EventHandler {
 
     @InjectPresenter
-    GroupsPresenter presenter;
+    ChooseGroupPresenter presenter;
 
     @Override
     public void onStart() {
         super.onStart();
 
-        getActivity().setTitle(R.string.groups);
+        getActivity().setTitle(R.string.select_group);
     }
 
     @Override
@@ -44,7 +45,7 @@ public class GroupsFragment extends RecyclerViewFragment<Group>
 
     @Override
     protected String getPlaceholderText() {
-        return getString(R.string.no_groups);
+        return getString(R.string.list_empty_placeholder);
     }
 
     @Override
@@ -54,6 +55,7 @@ public class GroupsFragment extends RecyclerViewFragment<Group>
 
     @Override
     public void itemClicked(NamedEntity item) {
+        UIUtils.hideKeyboard(getActivity());
         presenter.itemClicked(item);
     }
 }

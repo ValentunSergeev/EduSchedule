@@ -15,6 +15,7 @@ public class Constants {
         public static final String TEACHERS_LIST = "TEACHERS_LIST";
 
         public static final String MY_SCHEDULE = "MY_SCHEDULE";
+        public static final String CHOOSE_GROUP = "CHOOSE_GROUP";
 
         public static final String SCHOOL_SELECTOR = "SCHOOL_SELECTOR";
         public static final String MAIN = "MAIN";
