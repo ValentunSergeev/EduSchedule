@@ -136,7 +136,6 @@ public class Repository implements IRepository {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-
     // ======= region selected Group =======
 
     @Override
@@ -185,6 +184,13 @@ public class Repository implements IRepository {
     public void clearSchoolId() {
         preferenceManager.clearSchool();
         school = null;
+    }
+
+    @Override
+    public Observable<Group> getChosenGroup() {
+        return getSchool(getSchoolId())
+                .map(school1 -> school1.getGroup(String.valueOf(getGroupId())))
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     // end
@@ -296,4 +302,6 @@ public class Repository implements IRepository {
             return base + "/";
         }
     }
+
+
 }

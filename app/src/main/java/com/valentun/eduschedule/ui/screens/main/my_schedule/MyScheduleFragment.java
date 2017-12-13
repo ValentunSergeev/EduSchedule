@@ -89,4 +89,9 @@ public class MyScheduleFragment extends MvpAppCompatFragment
         tabLayout.setupWithViewPager(binding.detailPager);
         binding.detailPager.setCurrentItem(DateUtils.ViewPagerUtils.getCurrentDayPosition());
     }
+
+    @Override
+    public void showGroupName(String name) {
+        activity.setTitle(getString(R.string.my_schedule_loaded, name));
+    }
 }

@@ -41,6 +41,8 @@ public interface IRepository {
 
     void clearSchoolId();
 
+    Observable<Group> getChosenGroup();
+
     Observable<School> getSchool(int schoolId);
 
     boolean isCachedSchedule();

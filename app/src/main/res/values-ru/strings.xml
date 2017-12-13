@@ -27,4 +27,5 @@
     <string name="timeout">Привышено время ожидания. Попробуйте еще раз</string>
     <string name="unknown_error">Опс, что то пошло не  так</string>
     <string name="action_search">Поиск...</string>
+    <string name="my_schedule_loaded">Моё расписание (%s)</string>
 </resources>

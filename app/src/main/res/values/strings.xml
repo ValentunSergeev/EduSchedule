@@ -7,6 +7,7 @@
     <string name="no_lesson">(No Lesson)</string>
     <string name="teachers">Teachers</string>
     <string name="my_schedule">My schedule</string>
+    <string name="my_schedule_loaded">My schedule (%s)</string>
     <string name="change_group">Change group</string>
     <string name="group_selector_title">Choose your group</string>
     <string name="list_empty_placeholder">No items here</string>
