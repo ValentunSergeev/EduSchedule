@@ -47,6 +47,12 @@ public class PreferenceManager {
                 .apply();
     }
 
+    public void clearCachedSchedule() {
+        preferences.edit()
+                .remove(SCHEDULE_KEY)
+                .apply();
+    }
+
     public void setSchool(int groupId) {
         preferences.edit().putInt(SCHOOL_KEY, groupId).apply();
     }

@@ -12,9 +12,11 @@ import io.reactivex.Observable;
 public class SimpleDialog {
     public static final int POSITIVE_CLICK = 0;
     public static final int NEGATIVE_CLICK = 1;
+    public static final int NEUTRAL_CLICK = 2;
 
     protected String positiveText;
     protected String negativeText;
+    protected String neutralText;
 
     protected String title;
     protected String message;
@@ -34,6 +36,9 @@ public class SimpleDialog {
             if (negativeText != null)
                 builder.setNegativeButton(negativeText, (dialogInterface, i) ->
                     source.onNext(NEGATIVE_CLICK));
+            if (neutralText != null)
+                builder.setNeutralButton(neutralText, ((dialogInterface, i) ->
+                        source.onNext(NEUTRAL_CLICK)));
 
             builder.show();
         });

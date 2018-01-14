@@ -28,4 +28,5 @@
     <string name="retry">Retry</string>
     <string name="cached_version_used">No intenet connection, use the latest cached version (%s)</string>
     <string name="action_search">Search…</string>
+    <string name="use_cache">Use cached schedule</string>
 </resources>

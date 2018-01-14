@@ -8,9 +8,11 @@ import com.valentun.eduschedule.R;
 import com.valentun.eduschedule.data.IRepository;
 import com.valentun.eduschedule.data.network.ErrorHandler;
 import com.valentun.eduschedule.di.AppComponent;
+import com.valentun.parser.pojo.School;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
 import ru.terrakok.cicerone.Router;
 
 @SuppressWarnings("WeakerAccess")
@@ -22,6 +24,8 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
 
     @Inject Router router;
 
+    private static final int SCHOOL_USE_CACHED = -1;
+
     public SplashPresenter() {
         initDagger();
 
@@ -32,8 +36,28 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
         }
     }
 
+    public void retry() {
+        getSchoolData(repository.getSchoolId());
+    }
+
+    public void exit() {
+        router.exit();
+    }
+
+    public void useCache() {
+        getSchoolData(SCHOOL_USE_CACHED);
+    }
+
     private void getSchoolData(int schoolId) {
-        repository.getSchool(schoolId).subscribe(school -> {
+        Observable<School> observable;
+
+        if (schoolId == SCHOOL_USE_CACHED) {
+            observable = repository.getCachedSchool();
+        } else {
+            observable = repository.getSchool(schoolId);
+        }
+
+        observable.subscribe(school -> {
             if (repository.isCachedSchedule())
                 router.showSystemMessage(MyApplication.INSTANCE.getString(
                         R.string.cached_version_used,
@@ -42,7 +66,8 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
 
             router.replaceScreen(Constants.SCREENS.MAIN);
         }, error -> {
-            getViewState().showError(ErrorHandler.getErrorMessage(error));
+            boolean displayUseCache = repository.isCacheAvailable();
+            getViewState().showError(ErrorHandler.getErrorMessage(error), displayUseCache);
         });
     }
 
@@ -52,13 +77,5 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
         if (component != null) {
             component.inject(this);
         }
-    }
-
-    public void retry() {
-        getSchoolData(repository.getSchoolId());
-    }
-
-    public void exit() {
-        router.exit();
     }
 }

@@ -47,6 +47,9 @@ public interface IRepository {
 
     boolean isCachedSchedule();
     String getCachedTime();
+    boolean isCacheAvailable();
+
+    Observable<School> getCachedSchool();
 
     List<Teacher> findTeachers(CharSequence filter);
     List<Group> findGroups(CharSequence filter);

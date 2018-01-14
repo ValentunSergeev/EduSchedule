@@ -28,4 +28,5 @@
     <string name="unknown_error">Опс, что то пошло не  так</string>
     <string name="action_search">Поиск…</string>
     <string name="my_schedule_loaded">Моё расписание (%s)</string>
+    <string name="use_cache">Сохраённое расписание</string>
 </resources>

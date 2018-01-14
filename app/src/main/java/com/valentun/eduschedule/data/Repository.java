@@ -66,28 +66,22 @@ public class Repository implements IRepository {
         } else {
             if (NetworkStatusChecker.isNetworkAvailable()) {
                 return restService.getSchoolInfo(schoolId)
-                        .map(this::getPathToData)
-                        .map(this::getRawSchool)
-                        .doOnNext(preferenceManager::cacheSchedule)
-                        .map(parser::parseFrom)
-                        .doOnNext(result -> {
+                        .map(info -> {
+                            String path = getPathToData(info);
+                            String rawData = getRawSchool(path);
+
+                            School result = parser.parseFrom(rawData);
+
+                            preferenceManager.cacheSchedule(rawData);
                             this.school = result;
                             isCachedSchedule = false;
+
+                            return result;
                         })
                         .observeOn(AndroidSchedulers.mainThread());
             } else {
                 if (preferenceManager.isHasCachedSchedule()) {
-                    return Observable.just(schoolId)
-                            .subscribeOn(Schedulers.io())
-                            .map(id -> {
-                                String raw = preferenceManager.getCachedSchedule();
-                                return parser.parseFrom(raw);
-                            })
-                            .doOnNext(result -> {
-                                this.school = result;
-                                isCachedSchedule = true;
-                            })
-                            .observeOn(AndroidSchedulers.mainThread());
+                    return getCachedSchool();
                 } else {
                     return Observable.error(new RuntimeException(ErrorHandler.NO_INTERNET_PREFIX));
                 }
@@ -197,10 +191,12 @@ public class Repository implements IRepository {
 
     // ======= region cached school =======
 
+    @Override
     public boolean isCachedSchedule() {
         return isCachedSchedule;
     }
 
+    @Override
     public String getCachedTime() {
         long time = preferenceManager.getCachedTime();
 
@@ -208,6 +204,32 @@ public class Repository implements IRepository {
 
         return formatter.format(new Date(time));
     }
+
+    @Override
+    public boolean isCacheAvailable() {
+        return preferenceManager.isHasCachedSchedule();
+    }
+
+    @Override
+    public Observable<School> getCachedSchool() {
+        return Observable.just(0)
+                .subscribeOn(Schedulers.io())
+                .map(id -> {
+                    String raw = preferenceManager.getCachedSchedule();
+                    return parser.parseFrom(raw);
+                })
+                .doOnNext(result -> {
+                    this.school = result;
+                    isCachedSchedule = true;
+                })
+                .doOnError(error -> {
+                    // cached version is not a valid json, so delete it
+                    preferenceManager.clearCachedSchedule();
+                })
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    // end
 
     @SuppressWarnings("SimplifiableIfStatement")
     @Override
@@ -245,6 +267,7 @@ public class Repository implements IRepository {
                 .blockingGet();
     }
 
+    @SuppressWarnings("SimplifiableIfStatement")
     @Override
     public Single<List<SchoolInfo>> findSchools(CharSequence filter) {
         return getSchools()
@@ -261,8 +284,7 @@ public class Repository implements IRepository {
                 .toList();
     }
 
-    // end
-
+    @SuppressWarnings("ConstantConditions")
     private String getRawSchool(String path) throws Exception {
         Response response = okHttpClient.newCall(new Request.Builder()
                 .url(path)

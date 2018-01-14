@@ -53,8 +53,8 @@ public class SplashActivity extends MvpAppCompatActivity implements SplashView {
     }
 
     @Override
-    public void showError(@StringRes int stringRes) {
-        new SplashErrorDialog(stringRes).show(this)
+    public void showError(@StringRes int stringRes, boolean displayUseCache) {
+        new SplashErrorDialog(stringRes, displayUseCache).show(this)
                 .subscribe(buttonId -> {
                     switch (buttonId) {
                         case SplashErrorDialog.POSITIVE_CLICK:
@@ -62,6 +62,9 @@ public class SplashActivity extends MvpAppCompatActivity implements SplashView {
                             break;
                         case SplashErrorDialog.NEGATIVE_CLICK:
                             presenter.exit();
+                            break;
+                        case SplashErrorDialog.NEUTRAL_CLICK:
+                            presenter.useCache();
                     }
                 });
     }

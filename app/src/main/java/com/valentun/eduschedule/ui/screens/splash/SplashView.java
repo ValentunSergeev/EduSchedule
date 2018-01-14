@@ -5,5 +5,5 @@ import android.support.annotation.StringRes;
 import com.arellomobile.mvp.MvpView;
 
 public interface SplashView extends MvpView {
-    void showError(@StringRes int stringRes);
+    void showError(@StringRes int stringRes, boolean displayUseCache);
 }
