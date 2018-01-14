@@ -15,10 +15,8 @@ public class PreferenceManager {
     private static final int DEFAULT_INT = -1;
 
     private SharedPreferences preferences;
-    private Context context;
 
     public PreferenceManager(Context context) {
-        this.context = context;
         preferences = getDefaultSharedPreferences(context);
     }
 

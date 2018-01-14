@@ -28,6 +28,7 @@ import com.valentun.eduschedule.ui.screens.detail_teacher.DetailTeacherActivity;
 import com.valentun.eduschedule.ui.screens.main.choose_group.ChooseGroupFragment;
 import com.valentun.eduschedule.ui.screens.main.groups.GroupsFragment;
 import com.valentun.eduschedule.ui.screens.main.my_schedule.MyScheduleFragment;
+import com.valentun.eduschedule.ui.screens.main.settings.SettingsFragment;
 import com.valentun.eduschedule.ui.screens.main.teachers.TeachersFragment;
 import com.valentun.eduschedule.ui.screens.school_selector.SchoolSelectActivity;
 import com.valentun.parser.pojo.NamedEntity;
@@ -124,6 +125,9 @@ public class MainActivity extends MvpAppCompatActivity implements
             case R.id.nav_item_change_school:
                 screen = SCREENS.SCHOOL_SELECTOR;
                 break;
+            case R.id.nav_item_settings:
+                screen = SCREENS.SETTINGS;
+                break;
             default:
                 screen = SCREENS.MY_SCHEDULE;
         }
@@ -190,6 +194,8 @@ public class MainActivity extends MvpAppCompatActivity implements
                     return new MyScheduleFragment();
                 case SCREENS.CHOOSE_GROUP:
                     return new ChooseGroupFragment();
+                case SCREENS.SETTINGS:
+                    return new SettingsFragment();
                 default:
                     throw new UnsupportedOperationException("Unknown screen key");
             }

@@ -49,6 +49,7 @@ ext {
 dependencies {
     compile "com.android.support:appcompat-v7:$supportLibraryVersion"
     compile "com.android.support:design:$supportLibraryVersion"
+    compile "com.android.support:preference-v7:$supportLibraryVersion"
 
     // MVP Moxy
     compile "com.arello-mobile:moxy:$moxyVersion"

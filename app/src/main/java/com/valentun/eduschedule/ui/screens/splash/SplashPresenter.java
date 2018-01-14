@@ -7,6 +7,7 @@ import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.R;
 import com.valentun.eduschedule.data.IRepository;
 import com.valentun.eduschedule.data.network.ErrorHandler;
+import com.valentun.eduschedule.data.persistance.SettingsManager;
 import com.valentun.eduschedule.di.AppComponent;
 import com.valentun.parser.pojo.School;
 
@@ -21,6 +22,9 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
 
     @Inject
     IRepository repository;
+
+    @Inject
+    SettingsManager manager;
 
     @Inject Router router;
 
@@ -66,8 +70,13 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
 
             router.replaceScreen(Constants.SCREENS.MAIN);
         }, error -> {
-            boolean displayUseCache = repository.isCacheAvailable();
-            getViewState().showError(ErrorHandler.getErrorMessage(error), displayUseCache);
+            boolean isCacheAvailable = repository.isCacheAvailable();
+
+            if (isCacheAvailable && manager.isAutoUseCacheEnabled()) {
+                useCache();
+            } else {
+                getViewState().showError(ErrorHandler.getErrorMessage(error), isCacheAvailable);
+            }
         });
     }
 

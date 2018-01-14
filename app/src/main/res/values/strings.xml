@@ -26,7 +26,10 @@
     <string name="unknown_error">Ops, something went wrong</string>
     <string name="exit">Exit</string>
     <string name="retry">Retry</string>
-    <string name="cached_version_used">No intenet connection, use the latest cached version (%s)</string>
+    <string name="cached_version_used">Cannot access to education institution site, use the latest cached version (%s)</string>
     <string name="action_search">Search…</string>
     <string name="use_cache">Use cached schedule</string>
+    <string name="auto_use_cache">Auto use cached schedule when education institution site does not responds</string>
+    <string name="settings">Settings</string>
+    <string name="auto_use_cache_title">Auto use cache</string>
 </resources>

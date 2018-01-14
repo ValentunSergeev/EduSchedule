@@ -5,6 +5,7 @@ import android.content.Context;
 import com.valentun.eduschedule.data.IRepository;
 import com.valentun.eduschedule.data.Repository;
 import com.valentun.eduschedule.data.persistance.PreferenceManager;
+import com.valentun.eduschedule.data.persistance.SettingsManager;
 import com.valentun.parser.Parser;
 
 import javax.inject.Singleton;
@@ -18,6 +19,12 @@ public class DataModule {
     @Singleton
     PreferenceManager preferenceManager(Context context) {
         return new PreferenceManager(context);
+    }
+
+    @Provides
+    @Singleton
+    SettingsManager provideSettingsManager(Context context) {
+        return new SettingsManager(context);
     }
 
     @Provides

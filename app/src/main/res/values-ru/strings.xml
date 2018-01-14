@@ -20,7 +20,7 @@
     <string name="nav_school">Школа</string>
     <string name="nav_license">Icon made by Icon Pond</string>
     <string name="license">Icons made by Icon Pond www.flaticon.com is licensed by Creative Commons BY 3.0</string>
-    <string name="cached_version_used">Отсутствует интернет соединение. Используем кэшированную версию от %s</string>
+    <string name="cached_version_used">Не можем получить расписание с сайта ОУ. Используем кэшированную версию от %s</string>
     <string name="exit">Выйти</string>
     <string name="no_internet">Отсуствует интернет соединение</string>
     <string name="retry">Повторить</string>
@@ -29,4 +29,7 @@
     <string name="action_search">Поиск…</string>
     <string name="my_schedule_loaded">Моё расписание (%s)</string>
     <string name="use_cache">Сохраённое расписание</string>
+    <string name="auto_use_cache">Автоматически использовать сохранённое расписание после неудачной попытки соединения с сайтом ОУ</string>
+    <string name="settings">Настройки</string>
+    <string name="auto_use_cache_title">Автоматическая загрузка из кэша</string>
 </resources>
