@@ -10,6 +10,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.valentun.eduschedule.R;
 import com.valentun.eduschedule.ui.common.fragments.RecyclerViewFragment;
 import com.valentun.eduschedule.ui.common.views.ListView;
+import com.valentun.eduschedule.utils.DateUtils;
 import com.valentun.parser.pojo.Lesson;
 
 import java.util.List;
@@ -43,12 +44,17 @@ public class DayGroupFragment extends RecyclerViewFragment<Lesson>
 
     @Override
     protected RecyclerView.Adapter getAdapter(List<Lesson> data) {
-        return new DayGroupAdapter(data);
+        return new DayGroupAdapter(data, DateUtils.ViewPagerUtils.isPageCurrent(getDayNumber()));
     }
 
     @Override
     protected String getPlaceholderText() {
         return getString(R.string.no_lessons);
+    }
+
+    @Override
+    protected void retryClicked() {
+        presenter.getData();
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.data.IRepository;
+import com.valentun.eduschedule.data.network.ErrorHandler;
 import com.valentun.eduschedule.di.AppComponent;
 import com.valentun.eduschedule.ui.common.views.ListView;
 import com.valentun.parser.pojo.Lesson;
@@ -39,6 +40,8 @@ public class DayTeacherPresenter extends MvpPresenter<ListView<Lesson>> {
                         this.lessons = lessons;
 
                         showData(lessons);
+                    }, error -> {
+                        getViewState().showError(ErrorHandler.getErrorMessage(error));
                     });
         } else {
             showData(lessons);

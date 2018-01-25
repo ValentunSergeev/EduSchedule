@@ -7,6 +7,7 @@
     <string name="no_lesson">(No Lesson)</string>
     <string name="teachers">Teachers</string>
     <string name="my_schedule">My schedule</string>
+    <string name="my_schedule_loaded">My schedule (%s)</string>
     <string name="change_group">Change group</string>
     <string name="group_selector_title">Choose your group</string>
     <string name="list_empty_placeholder">No items here</string>
@@ -20,4 +21,19 @@
     <string name="nav_school">School</string>
     <string name="nav_license">Icon made by Icon Pond</string>
     <string name="license">Icons made by Icon Pond www.flaticon.com is licensed by Creative Commons BY 3.0</string>
+    <string name="no_internet">No internet connection</string>
+    <string name="timeout">Too long server response time</string>
+    <string name="unknown_error">Ops, something went wrong</string>
+    <string name="exit">Exit</string>
+    <string name="retry">Retry</string>
+    <string name="cached_version_used">Cannot access to education institution site, use the latest cached version (%s)</string>
+    <string name="action_search">Search…</string>
+    <string name="use_cache">Use cached schedule</string>
+    <string name="auto_use_cache_summary">Auto use cached schedule when education institution site does not responds</string>
+    <string name="settings">Settings</string>
+    <string name="auto_use_cache_title">Auto use cache</string>
+    <string name="schedule_changed_title">Schedule changed</string>
+    <string name="schedule_changed_message">Schedule changed, tap to open new version</string>
+    <string name="notifications_title">Notifications</string>
+    <string name="notifications_summary">Send notifications about schedule changes</string>
 </resources>

@@ -8,11 +8,11 @@
         <item name="colorAccent">@color/secondaryLightColor</item>
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
     </style>
 
-    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@drawable/splash_drawable</item>
-    </style>
+    <style name="SplashTheme" parent="Theme.AppCompat.NoActionBar" />
 
     <!-- custom style -->
     <style name="FullExpandLayout">
@@ -29,6 +29,11 @@
         <item name="android:textColor">@color/primaryTextColor</item>
     </style>
 
+    <style name="IndicatorStyle">
+        <item name="android:background">@drawable/indicator</item>
+        <item name="android:layout_width">@dimen/indicator_size</item>
+        <item name="android:layout_height">@dimen/indicator_size</item>
+    </style>
 
     <style name="FullWidthLayout" parent="AppTheme">
         <item name="android:layout_width">match_parent</item>

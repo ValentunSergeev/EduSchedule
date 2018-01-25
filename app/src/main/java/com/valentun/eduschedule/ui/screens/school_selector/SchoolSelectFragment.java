@@ -1,6 +1,7 @@
 package com.valentun.eduschedule.ui.screens.school_selector;
 
 import android.support.v7.widget.RecyclerView;
+import android.widget.Filterable;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.valentun.eduschedule.R;
@@ -18,6 +19,11 @@ public class SchoolSelectFragment extends RecyclerViewFragment<SchoolInfo>
     SchoolSelectPresenter presenter;
 
     @Override
+    protected Filterable getFilterable() {
+        return () -> presenter.filter;
+    }
+
+    @Override
     protected RecyclerView.Adapter getAdapter(List<SchoolInfo> data) {
         return new SchoolsAdapter(data, this);
     }
@@ -25,6 +31,11 @@ public class SchoolSelectFragment extends RecyclerViewFragment<SchoolInfo>
     @Override
     protected String getPlaceholderText() {
         return getString(R.string.no_schools);
+    }
+
+    @Override
+    protected void retryClicked() {
+        presenter.getData();
     }
 
 

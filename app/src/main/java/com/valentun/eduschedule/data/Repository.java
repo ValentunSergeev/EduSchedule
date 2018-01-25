@@ -1,8 +1,12 @@
 package com.valentun.eduschedule.data;
 
+import android.text.TextUtils;
 
+import com.valentun.eduschedule.BuildConfig;
 import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.data.dto.SchoolInfo;
+import com.valentun.eduschedule.data.network.ErrorHandler;
+import com.valentun.eduschedule.data.network.NetworkStatusChecker;
 import com.valentun.eduschedule.data.network.RestService;
 import com.valentun.eduschedule.data.persistance.PreferenceManager;
 import com.valentun.eduschedule.di.AppComponent;
@@ -18,12 +22,17 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -42,6 +51,7 @@ public class Repository implements IRepository {
     Parser parser;
 
     private School school;
+    private boolean isCachedSchedule = false;
 
     public Repository() {
         AppComponent component = MyApplication.INSTANCE.getAppComponent();
@@ -51,16 +61,34 @@ public class Repository implements IRepository {
     }
 
     @Override
-    public Observable<School> getSchool(int schoolId) {
-        if (school != null) {
+    public Observable<School> getSchool(int schoolId, boolean forceUpdate) {
+        if (school != null && !forceUpdate) {
             return Observable.just(school);
         } else {
-            return restService.getSchoolInfo(schoolId)
-                    .map(this::getPathToData)
-                    .map(this::getRawSchool)
-                    .map(parser::parseFrom)
-                    .doOnNext(result -> this.school = result)
-                    .observeOn(AndroidSchedulers.mainThread());
+            if (NetworkStatusChecker.isNetworkAvailable()) {
+                return restService.getSchoolInfo(schoolId)
+                        .map(info -> {
+                            String path = getPathToData(info);
+                            String rawData = getRawSchool(path);
+
+                            School result = parser.parseFrom(rawData);
+
+                            preferenceManager.cacheSchedule(rawData);
+                            preferenceManager.savePath(path);
+
+                            this.school = result;
+                            isCachedSchedule = false;
+
+                            return result;
+                        })
+                        .observeOn(AndroidSchedulers.mainThread());
+            } else {
+                if (preferenceManager.isHasCachedSchedule()) {
+                    return getCachedSchool();
+                } else {
+                    return Observable.error(new RuntimeException(ErrorHandler.NO_INTERNET_PREFIX));
+                }
+            }
         }
     }
 
@@ -78,8 +106,8 @@ public class Repository implements IRepository {
     public Observable<List<Lesson>> getTeacherSchedule(String teacherId, int dayNumber) {
         return getSchool(getSchoolId())
                 .map(school1 -> {
-                    Teacher teacher = school1.getTeacher(teacherId);
-                    return teacher.getSchedule().get(dayNumber);
+                            Teacher teacher = school1.getTeacher(teacherId);
+                            return teacher.getSchedule().get(dayNumber);
                         }
                 );
     }
@@ -105,7 +133,6 @@ public class Repository implements IRepository {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-
     // ======= region selected Group =======
 
     @Override
@@ -128,7 +155,6 @@ public class Repository implements IRepository {
         preferenceManager.clearGroup();
     }
 
-
     // end
 
     // ======= region selected School =======
@@ -137,7 +163,6 @@ public class Repository implements IRepository {
     public boolean isSchoolChosen() {
         return preferenceManager.isSchoolChosen();
     }
-
 
     @Override
     public int getSchoolId() {
@@ -149,15 +174,138 @@ public class Repository implements IRepository {
         preferenceManager.setSchool(schoolId);
     }
 
-
     @Override
     public void clearSchoolId() {
         preferenceManager.clearSchool();
         school = null;
     }
 
+    @Override
+    public Observable<Group> getChosenGroup() {
+        return getSchool(getSchoolId())
+                .map(school1 -> school1.getGroup(String.valueOf(getGroupId())))
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
     // end
 
+    // ======= region cached school =======
+
+    @Override
+    public boolean isCachedSchedule() {
+        return isCachedSchedule;
+    }
+
+    @Override
+    public String getCachedTime() {
+        long time = preferenceManager.getCachedTime();
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyy hh:mm", Locale.getDefault());
+
+        return formatter.format(new Date(time));
+    }
+
+    @Override
+    public boolean isCacheAvailable() {
+        return preferenceManager.isHasCachedSchedule();
+    }
+
+    @Override
+    public Observable<School> getCachedSchool() {
+        return Observable.just(0)
+                .subscribeOn(Schedulers.io())
+                .map(id -> {
+                    String raw = preferenceManager.getCachedSchedule();
+                    return parser.parseFrom(raw);
+                })
+                .doOnNext(result -> {
+                    this.school = result;
+                    isCachedSchedule = true;
+                })
+                .doOnError(error -> {
+                    // cached version is not a valid json, so delete it
+                    preferenceManager.clearCachedSchedule();
+                })
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    // end
+
+    @SuppressWarnings("SimplifiableIfStatement")
+    @Override
+    public List<Teacher> findTeachers(CharSequence filter) {
+        return getTeachers()
+                .flatMap(Observable::fromIterable)
+                .filter(item -> {
+                    String name = item.getName();
+
+                    if (TextUtils.isEmpty(filter))
+                        return true;
+
+                    return name.toLowerCase()
+                            .contains(filter.toString().toLowerCase());
+                })
+                .toList()
+                .blockingGet();
+    }
+
+    @SuppressWarnings("SimplifiableIfStatement")
+    @Override
+    public List<Group> findGroups(CharSequence filter) {
+        return getGroups()
+                .flatMap(Observable::fromIterable)
+                .filter(item -> {
+                    String name = item.getName();
+
+                    if (TextUtils.isEmpty(filter))
+                        return true;
+
+                    return name.toLowerCase()
+                            .contains(filter.toString().toLowerCase());
+                })
+                .toList()
+                .blockingGet();
+    }
+
+    @SuppressWarnings("SimplifiableIfStatement")
+    @Override
+    public Single<List<SchoolInfo>> findSchools(CharSequence filter) {
+        return getSchools()
+                .flatMap(Observable::fromIterable)
+                .filter(item -> {
+                    String name = item.getName();
+
+                    if (TextUtils.isEmpty(filter))
+                        return true;
+
+                    return name.toLowerCase()
+                            .contains(filter.toString().toLowerCase());
+                })
+                .toList();
+    }
+
+    @Override
+    public Observable<Boolean> checkScheduleChangedAndUpdate() {
+        return restService.getSchoolInfo(preferenceManager.getSchoolId())
+                .map(schoolInfo -> {
+                    String savedPath = preferenceManager.getSavedPath();
+                    String actualPath = getPathToData(schoolInfo);
+
+                    boolean isChanged = !actualPath.equals(savedPath);
+
+                    if (isChanged) {
+                        preferenceManager.savePath(actualPath);
+                    }
+
+                    return isChanged || BuildConfig.DEBUG_NOTIFICATIONS;
+                });
+    }
+
+    private Observable<School> getSchool(int schoolId) {
+        return getSchool(schoolId, false);
+    }
+
+    @SuppressWarnings("ConstantConditions")
     private String getRawSchool(String path) throws Exception {
         Response response = okHttpClient.newCall(new Request.Builder()
                 .url(path)
@@ -182,7 +330,7 @@ public class Repository implements IRepository {
         for (Element script : scriptElements) {
             String src = script.attr("src");
 
-            if (src.startsWith(SCRIPT_PREFIX)) {
+            if (src.contains(SCRIPT_PREFIX)) {
                 result = normalizePath(info.getDataPath()) + src;
             }
         }
@@ -197,5 +345,6 @@ public class Repository implements IRepository {
             return base + "/";
         }
     }
+
 
 }

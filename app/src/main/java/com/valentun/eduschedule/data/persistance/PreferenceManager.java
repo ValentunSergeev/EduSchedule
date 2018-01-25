@@ -4,40 +4,21 @@ package com.valentun.eduschedule.data.persistance;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
 public class PreferenceManager {
     private static final String GROUP_KEY = "SELECTED_GROUP";
     private static final String SCHOOL_KEY = "SELECTED_SCHOOL";
+    private static final String SCHEDULE_KEY = "CACHED_SCHEDULE";
+    private static final String SCHEDULE_TIME_KEY = "CACHED_SCHEDULE_DATE";
+    private static final String SCHEDULE_PATH = "SCHEDULE_PATH";
 
     private static final int DEFAULT_INT = -1;
 
     private SharedPreferences preferences;
-    private Context context;
 
     public PreferenceManager(Context context) {
-        this.context = context;
         preferences = getDefaultSharedPreferences(context);
-    }
-
-    // TODO remove
-    public String getTestData() {
-        String json;
-        try {
-            InputStream is = context.getAssets().open("test_data.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        return json;
     }
 
     public boolean isGroupChosen() {
@@ -60,6 +41,15 @@ public class PreferenceManager {
         preferences.edit()
                 .remove(SCHOOL_KEY)
                 .remove(GROUP_KEY)
+                .remove(SCHEDULE_KEY)
+                .remove(SCHEDULE_TIME_KEY)
+                .remove(SCHEDULE_PATH)
+                .apply();
+    }
+
+    public void clearCachedSchedule() {
+        preferences.edit()
+                .remove(SCHEDULE_KEY)
                 .apply();
     }
 
@@ -74,5 +64,34 @@ public class PreferenceManager {
 
     public boolean isSchoolChosen() {
         return preferences.contains(SCHOOL_KEY);
+    }
+
+    public void cacheSchedule(String schedule) {
+        preferences.edit()
+                .putString(SCHEDULE_KEY, schedule)
+                .putLong(SCHEDULE_TIME_KEY, System.currentTimeMillis())
+                .apply();
+    }
+
+    public boolean isHasCachedSchedule() {
+        return preferences.contains(SCHEDULE_KEY);
+    }
+
+    public String getCachedSchedule() {
+        return preferences.getString(SCHEDULE_KEY, null);
+    }
+
+    public long getCachedTime() {
+        return preferences.getLong(SCHEDULE_TIME_KEY, -1);
+    }
+
+    public void savePath(String path) {
+        preferences.edit()
+                .putString(SCHEDULE_PATH, path)
+                .apply();
+    }
+
+    public String getSavedPath() {
+        return preferences.getString(SCHEDULE_PATH, null);
     }
 }

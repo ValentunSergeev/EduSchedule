@@ -1,13 +1,19 @@
 package com.valentun.eduschedule.ui.screens.school_selector;
 
+import android.widget.Filter;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 import com.valentun.eduschedule.Constants;
 import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.data.IRepository;
 import com.valentun.eduschedule.data.dto.SchoolInfo;
+import com.valentun.eduschedule.data.network.ErrorHandler;
 import com.valentun.eduschedule.di.AppComponent;
+import com.valentun.eduschedule.ui.common.BaseFilter;
 import com.valentun.eduschedule.ui.common.views.ListView;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -22,6 +28,20 @@ public class SchoolSelectPresenter extends MvpPresenter<ListView<SchoolInfo>> {
     @Inject
     IRepository repository;
 
+    Filter filter = new BaseFilter<SchoolInfo>() {
+        @Override
+        protected void showResult(List<SchoolInfo> result) {
+            getViewState().showData(result);
+        }
+
+        @Override
+        protected List<SchoolInfo> findResult(CharSequence query) {
+            return repository.findSchools(query)
+                    .doOnError(error -> getViewState().showError(ErrorHandler.getErrorMessage(error)))
+                    .blockingGet();
+        }
+    };
+
     public SchoolSelectPresenter() {
         initDagger();
 
@@ -35,11 +55,11 @@ public class SchoolSelectPresenter extends MvpPresenter<ListView<SchoolInfo>> {
         router.replaceScreen(Constants.SCREENS.SPLASH);
     }
 
-    private void getData() {
+    public void getData() {
         repository.getSchools().subscribe(schools -> {
             getViewState().showData(schools);
         }, error -> {
-            router.showSystemMessage(error.getMessage());
+            getViewState().showError(ErrorHandler.getErrorMessage(error));
         });
     }
 

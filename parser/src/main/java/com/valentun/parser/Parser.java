@@ -21,8 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
-// TODO order lessons in schedule by period number
-
 @SuppressWarnings({"WeakerAccess", "unused"})
 public class Parser {
     private static final String LOG_TAG = "ScheduleParser";
