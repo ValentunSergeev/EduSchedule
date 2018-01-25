@@ -3,8 +3,10 @@ package com.valentun.eduschedule.di;
 import com.valentun.eduschedule.data.Repository;
 import com.valentun.eduschedule.di.modules.AppModule;
 import com.valentun.eduschedule.di.modules.DataModule;
+import com.valentun.eduschedule.di.modules.JobModule;
 import com.valentun.eduschedule.di.modules.NavigationModule;
 import com.valentun.eduschedule.di.modules.NetworkModule;
+import com.valentun.eduschedule.jobs.schedule_checker.ScheduleCheckerService;
 import com.valentun.eduschedule.ui.screens.detail_group.DayGroupPresenter;
 import com.valentun.eduschedule.ui.screens.detail_teacher.DayTeacherPresenter;
 import com.valentun.eduschedule.ui.screens.main.MainActivity;
@@ -27,7 +29,8 @@ import dagger.Component;
         AppModule.class,
         NavigationModule.class,
         NetworkModule.class,
-        DataModule.class
+        DataModule.class,
+        JobModule.class
 })
 public interface AppComponent {
     void inject(MainPresenter mainPresenter);
@@ -52,4 +55,6 @@ public interface AppComponent {
     void inject(SchoolSelectActivity schoolSelectActivity);
 
     void inject(ChooseGroupPresenter chooseGroupPresenter);
+
+    void inject(ScheduleCheckerService scheduleCheckerService);
 }

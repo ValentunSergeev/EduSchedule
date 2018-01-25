@@ -2,6 +2,7 @@ package com.valentun.eduschedule.data;
 
 import android.text.TextUtils;
 
+import com.valentun.eduschedule.BuildConfig;
 import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.data.dto.SchoolInfo;
 import com.valentun.eduschedule.data.network.ErrorHandler;
@@ -60,8 +61,8 @@ public class Repository implements IRepository {
     }
 
     @Override
-    public Observable<School> getSchool(int schoolId) {
-        if (school != null) {
+    public Observable<School> getSchool(int schoolId, boolean forceUpdate) {
+        if (school != null && !forceUpdate) {
             return Observable.just(school);
         } else {
             if (NetworkStatusChecker.isNetworkAvailable()) {
@@ -73,6 +74,8 @@ public class Repository implements IRepository {
                             School result = parser.parseFrom(rawData);
 
                             preferenceManager.cacheSchedule(rawData);
+                            preferenceManager.savePath(path);
+
                             this.school = result;
                             isCachedSchedule = false;
 
@@ -152,7 +155,6 @@ public class Repository implements IRepository {
         preferenceManager.clearGroup();
     }
 
-
     // end
 
     // ======= region selected School =======
@@ -161,7 +163,6 @@ public class Repository implements IRepository {
     public boolean isSchoolChosen() {
         return preferenceManager.isSchoolChosen();
     }
-
 
     @Override
     public int getSchoolId() {
@@ -172,7 +173,6 @@ public class Repository implements IRepository {
     public void setSchoolId(int schoolId) {
         preferenceManager.setSchool(schoolId);
     }
-
 
     @Override
     public void clearSchoolId() {
@@ -282,6 +282,27 @@ public class Repository implements IRepository {
                             .contains(filter.toString().toLowerCase());
                 })
                 .toList();
+    }
+
+    @Override
+    public Observable<Boolean> checkScheduleChangedAndUpdate() {
+        return restService.getSchoolInfo(preferenceManager.getSchoolId())
+                .map(schoolInfo -> {
+                    String savedPath = preferenceManager.getSavedPath();
+                    String actualPath = getPathToData(schoolInfo);
+
+                    boolean isChanged = !actualPath.equals(savedPath);
+
+                    if (isChanged) {
+                        preferenceManager.savePath(actualPath);
+                    }
+
+                    return isChanged || BuildConfig.DEBUG_NOTIFICATIONS;
+                });
+    }
+
+    private Observable<School> getSchool(int schoolId) {
+        return getSchool(schoolId, false);
     }
 
     @SuppressWarnings("ConstantConditions")

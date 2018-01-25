@@ -11,8 +11,16 @@ android {
         versionName "1.2.2"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+
+        buildConfigField "boolean", "DEBUG_NOTIFICATIONS", "false"
+        buildConfigField "int", "SCHEDULE_CHECK_PERIOD", "3600" // 1 hour - normal behaviour
     }
     buildTypes {
+        debugNotification {
+            initWith debug
+            buildConfigField "boolean", "DEBUG_NOTIFICATIONS", "true"
+            buildConfigField "int", "SCHEDULE_CHECK_PERIOD", "10" // 10 seconds - to faster testing
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -44,31 +52,27 @@ ext {
     ciceroneVersion = "2.1.0"
     retrofitVersion = "2.3.0"
     okHttpVersion = "3.9.0"
+    jobDispatcherVersion = "0.8.5"
 }
 
 dependencies {
-    compile "com.android.support:appcompat-v7:$supportLibraryVersion"
-    compile "com.android.support:design:$supportLibraryVersion"
-    compile "com.android.support:preference-v7:$supportLibraryVersion"
-
+    implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
+    implementation "com.android.support:design:$supportLibraryVersion"
+    implementation "com.android.support:preference-v7:$supportLibraryVersion"
     // MVP Moxy
-    compile "com.arello-mobile:moxy:$moxyVersion"
-    compile "com.arello-mobile:moxy-app-compat:$moxyVersion"
+    implementation "com.arello-mobile:moxy:$moxyVersion"
+    implementation "com.arello-mobile:moxy-app-compat:$moxyVersion"
     annotationProcessor "com.arello-mobile:moxy-compiler:$moxyVersion"
-
     //DI
-    compile "com.google.dagger:dagger:$daggerVersion"
+    implementation "com.google.dagger:dagger:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
-
     // Navigation
-    compile "ru.terrakok.cicerone:cicerone:$ciceroneVersion"
-
-    compile "com.squareup.retrofit2:converter-jackson:$retrofitVersion"
-    compile "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
-    compile "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
-
-    compile project(':parser')
-    compile 'com.android.support.constraint:constraint-layout:1.0.2'
-
-    compile 'org.jsoup:jsoup:1.10.3'
+    implementation "ru.terrakok.cicerone:cicerone:$ciceroneVersion"
+    implementation "com.squareup.retrofit2:converter-jackson:$retrofitVersion"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okHttpVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+    implementation project(':parser')
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'org.jsoup:jsoup:1.10.3'
+    implementation "com.firebase:firebase-jobdispatcher:$jobDispatcherVersion"
 }

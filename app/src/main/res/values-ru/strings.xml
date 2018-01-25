@@ -29,7 +29,11 @@
     <string name="action_search">Поиск…</string>
     <string name="my_schedule_loaded">Моё расписание (%s)</string>
     <string name="use_cache">Сохраённое расписание</string>
-    <string name="auto_use_cache">Автоматически использовать сохранённое расписание после неудачной попытки соединения с сайтом ОУ</string>
+    <string name="auto_use_cache_summary">Автоматически использовать сохранённое расписание после неудачной попытки соединения с сайтом ОУ</string>
     <string name="settings">Настройки</string>
     <string name="auto_use_cache_title">Автоматическая загрузка из кэша</string>
+    <string name="schedule_changed_title">Изменение в расписании</string>
+    <string name="schedule_changed_message">Расписание изменилось, нажмите чтобы открыть актульную версию</string>
+    <string name="notifications_title">Увидомления</string>
+    <string name="notifications_summary">Отправлять увидомления об изменении расписания</string>
 </resources>

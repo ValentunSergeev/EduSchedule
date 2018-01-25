@@ -40,6 +40,14 @@
                 android:value=".ui.screens.main.MainActivity" />
         </activity>
         <activity android:name=".ui.screens.school_selector.SchoolSelectActivity" />
+
+        <service
+            android:exported="false"
+            android:name=".jobs.schedule_checker.ScheduleCheckerService">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

@@ -11,6 +11,7 @@ public class PreferenceManager {
     private static final String SCHOOL_KEY = "SELECTED_SCHOOL";
     private static final String SCHEDULE_KEY = "CACHED_SCHEDULE";
     private static final String SCHEDULE_TIME_KEY = "CACHED_SCHEDULE_DATE";
+    private static final String SCHEDULE_PATH = "SCHEDULE_PATH";
 
     private static final int DEFAULT_INT = -1;
 
@@ -42,6 +43,7 @@ public class PreferenceManager {
                 .remove(GROUP_KEY)
                 .remove(SCHEDULE_KEY)
                 .remove(SCHEDULE_TIME_KEY)
+                .remove(SCHEDULE_PATH)
                 .apply();
     }
 
@@ -81,5 +83,15 @@ public class PreferenceManager {
 
     public long getCachedTime() {
         return preferences.getLong(SCHEDULE_TIME_KEY, -1);
+    }
+
+    public void savePath(String path) {
+        preferences.edit()
+                .putString(SCHEDULE_PATH, path)
+                .apply();
+    }
+
+    public String getSavedPath() {
+        return preferences.getString(SCHEDULE_PATH, null);
     }
 }

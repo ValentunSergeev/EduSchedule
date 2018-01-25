@@ -22,7 +22,6 @@ import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.R;
 import com.valentun.eduschedule.databinding.ActivityMainBinding;
 import com.valentun.eduschedule.ui.common.callbacks.BackButtonListener;
-import com.valentun.eduschedule.ui.common.views.MainView;
 import com.valentun.eduschedule.ui.screens.detail_group.DetailGroupActivity;
 import com.valentun.eduschedule.ui.screens.detail_teacher.DetailTeacherActivity;
 import com.valentun.eduschedule.ui.screens.main.choose_group.ChooseGroupFragment;

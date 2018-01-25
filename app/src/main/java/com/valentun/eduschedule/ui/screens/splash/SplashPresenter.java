@@ -32,16 +32,18 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
 
     public SplashPresenter() {
         initDagger();
+    }
 
+    public void loadSchool(boolean forceUpdate) {
         if (repository.isSchoolChosen()) {
-            getSchoolData(repository.getSchoolId());
+            getSchoolData(repository.getSchoolId(), forceUpdate);
         } else {
             router.replaceScreen(Constants.SCREENS.SCHOOL_SELECTOR);
         }
     }
 
     public void retry() {
-        getSchoolData(repository.getSchoolId());
+        getSchoolData(repository.getSchoolId(), false);
     }
 
     public void exit() {
@@ -49,16 +51,16 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
     }
 
     public void useCache() {
-        getSchoolData(SCHOOL_USE_CACHED);
+        getSchoolData(SCHOOL_USE_CACHED, false);
     }
 
-    private void getSchoolData(int schoolId) {
+    private void getSchoolData(int schoolId, boolean forceUpdate) {
         Observable<School> observable;
 
         if (schoolId == SCHOOL_USE_CACHED) {
             observable = repository.getCachedSchool();
         } else {
-            observable = repository.getSchool(schoolId);
+            observable = repository.getSchool(schoolId, forceUpdate);
         }
 
         observable.subscribe(school -> {

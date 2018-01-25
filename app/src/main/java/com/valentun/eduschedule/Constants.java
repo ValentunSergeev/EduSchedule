@@ -1,12 +1,16 @@
 package com.valentun.eduschedule;
 
 
+import android.support.annotation.StringDef;
+
 public class Constants {
     public static final String BASE_URL = "https://eduschedule.herokuapp.com/";
 
     public static final long MAX_TIMEOUT = 10_000;
     public static final int DAY_NUMBER = 6;
     public static final long SEARCH_DELAY = 300;
+    public static final String NOTIFICATION_CHANNEL = "Eduschedule";
+    public static final int NOTIFICATION_DELAY = 5; // 5 seconds
 
     public static class SCREENS {
         public static final String GROUPS_LIST = "GROUPS_LIST";
@@ -23,4 +27,18 @@ public class Constants {
 
         public static final String SETTINGS = "SETTINGS";
     }
+
+    public static class JOBS {
+        @StringDef({CHECK_SCHEDULE})
+        public @interface JobsDef{}
+
+        public static final String CHECK_SCHEDULE = "CHECK_SCHEDULE";
+    }
+
+    public static class SETTINGS {
+        public static final String SETTINGS_AUTO_CACHE = "auto_use_cache";
+        public static final String SETTINGS_NOTIFICATIONS = "notifications";
+    }
+
+    public static final long[] VIBRATION_PATTERN = {0, 500, 500, 500};
 }

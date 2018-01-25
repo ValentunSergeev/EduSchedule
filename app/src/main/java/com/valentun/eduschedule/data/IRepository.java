@@ -43,7 +43,7 @@ public interface IRepository {
 
     Observable<Group> getChosenGroup();
 
-    Observable<School> getSchool(int schoolId);
+    Observable<School> getSchool(int schoolId, boolean forceUpdate);
 
     boolean isCachedSchedule();
     String getCachedTime();
@@ -54,4 +54,6 @@ public interface IRepository {
     List<Teacher> findTeachers(CharSequence filter);
     List<Group> findGroups(CharSequence filter);
     Single<List<SchoolInfo>> findSchools(CharSequence filter);
+
+    Observable<Boolean> checkScheduleChangedAndUpdate();
 }

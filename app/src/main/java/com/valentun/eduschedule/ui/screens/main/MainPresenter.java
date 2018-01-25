@@ -5,7 +5,6 @@ import com.arellomobile.mvp.MvpPresenter;
 import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.data.IRepository;
 import com.valentun.eduschedule.di.AppComponent;
-import com.valentun.eduschedule.ui.common.views.MainView;
 
 import javax.inject.Inject;
 

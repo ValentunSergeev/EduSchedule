@@ -4,11 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
+import static com.valentun.eduschedule.Constants.SETTINGS.SETTINGS_AUTO_CACHE;
 
 public class SettingsManager {
     private SharedPreferences preferences;
-
-    private static final String SETTINGS_AUTO_CACHE = "auto_use_cache";
 
     public SettingsManager(Context context) {
         preferences = getDefaultSharedPreferences(context);

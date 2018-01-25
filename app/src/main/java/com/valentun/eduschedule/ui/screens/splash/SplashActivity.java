@@ -31,6 +31,8 @@ public class SplashActivity extends MvpAppCompatActivity implements SplashView {
 
     private Navigator navigator;
 
+    public static final String EXTRA_FORCE_UPDATE = "FORCE_UPDATE";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         MyApplication.INSTANCE.getAppComponent().inject(this);
@@ -38,6 +40,13 @@ public class SplashActivity extends MvpAppCompatActivity implements SplashView {
         setContentView(R.layout.activity_splash);
 
         navigator = new SplashNavigator(this);
+
+        boolean forceUpdate = false;
+        if (getIntent().getExtras() != null) {
+            forceUpdate = getIntent().getBooleanExtra(EXTRA_FORCE_UPDATE, false);
+        }
+
+        presenter.loadSchool(forceUpdate);
     }
 
     @Override
