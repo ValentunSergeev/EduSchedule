@@ -47,12 +47,12 @@ import ru.terrakok.cicerone.commands.Replace;
 public class MainActivity extends MvpAppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener, IBarView, MainView {
 
+    public static final String SCREEN_FRAGMENT_KEY = "SCREEN_FRAGMENT_KEY";
     @Inject
     NavigatorHolder navigatorHolder;
-
     @InjectPresenter
     MainPresenter presenter;
-
+    private String fragmentScreen;
     private Navigator navigator;
 
     private ActivityMainBinding binding;
@@ -71,9 +71,25 @@ public class MainActivity extends MvpAppCompatActivity implements
         navigator = new MainNavigator(getSupportFragmentManager(), R.id.main_container);
 
         if (savedInstanceState == null) {
-            binding.navView.setCheckedItem(R.id.nav_item_my_schedule);
+            fragmentScreen = SCREENS.MY_SCHEDULE;
+            if (getIntent().hasExtra(SCREEN_FRAGMENT_KEY)) {
+                fragmentScreen = getIntent().getStringExtra(SCREEN_FRAGMENT_KEY);
+
+            }
+            switch (fragmentScreen) {
+                case SCREENS.GROUPS_LIST:
+                    binding.navView.setCheckedItem(R.id.nav_item_groups);
+                    break;
+                case SCREENS.TEACHERS_LIST:
+                    binding.navView.setCheckedItem(R.id.nav_item_teachers);
+                    break;
+                default:
+                    binding.navView.setCheckedItem(R.id.nav_item_my_schedule);
+                    break;
+            }
             presenter.loadName();
-            navigator.applyCommand(new Replace(SCREENS.MY_SCHEDULE, null));
+            navigator.applyCommand(new Replace(fragmentScreen, null));
+
         }
     }
 
@@ -150,7 +166,7 @@ public class MainActivity extends MvpAppCompatActivity implements
             default:
                 screen = SCREENS.MY_SCHEDULE;
         }
-
+        presenter.screen = screen;
         navigator.applyCommand(new Replace(screen, null));
         binding.drawerLayout.closeDrawer(GravityCompat.START);
 
@@ -192,6 +208,7 @@ public class MainActivity extends MvpAppCompatActivity implements
                     Intent intent = new Intent(MainActivity.this, SplashActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     intent.putExtra(SplashActivity.EXTRA_FORCE_UPDATE, true);
+                    intent.putExtra(SplashActivity.SCREEN_RETURN_KEY, presenter.screen);
                     startActivity(intent);
                     return;
                 }
@@ -201,7 +218,9 @@ public class MainActivity extends MvpAppCompatActivity implements
                 Forward forward = (Forward) command;
                 if (forward.getScreenKey().equals(SCREENS.GROUP_DETAIL) ||
                         forward.getScreenKey().equals(SCREENS.TEACHER_DETAIL)) {
+                    presenter.screen = forward.getScreenKey();
                     showDetail(forward);
+
                     return;
                 }
             }
@@ -210,6 +229,7 @@ public class MainActivity extends MvpAppCompatActivity implements
 
         @Override
         protected Fragment createFragment(String screenKey, Object data) {
+            presenter.screen = screenKey;
             switch (screenKey) {
                 case SCREENS.GROUPS_LIST:
                     return new GroupsFragment();
@@ -260,4 +280,5 @@ public class MainActivity extends MvpAppCompatActivity implements
             startActivity(intent);
         }
     }
+
 }

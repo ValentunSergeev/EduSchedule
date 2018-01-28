@@ -13,12 +13,11 @@ import ru.terrakok.cicerone.Router;
 
 @InjectViewState
 public class MainPresenter extends MvpPresenter<MainView> {
+    public String screen;
     @Inject
     IRepository repository;
-
     @Inject
     Router router;
-
     public MainPresenter() {
         initDagger();
     }

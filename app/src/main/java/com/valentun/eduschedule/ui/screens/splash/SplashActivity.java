@@ -12,8 +12,13 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.valentun.eduschedule.Constants;
 import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.R;
+import com.valentun.eduschedule.ui.screens.detail_group.DetailGroupActivity;
+import com.valentun.eduschedule.ui.screens.detail_teacher.DetailTeacherActivity;
 import com.valentun.eduschedule.ui.screens.main.MainActivity;
 import com.valentun.eduschedule.ui.screens.school_selector.SchoolSelectActivity;
+import com.valentun.parser.pojo.NamedEntity;
+
+import java.util.ArrayList;
 
 import javax.inject.Inject;
 
@@ -23,15 +28,14 @@ import ru.terrakok.cicerone.android.SupportAppNavigator;
 
 
 public class SplashActivity extends MvpAppCompatActivity implements SplashView {
+    public static final String EXTRA_FORCE_UPDATE = "FORCE_UPDATE";
+    public static final String SCREEN_RETURN_KEY = "SCREEN_RETURN_KEY";
+    public static final String SCREEN_DETAIL_RETURN_KEY = "SCREEN_DETAIL_RETURN_KEY";
     @Inject
     NavigatorHolder navigatorHolder;
-
     @InjectPresenter
     SplashPresenter presenter;
-
     private Navigator navigator;
-
-    public static final String EXTRA_FORCE_UPDATE = "FORCE_UPDATE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,16 +45,24 @@ public class SplashActivity extends MvpAppCompatActivity implements SplashView {
 
         navigator = new SplashNavigator(this);
 
-        boolean forceUpdate = false;
-        if (getIntent().getExtras() != null) {
-            forceUpdate = getIntent().getBooleanExtra(EXTRA_FORCE_UPDATE, false);
+        boolean forceUpdate = getIntent().getBooleanExtra(EXTRA_FORCE_UPDATE, false);
+
+        String screenKey = Constants.SCREENS.MAIN;
+        if (getIntent().hasExtra(SCREEN_RETURN_KEY)) {
+            screenKey = getIntent().getStringExtra(SCREEN_RETURN_KEY);
         }
 
-        presenter.loadSchool(forceUpdate);
+        NamedEntity data = null;
+        if (getIntent().hasExtra(SCREEN_DETAIL_RETURN_KEY)) {
+            ArrayList<String> transition = getIntent().getStringArrayListExtra(SCREEN_DETAIL_RETURN_KEY);
+            screenKey = transition.get(0);
+            data = new NamedEntity(transition.get(1), transition.get(2));
+        }
+        presenter.loadSchool(forceUpdate, screenKey, data);
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         navigatorHolder.setNavigator(navigator);
     }
@@ -86,17 +98,41 @@ public class SplashActivity extends MvpAppCompatActivity implements SplashView {
 
         @Override
         protected Intent createActivityIntent(String screenKey, Object data) {
-            Class activityClass = null;
-
+            NamedEntity transitionData = (NamedEntity) data;
+            Intent intent;
             switch (screenKey) {
                 case Constants.SCREENS.SCHOOL_SELECTOR:
-                    activityClass = SchoolSelectActivity.class;
+                    intent = new Intent(SplashActivity.this, SchoolSelectActivity.class);
                     break;
-                case Constants.SCREENS.MAIN:
-                    activityClass = MainActivity.class;
+                case Constants.SCREENS.GROUP_DETAIL:
+                    intent = new Intent(SplashActivity.this, DetailGroupActivity.class);
+                    intent.putExtra(Intent.EXTRA_TEXT, transitionData.getId());
+                    intent.putExtra(Intent.EXTRA_TITLE, transitionData.getName());
+                    break;
+                case Constants.SCREENS.TEACHER_DETAIL:
+                    intent = new Intent(SplashActivity.this, DetailTeacherActivity.class);
+                    intent.putExtra(Intent.EXTRA_TEXT, transitionData.getId());
+                    intent.putExtra(Intent.EXTRA_TITLE, transitionData.getName());
+                    break;
+                default:
+                    intent = new Intent(SplashActivity.this, MainActivity.class);
+                    break;
             }
 
-            return new Intent(SplashActivity.this, activityClass);
+
+            switch (screenKey) {
+                case Constants.SCREENS.TEACHERS_LIST:
+                    intent.putExtra(MainActivity.SCREEN_FRAGMENT_KEY, screenKey);
+                    break;
+                case Constants.SCREENS.GROUPS_LIST:
+                    intent.putExtra(MainActivity.SCREEN_FRAGMENT_KEY, screenKey);
+                    break;
+                default:
+                    intent.putExtra(MainActivity.SCREEN_FRAGMENT_KEY, Constants.SCREENS.MY_SCHEDULE);
+                    break;
+            }
+
+            return intent;
         }
 
         @Override

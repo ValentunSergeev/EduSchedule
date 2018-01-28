@@ -15,6 +15,8 @@ import com.valentun.eduschedule.databinding.ActivityDetailBinding;
 import com.valentun.eduschedule.ui.screens.splash.SplashActivity;
 import com.valentun.eduschedule.utils.DateUtils;
 
+import java.util.ArrayList;
+
 public class DetailGroupActivity extends MvpAppCompatActivity {
 
     private ActivityDetailBinding binding;
@@ -44,6 +46,11 @@ public class DetailGroupActivity extends MvpAppCompatActivity {
             Intent intent = new Intent(DetailGroupActivity.this, SplashActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             intent.putExtra(SplashActivity.EXTRA_FORCE_UPDATE, true);
+            ArrayList<String> transition = new ArrayList<>();
+            transition.add(Constants.SCREENS.GROUP_DETAIL);
+            transition.add(getGroupId());
+            transition.add(getGroupName());
+            intent.putStringArrayListExtra(SplashActivity.SCREEN_DETAIL_RETURN_KEY, transition);
             startActivity(intent);
             return true;
         } else {

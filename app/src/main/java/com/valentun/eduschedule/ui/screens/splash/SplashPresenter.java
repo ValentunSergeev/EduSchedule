@@ -9,6 +9,7 @@ import com.valentun.eduschedule.data.IRepository;
 import com.valentun.eduschedule.data.network.ErrorHandler;
 import com.valentun.eduschedule.data.persistance.SettingsManager;
 import com.valentun.eduschedule.di.AppComponent;
+import com.valentun.parser.pojo.NamedEntity;
 import com.valentun.parser.pojo.School;
 
 import javax.inject.Inject;
@@ -20,30 +21,27 @@ import ru.terrakok.cicerone.Router;
 @InjectViewState
 public class SplashPresenter extends MvpPresenter<SplashView> {
 
+    private static final int SCHOOL_USE_CACHED = -1;
     @Inject
     IRepository repository;
-
     @Inject
     SettingsManager manager;
-
     @Inject Router router;
-
-    private static final int SCHOOL_USE_CACHED = -1;
 
     public SplashPresenter() {
         initDagger();
     }
 
-    public void loadSchool(boolean forceUpdate) {
+    public void loadSchool(boolean forceUpdate, String screenKey, NamedEntity data) {
         if (repository.isSchoolChosen()) {
-            getSchoolData(repository.getSchoolId(), forceUpdate);
+            getSchoolData(repository.getSchoolId(), forceUpdate, screenKey, data);
         } else {
             router.replaceScreen(Constants.SCREENS.SCHOOL_SELECTOR);
         }
     }
 
     public void retry() {
-        getSchoolData(repository.getSchoolId(), false);
+        getSchoolData(repository.getSchoolId(), false, Constants.SCREENS.MAIN, null);
     }
 
     public void exit() {
@@ -51,10 +49,10 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
     }
 
     public void useCache() {
-        getSchoolData(SCHOOL_USE_CACHED, false);
+        getSchoolData(SCHOOL_USE_CACHED, false, Constants.SCREENS.MAIN, null);
     }
 
-    private void getSchoolData(int schoolId, boolean forceUpdate) {
+    private void getSchoolData(int schoolId, boolean forceUpdate, String screenKey, NamedEntity data) {
         Observable<School> observable;
 
         if (schoolId == SCHOOL_USE_CACHED) {
@@ -69,8 +67,12 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
                         R.string.cached_version_used,
                         repository.getCachedTime()
                 ));
+            if (data != null) {
+                router.replaceScreen(screenKey, data);
+            } else {
+                router.replaceScreen(screenKey);
+            }
 
-            router.replaceScreen(Constants.SCREENS.MAIN);
         }, error -> {
             boolean isCacheAvailable = repository.isCacheAvailable();
 

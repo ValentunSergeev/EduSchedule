@@ -15,6 +15,8 @@ import com.valentun.eduschedule.databinding.ActivityDetailBinding;
 import com.valentun.eduschedule.ui.screens.splash.SplashActivity;
 import com.valentun.eduschedule.utils.DateUtils;
 
+import java.util.ArrayList;
+
 public class DetailTeacherActivity extends MvpAppCompatActivity {
     private ActivityDetailBinding binding;
     private ActionBar actionBar;
@@ -41,6 +43,11 @@ public class DetailTeacherActivity extends MvpAppCompatActivity {
             Intent intent = new Intent(DetailTeacherActivity.this, SplashActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             intent.putExtra(SplashActivity.EXTRA_FORCE_UPDATE, true);
+            ArrayList<String> transition = new ArrayList<>();
+            transition.add(Constants.SCREENS.GROUP_DETAIL);
+            transition.add(getTeacherId());
+            transition.add(getTeacherName());
+            intent.putStringArrayListExtra(SplashActivity.SCREEN_DETAIL_RETURN_KEY, transition);
             startActivity(intent);
             return true;
         } else {
