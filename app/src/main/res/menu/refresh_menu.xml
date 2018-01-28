@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/my_schedule_change_group"
-        android:title="@string/change_group"
-        app:showAsAction="never" />
+        android:id="@+id/force_refresh"
+        android:icon="@drawable/ic_refresh"
+        android:title="@string/refresh"
+        app:showAsAction="ifRoom" />
 </menu>

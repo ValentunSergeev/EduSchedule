@@ -12,6 +12,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -30,6 +32,7 @@ import com.valentun.eduschedule.ui.screens.main.my_schedule.MyScheduleFragment;
 import com.valentun.eduschedule.ui.screens.main.settings.SettingsFragment;
 import com.valentun.eduschedule.ui.screens.main.teachers.TeachersFragment;
 import com.valentun.eduschedule.ui.screens.school_selector.SchoolSelectActivity;
+import com.valentun.eduschedule.ui.screens.splash.SplashActivity;
 import com.valentun.parser.pojo.NamedEntity;
 
 import javax.inject.Inject;
@@ -71,6 +74,23 @@ public class MainActivity extends MvpAppCompatActivity implements
             binding.navView.setCheckedItem(R.id.nav_item_my_schedule);
             presenter.loadName();
             navigator.applyCommand(new Replace(SCREENS.MY_SCHEDULE, null));
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.refresh_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.force_refresh) {
+            presenter.forceRefreshClicked();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
         }
     }
 
@@ -163,10 +183,16 @@ public class MainActivity extends MvpAppCompatActivity implements
         @Override
         public void applyCommand(Command command) {
             if (command instanceof Replace) {
-                Replace forward = (Replace) command;
-                if (forward.getScreenKey().equals(SCREENS.SCHOOL_SELECTOR)) {
+                Replace replace = (Replace) command;
+                if (replace.getScreenKey().equals(SCREENS.SCHOOL_SELECTOR)) {
                     presenter.schoolChangeClicked();
                     showSchoolSelector();
+                    return;
+                } else if (replace.getScreenKey().equals(SCREENS.FORCE_REFRESH)) {
+                    Intent intent = new Intent(MainActivity.this, SplashActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent.putExtra(SplashActivity.EXTRA_FORCE_UPDATE, true);
+                    startActivity(intent);
                     return;
                 }
             }

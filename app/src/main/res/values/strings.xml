@@ -36,4 +36,5 @@
     <string name="schedule_changed_message">Schedule changed, tap to open new version</string>
     <string name="notifications_title">Notifications</string>
     <string name="notifications_summary">Send notifications about schedule changes</string>
+    <string name="refresh">Refresh</string>
 </resources>

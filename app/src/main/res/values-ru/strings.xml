@@ -36,4 +36,5 @@
     <string name="schedule_changed_message">Расписание изменилось, нажмите чтобы открыть актульную версию</string>
     <string name="notifications_title">Увидомления</string>
     <string name="notifications_summary">Отправлять увидомления об изменении расписания</string>
+    <string name="refresh">Обновить</string>
 </resources>
