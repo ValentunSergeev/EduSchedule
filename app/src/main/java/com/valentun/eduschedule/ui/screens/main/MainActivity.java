@@ -54,7 +54,6 @@ public class MainActivity extends MvpAppCompatActivity implements
     MainPresenter presenter;
     private String fragmentScreen;
     private Navigator navigator;
-
     private ActivityMainBinding binding;
     private ActionBar actionBar;
     private ActionBarDrawerToggle drawerToggle;
@@ -103,6 +102,21 @@ public class MainActivity extends MvpAppCompatActivity implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.force_refresh) {
+
+            Fragment fragment = getSupportFragmentManager().getFragments().get(0);
+            if (fragment instanceof TeachersFragment) {
+                fragmentScreen = SCREENS.TEACHERS_LIST;
+            }
+            if (fragment instanceof GroupsFragment) {
+                fragmentScreen = SCREENS.GROUPS_LIST;
+            }
+            if (fragment instanceof ChooseGroupFragment) {
+                fragmentScreen = SCREENS.CHOOSE_GROUP;
+            }
+            if (fragment instanceof MyScheduleFragment) {
+                fragmentScreen = SCREENS.MY_SCHEDULE;
+            }
+
             presenter.forceRefreshClicked();
             return true;
         } else {
@@ -145,29 +159,27 @@ public class MainActivity extends MvpAppCompatActivity implements
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        String screen;
-
+        String screenKey;
         switch (item.getItemId()) {
             case R.id.nav_item_groups:
-                screen = SCREENS.GROUPS_LIST;
+                screenKey = SCREENS.GROUPS_LIST;
                 break;
             case R.id.nav_item_teachers:
-                screen = SCREENS.TEACHERS_LIST;
+                screenKey = SCREENS.TEACHERS_LIST;
                 break;
             case R.id.nav_item_my_schedule:
-                screen = SCREENS.MY_SCHEDULE;
+                screenKey = SCREENS.MY_SCHEDULE;
                 break;
             case R.id.nav_item_change_school:
-                screen = SCREENS.SCHOOL_SELECTOR;
+                screenKey = SCREENS.SCHOOL_SELECTOR;
                 break;
             case R.id.nav_item_settings:
-                screen = SCREENS.SETTINGS;
+                screenKey = SCREENS.SETTINGS;
                 break;
             default:
-                screen = SCREENS.MY_SCHEDULE;
+                screenKey = SCREENS.MY_SCHEDULE;
         }
-        presenter.screen = screen;
-        navigator.applyCommand(new Replace(screen, null));
+        navigator.applyCommand(new Replace(screenKey, null));
         binding.drawerLayout.closeDrawer(GravityCompat.START);
 
         return true;
@@ -208,7 +220,7 @@ public class MainActivity extends MvpAppCompatActivity implements
                     Intent intent = new Intent(MainActivity.this, SplashActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     intent.putExtra(SplashActivity.EXTRA_FORCE_UPDATE, true);
-                    intent.putExtra(SplashActivity.SCREEN_RETURN_KEY, presenter.screen);
+                    intent.putExtra(SplashActivity.SCREEN_RETURN_KEY, fragmentScreen);
                     startActivity(intent);
                     return;
                 }
@@ -218,7 +230,6 @@ public class MainActivity extends MvpAppCompatActivity implements
                 Forward forward = (Forward) command;
                 if (forward.getScreenKey().equals(SCREENS.GROUP_DETAIL) ||
                         forward.getScreenKey().equals(SCREENS.TEACHER_DETAIL)) {
-                    presenter.screen = forward.getScreenKey();
                     showDetail(forward);
 
                     return;
@@ -229,7 +240,6 @@ public class MainActivity extends MvpAppCompatActivity implements
 
         @Override
         protected Fragment createFragment(String screenKey, Object data) {
-            presenter.screen = screenKey;
             switch (screenKey) {
                 case SCREENS.GROUPS_LIST:
                     return new GroupsFragment();

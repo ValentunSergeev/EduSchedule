@@ -91,7 +91,6 @@ public class SplashActivity extends MvpAppCompatActivity implements SplashView {
     }
 
     private class SplashNavigator extends SupportAppNavigator {
-
         private SplashNavigator(FragmentActivity activity) {
             super(activity, 0);
         }

@@ -34,14 +34,19 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
 
     public void loadSchool(boolean forceUpdate, String screenKey, NamedEntity data) {
         if (repository.isSchoolChosen()) {
-            getSchoolData(repository.getSchoolId(), forceUpdate, screenKey, data);
+            getSchoolData(repository.getSchoolId(), forceUpdate);
+            if (data != null) {
+                router.replaceScreen(screenKey, data);
+            } else {
+                router.replaceScreen(screenKey);
+            }
         } else {
             router.replaceScreen(Constants.SCREENS.SCHOOL_SELECTOR);
         }
     }
 
     public void retry() {
-        getSchoolData(repository.getSchoolId(), false, Constants.SCREENS.MAIN, null);
+        getSchoolData(repository.getSchoolId(), false);
     }
 
     public void exit() {
@@ -49,10 +54,10 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
     }
 
     public void useCache() {
-        getSchoolData(SCHOOL_USE_CACHED, false, Constants.SCREENS.MAIN, null);
+        getSchoolData(SCHOOL_USE_CACHED, false);
     }
 
-    private void getSchoolData(int schoolId, boolean forceUpdate, String screenKey, NamedEntity data) {
+    private void getSchoolData(int schoolId, boolean forceUpdate) {
         Observable<School> observable;
 
         if (schoolId == SCHOOL_USE_CACHED) {
@@ -67,11 +72,6 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
                         R.string.cached_version_used,
                         repository.getCachedTime()
                 ));
-            if (data != null) {
-                router.replaceScreen(screenKey, data);
-            } else {
-                router.replaceScreen(screenKey);
-            }
 
         }, error -> {
             boolean isCacheAvailable = repository.isCacheAvailable();

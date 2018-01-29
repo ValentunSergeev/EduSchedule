@@ -44,7 +44,7 @@ public class DetailTeacherActivity extends MvpAppCompatActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             intent.putExtra(SplashActivity.EXTRA_FORCE_UPDATE, true);
             ArrayList<String> transition = new ArrayList<>();
-            transition.add(Constants.SCREENS.GROUP_DETAIL);
+            transition.add(Constants.SCREENS.TEACHER_DETAIL);
             transition.add(getTeacherId());
             transition.add(getTeacherName());
             intent.putStringArrayListExtra(SplashActivity.SCREEN_DETAIL_RETURN_KEY, transition);
