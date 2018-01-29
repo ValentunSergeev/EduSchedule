@@ -26,7 +26,8 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
     IRepository repository;
     @Inject
     SettingsManager manager;
-    @Inject Router router;
+    @Inject
+    Router router;
 
     public SplashPresenter() {
         initDagger();
@@ -34,19 +35,15 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
 
     public void loadSchool(boolean forceUpdate, String screenKey, NamedEntity data) {
         if (repository.isSchoolChosen()) {
-            getSchoolData(repository.getSchoolId(), forceUpdate);
-            if (data != null) {
-                router.replaceScreen(screenKey, data);
-            } else {
-                router.replaceScreen(screenKey);
-            }
+            getSchoolData(repository.getSchoolId(), forceUpdate, screenKey, data);
+
         } else {
             router.replaceScreen(Constants.SCREENS.SCHOOL_SELECTOR);
         }
     }
 
     public void retry() {
-        getSchoolData(repository.getSchoolId(), false);
+        getSchoolData(repository.getSchoolId(), false, Constants.SCREENS.MAIN, null);
     }
 
     public void exit() {
@@ -54,10 +51,10 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
     }
 
     public void useCache() {
-        getSchoolData(SCHOOL_USE_CACHED, false);
+        getSchoolData(SCHOOL_USE_CACHED, false, Constants.SCREENS.MAIN, null);
     }
 
-    private void getSchoolData(int schoolId, boolean forceUpdate) {
+    private void getSchoolData(int schoolId, boolean forceUpdate, String screenKey, NamedEntity data) {
         Observable<School> observable;
 
         if (schoolId == SCHOOL_USE_CACHED) {
@@ -72,7 +69,11 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
                         R.string.cached_version_used,
                         repository.getCachedTime()
                 ));
-
+            if (data != null) {
+                router.replaceScreen(screenKey, data);
+            } else {
+                router.replaceScreen(screenKey);
+            }
         }, error -> {
             boolean isCacheAvailable = repository.isCacheAvailable();
 

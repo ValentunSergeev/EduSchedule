@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class Teacher extends NamedEntity {
-    private volatile SparseArray<List<Lesson>> schedule;
+    private final SparseArray<List<Lesson>> schedule;
 
     public Teacher(String id, String name) {
         super(id, name);

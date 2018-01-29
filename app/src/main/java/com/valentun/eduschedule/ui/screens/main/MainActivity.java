@@ -48,11 +48,14 @@ public class MainActivity extends MvpAppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener, IBarView, MainView {
 
     public static final String SCREEN_FRAGMENT_KEY = "SCREEN_FRAGMENT_KEY";
+
     @Inject
     NavigatorHolder navigatorHolder;
     @InjectPresenter
     MainPresenter presenter;
+
     private String fragmentScreen;
+
     private Navigator navigator;
     private ActivityMainBinding binding;
     private ActionBar actionBar;
@@ -102,25 +105,24 @@ public class MainActivity extends MvpAppCompatActivity implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.force_refresh) {
-
-            Fragment fragment = getSupportFragmentManager().getFragments().get(0);
-            if (fragment instanceof TeachersFragment) {
-                fragmentScreen = SCREENS.TEACHERS_LIST;
-            }
-            if (fragment instanceof GroupsFragment) {
-                fragmentScreen = SCREENS.GROUPS_LIST;
-            }
-            if (fragment instanceof ChooseGroupFragment) {
-                fragmentScreen = SCREENS.CHOOSE_GROUP;
-            }
-            if (fragment instanceof MyScheduleFragment) {
-                fragmentScreen = SCREENS.MY_SCHEDULE;
-            }
-
+            fragmentScreen = getFragmentScreen();
             presenter.forceRefreshClicked();
             return true;
         } else {
             return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private String getFragmentScreen() {
+        Fragment fragment = getSupportFragmentManager().getFragments().get(0);
+        if (fragment instanceof TeachersFragment) {
+            return SCREENS.TEACHERS_LIST;
+        } else if (fragment instanceof GroupsFragment) {
+            return SCREENS.GROUPS_LIST;
+        } else if (fragment instanceof ChooseGroupFragment) {
+            return SCREENS.CHOOSE_GROUP;
+        } else {
+            return SCREENS.MY_SCHEDULE;
         }
     }
 
