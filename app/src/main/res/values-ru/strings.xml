@@ -27,7 +27,7 @@
     <string name="timeout">Превышено время ожидания. Попробуйте еще раз</string>
     <string name="unknown_error">Упс, что-то пошло не так</string>
     <string name="action_search">Поиск…</string>
-    <string name="my_schedule_loaded">&#9734; %s &#9734;</string>
+    <string name="my_schedule_loaded">&#x2605; %s</string>
     <string name="use_cache">Сохранённое расписание</string>
     <string name="auto_use_cache_summary">Автоматически использовать сохранённое расписание после неудачной попытки соединения с сайтом ОУ</string>
     <string name="settings">Настройки</string>
