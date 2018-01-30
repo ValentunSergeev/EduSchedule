@@ -43,12 +43,12 @@ public abstract class RecyclerViewFragment<T> extends MvpAppCompatFragment
         public boolean onQueryTextChange(String newText) {
             handler.removeCallbacksAndMessages(null);
 
-                binding.progress.setVisibility(View.VISIBLE);
-                binding.list.setVisibility(View.GONE);
+            binding.progress.setVisibility(View.VISIBLE);
+            binding.list.setVisibility(View.GONE);
 
-                handler.postDelayed(() -> filterable.getFilter().filter(newText, i -> {
-                    binding.list.setVisibility(View.VISIBLE);
-                }), Constants.SEARCH_DELAY);
+            handler.postDelayed(() -> filterable.getFilter().filter(newText, i -> {
+                binding.list.setVisibility(View.VISIBLE);
+            }), Constants.SEARCH_DELAY);
             return true;
         }
     };
@@ -113,15 +113,15 @@ public abstract class RecyclerViewFragment<T> extends MvpAppCompatFragment
     }
 
     /**
-     *  Override to add {@link SearchView} to toolbar
-    **/
+     * Override to add {@link SearchView} to toolbar
+     **/
     protected Filterable getFilterable() {
         return null;
     }
 
     /**
-     *  Override to change {@link SearchView} input type.
-     *  Won't work if {@link RecyclerViewFragment#getFilterable()} isn't overridden
+     * Override to change {@link SearchView} input type.
+     * Won't work if {@link RecyclerViewFragment#getFilterable()} isn't overridden
      **/
     protected int getFilterType() {
         return InputType.TYPE_CLASS_TEXT;

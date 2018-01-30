@@ -37,4 +37,5 @@
     <string name="notifications_title">Уведомления</string>
     <string name="notifications_summary">Отправлять уведомления об изменении расписания</string>
     <string name="refresh">Обновить</string>
+    <string name="back_mode_message">Нажмите ещё раз для выхода</string>
 </resources>

@@ -3,6 +3,7 @@ package com.valentun.eduschedule.ui.screens.main;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.valentun.eduschedule.Constants;
 import com.valentun.eduschedule.Constants.SCREENS;
 import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.R;
@@ -42,6 +44,7 @@ import ru.terrakok.cicerone.android.SupportFragmentNavigator;
 import ru.terrakok.cicerone.commands.Command;
 import ru.terrakok.cicerone.commands.Forward;
 import ru.terrakok.cicerone.commands.Replace;
+import ru.terrakok.cicerone.commands.SystemMessage;
 
 public class MainActivity extends BaseActivity implements
         NavigationView.OnNavigationItemSelectedListener, IBarView, MainView {
@@ -59,6 +62,9 @@ public class MainActivity extends BaseActivity implements
     private ActivityMainBinding binding;
     private ActionBar actionBar;
     private ActionBarDrawerToggle drawerToggle;
+
+    private boolean isBackMode = false;
+    private Handler backModeHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -192,8 +198,17 @@ public class MainActivity extends BaseActivity implements
                 && fragment instanceof BackButtonListener
                 && ((BackButtonListener) fragment).onBackPressed()) {
             return;
-        } else {
-            super.onBackPressed();
+        }
+
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            if (isBackMode) {
+                finish();
+            } else {
+                isBackMode = true;
+                navigator.applyCommand(new SystemMessage(getString(R.string.back_mode_message)));
+                backModeHandler.removeCallbacksAndMessages(null);
+                backModeHandler.postDelayed(() -> isBackMode = false, Constants.BACK_MODE_TIME);
+            }
         }
     }
 
