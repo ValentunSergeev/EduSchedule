@@ -22,13 +22,9 @@ import java.util.ArrayList;
 
 
 public class DetailActivity extends BaseActivity {
+    public static final String EXTRA_TYPE = "DetailActivity.EXTRA_TYPE";
     private ActivityDetailBinding binding;
     private ActionBar actionBar;
-
-    public static final int TYPE_TEACHER = 0;
-    public static final int TYPE_GROUP = 1;
-
-    public static final String EXTRA_TYPE = "DetailActivity.EXTRA_TYPE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +49,7 @@ public class DetailActivity extends BaseActivity {
             intent.putExtra(SplashActivity.EXTRA_FORCE_UPDATE, true);
 
             ArrayList<String> transition = new ArrayList<>();
-            transition.add(getScreenReturnKey());
+            transition.add(getType());
             transition.add(getObjectId());
             transition.add(getObjectName());
 
@@ -81,10 +77,10 @@ public class DetailActivity extends BaseActivity {
         FragmentStatePagerAdapter adapter;
 
         switch (getType()) {
-            case TYPE_TEACHER:
+            case Constants.SCREENS.TEACHER_DETAIL:
                 adapter = new WeekTeacherPageAdapter(getObjectId(), this);
                 break;
-            case TYPE_GROUP:
+            case Constants.SCREENS.GROUP_DETAIL:
                 adapter = new WeekGroupPageAdapter(getObjectId(), this);
                 break;
             default:
@@ -99,23 +95,6 @@ public class DetailActivity extends BaseActivity {
         binding.detailPager.setCurrentItem(DateUtils.ViewPagerUtils.getCurrentDayPosition());
     }
 
-    private String getScreenReturnKey() {
-        String key;
-
-        switch (getType()) {
-            case TYPE_GROUP:
-                key = Constants.SCREENS.GROUP_DETAIL;
-                break;
-            case TYPE_TEACHER:
-                key = Constants.SCREENS.TEACHER_DETAIL;
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown detail type");
-        }
-
-        return key;
-    }
-
     private String getObjectId() {
         return getIntent().getStringExtra(Intent.EXTRA_TEXT);
     }
@@ -124,7 +103,7 @@ public class DetailActivity extends BaseActivity {
         return getIntent().getStringExtra(Intent.EXTRA_TITLE);
     }
 
-    private int getType() {
-        return getIntent().getIntExtra(EXTRA_TYPE, TYPE_GROUP);
+    private String getType() {
+        return getIntent().getStringExtra(EXTRA_TYPE);
     }
 }
