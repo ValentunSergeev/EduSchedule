@@ -12,6 +12,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -30,6 +32,7 @@ import com.valentun.eduschedule.ui.screens.main.my_schedule.MyScheduleFragment;
 import com.valentun.eduschedule.ui.screens.main.settings.SettingsFragment;
 import com.valentun.eduschedule.ui.screens.main.teachers.TeachersFragment;
 import com.valentun.eduschedule.ui.screens.school_selector.SchoolSelectActivity;
+import com.valentun.eduschedule.ui.screens.splash.SplashActivity;
 import com.valentun.parser.pojo.NamedEntity;
 
 import javax.inject.Inject;
@@ -44,14 +47,16 @@ import ru.terrakok.cicerone.commands.Replace;
 public class MainActivity extends MvpAppCompatActivity implements
         NavigationView.OnNavigationItemSelectedListener, IBarView, MainView {
 
+    public static final String SCREEN_FRAGMENT_KEY = "SCREEN_FRAGMENT_KEY";
+
     @Inject
     NavigatorHolder navigatorHolder;
-
     @InjectPresenter
     MainPresenter presenter;
 
-    private Navigator navigator;
+    private String fragmentScreen;
 
+    private Navigator navigator;
     private ActivityMainBinding binding;
     private ActionBar actionBar;
     private ActionBarDrawerToggle drawerToggle;
@@ -68,9 +73,56 @@ public class MainActivity extends MvpAppCompatActivity implements
         navigator = new MainNavigator(getSupportFragmentManager(), R.id.main_container);
 
         if (savedInstanceState == null) {
-            binding.navView.setCheckedItem(R.id.nav_item_my_schedule);
+            fragmentScreen = SCREENS.MY_SCHEDULE;
+            if (getIntent().hasExtra(SCREEN_FRAGMENT_KEY)) {
+                fragmentScreen = getIntent().getStringExtra(SCREEN_FRAGMENT_KEY);
+
+            }
+            switch (fragmentScreen) {
+                case SCREENS.GROUPS_LIST:
+                    binding.navView.setCheckedItem(R.id.nav_item_groups);
+                    break;
+                case SCREENS.TEACHERS_LIST:
+                    binding.navView.setCheckedItem(R.id.nav_item_teachers);
+                    break;
+                default:
+                    binding.navView.setCheckedItem(R.id.nav_item_my_schedule);
+                    break;
+            }
             presenter.loadName();
-            navigator.applyCommand(new Replace(SCREENS.MY_SCHEDULE, null));
+            navigator.applyCommand(new Replace(fragmentScreen, null));
+
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.refresh_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.force_refresh) {
+            fragmentScreen = getFragmentScreen();
+            presenter.forceRefreshClicked();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private String getFragmentScreen() {
+        Fragment fragment = getSupportFragmentManager().getFragments().get(0);
+        if (fragment instanceof TeachersFragment) {
+            return SCREENS.TEACHERS_LIST;
+        } else if (fragment instanceof GroupsFragment) {
+            return SCREENS.GROUPS_LIST;
+        } else if (fragment instanceof ChooseGroupFragment) {
+            return SCREENS.CHOOSE_GROUP;
+        } else {
+            return SCREENS.MY_SCHEDULE;
         }
     }
 
@@ -109,29 +161,27 @@ public class MainActivity extends MvpAppCompatActivity implements
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        String screen;
-
+        String screenKey;
         switch (item.getItemId()) {
             case R.id.nav_item_groups:
-                screen = SCREENS.GROUPS_LIST;
+                screenKey = SCREENS.GROUPS_LIST;
                 break;
             case R.id.nav_item_teachers:
-                screen = SCREENS.TEACHERS_LIST;
+                screenKey = SCREENS.TEACHERS_LIST;
                 break;
             case R.id.nav_item_my_schedule:
-                screen = SCREENS.MY_SCHEDULE;
+                screenKey = SCREENS.MY_SCHEDULE;
                 break;
             case R.id.nav_item_change_school:
-                screen = SCREENS.SCHOOL_SELECTOR;
+                screenKey = SCREENS.SCHOOL_SELECTOR;
                 break;
             case R.id.nav_item_settings:
-                screen = SCREENS.SETTINGS;
+                screenKey = SCREENS.SETTINGS;
                 break;
             default:
-                screen = SCREENS.MY_SCHEDULE;
+                screenKey = SCREENS.MY_SCHEDULE;
         }
-
-        navigator.applyCommand(new Replace(screen, null));
+        navigator.applyCommand(new Replace(screenKey, null));
         binding.drawerLayout.closeDrawer(GravityCompat.START);
 
         return true;
@@ -163,10 +213,17 @@ public class MainActivity extends MvpAppCompatActivity implements
         @Override
         public void applyCommand(Command command) {
             if (command instanceof Replace) {
-                Replace forward = (Replace) command;
-                if (forward.getScreenKey().equals(SCREENS.SCHOOL_SELECTOR)) {
+                Replace replace = (Replace) command;
+                if (replace.getScreenKey().equals(SCREENS.SCHOOL_SELECTOR)) {
                     presenter.schoolChangeClicked();
                     showSchoolSelector();
+                    return;
+                } else if (replace.getScreenKey().equals(SCREENS.FORCE_REFRESH)) {
+                    Intent intent = new Intent(MainActivity.this, SplashActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent.putExtra(SplashActivity.EXTRA_FORCE_UPDATE, true);
+                    intent.putExtra(SplashActivity.SCREEN_RETURN_KEY, fragmentScreen);
+                    startActivity(intent);
                     return;
                 }
             }
@@ -176,6 +233,7 @@ public class MainActivity extends MvpAppCompatActivity implements
                 if (forward.getScreenKey().equals(SCREENS.GROUP_DETAIL) ||
                         forward.getScreenKey().equals(SCREENS.TEACHER_DETAIL)) {
                     showDetail(forward);
+
                     return;
                 }
             }
@@ -234,4 +292,5 @@ public class MainActivity extends MvpAppCompatActivity implements
             startActivity(intent);
         }
     }
+
 }

@@ -24,16 +24,17 @@
     <string name="exit">Выйти</string>
     <string name="no_internet">Отсуствует интернет соединение</string>
     <string name="retry">Повторить</string>
-    <string name="timeout">Привышено время ожидания. Попробуйте еще раз</string>
-    <string name="unknown_error">Опс, что то пошло не  так</string>
+    <string name="timeout">Превышено время ожидания. Попробуйте еще раз</string>
+    <string name="unknown_error">Упс, что-то пошло не так</string>
     <string name="action_search">Поиск…</string>
-    <string name="my_schedule_loaded">Моё расписание (%s)</string>
-    <string name="use_cache">Сохраённое расписание</string>
+    <string name="my_schedule_loaded">&#9734; %s &#9734;</string>
+    <string name="use_cache">Сохранённое расписание</string>
     <string name="auto_use_cache_summary">Автоматически использовать сохранённое расписание после неудачной попытки соединения с сайтом ОУ</string>
     <string name="settings">Настройки</string>
     <string name="auto_use_cache_title">Автоматическая загрузка из кэша</string>
     <string name="schedule_changed_title">Изменение в расписании</string>
     <string name="schedule_changed_message">Расписание изменилось, нажмите чтобы открыть актульную версию</string>
-    <string name="notifications_title">Увидомления</string>
-    <string name="notifications_summary">Отправлять увидомления об изменении расписания</string>
+    <string name="notifications_title">Уведомления</string>
+    <string name="notifications_summary">Отправлять уведомления об изменении расписания</string>
+    <string name="refresh">Обновить</string>
 </resources>

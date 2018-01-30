@@ -5,6 +5,9 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.valentun.eduschedule.Constants;
@@ -46,6 +49,26 @@ public class SchoolSelectActivity extends MvpAppCompatActivity {
         navigator = new SelectSchoolNavigator(this);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.refresh_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.force_refresh) {
+            Intent intent = new Intent(SchoolSelectActivity.this, SplashActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            intent.putExtra(SplashActivity.EXTRA_FORCE_UPDATE, true);
+            intent.putExtra(SplashActivity.SCREEN_RETURN_KEY, Constants.SCREENS.SCHOOL_SELECTOR);
+            startActivity(intent);
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
     @Override
     protected void onResume(){
         super.onResume();

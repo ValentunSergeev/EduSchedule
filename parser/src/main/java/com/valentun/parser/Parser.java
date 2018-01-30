@@ -193,8 +193,6 @@ public class Parser {
                 }
             }
         }
-
-
         group.getSchedule().get(dayNumberInt - 1).add(lesson);
     }
 
@@ -212,9 +210,7 @@ public class Parser {
                 .setSubject(subject)
                 .setTeacher(teacher)
                 .setRoom(room);
-
         teacher.getSchedule().get(dayNumber - 1).add(lesson);
-
         return lesson;
     }
 
