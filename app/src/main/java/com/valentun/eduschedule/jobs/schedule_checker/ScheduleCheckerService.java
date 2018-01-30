@@ -68,7 +68,7 @@ public class ScheduleCheckerService extends JobService {
 
     private void showNotification() {
         Intent intent = new Intent(this, SplashActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(SplashActivity.EXTRA_FORCE_UPDATE, true);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,

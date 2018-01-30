@@ -17,7 +17,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.valentun.eduschedule.Constants;
 import com.valentun.eduschedule.R;
 import com.valentun.eduschedule.databinding.ScreenMyScheduleBinding;
-import com.valentun.eduschedule.ui.screens.detail_group.WeekGroupPageAdapter;
+import com.valentun.eduschedule.ui.screens.detail.detail_group.WeekGroupPageAdapter;
 import com.valentun.eduschedule.ui.screens.main.IBarView;
 import com.valentun.eduschedule.utils.DateUtils;
 

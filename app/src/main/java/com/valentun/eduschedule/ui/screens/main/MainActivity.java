@@ -17,15 +17,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.valentun.eduschedule.Constants.SCREENS;
 import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.R;
 import com.valentun.eduschedule.databinding.ActivityMainBinding;
+import com.valentun.eduschedule.ui.common.BaseActivity;
 import com.valentun.eduschedule.ui.common.callbacks.BackButtonListener;
-import com.valentun.eduschedule.ui.screens.detail_group.DetailGroupActivity;
-import com.valentun.eduschedule.ui.screens.detail_teacher.DetailTeacherActivity;
+import com.valentun.eduschedule.ui.screens.detail.DetailActivity;
 import com.valentun.eduschedule.ui.screens.main.choose_group.ChooseGroupFragment;
 import com.valentun.eduschedule.ui.screens.main.groups.GroupsFragment;
 import com.valentun.eduschedule.ui.screens.main.my_schedule.MyScheduleFragment;
@@ -44,7 +43,7 @@ import ru.terrakok.cicerone.commands.Command;
 import ru.terrakok.cicerone.commands.Forward;
 import ru.terrakok.cicerone.commands.Replace;
 
-public class MainActivity extends MvpAppCompatActivity implements
+public class MainActivity extends BaseActivity implements
         NavigationView.OnNavigationItemSelectedListener, IBarView, MainView {
 
     public static final String SCREEN_FRAGMENT_KEY = "SCREEN_FRAGMENT_KEY";
@@ -76,7 +75,6 @@ public class MainActivity extends MvpAppCompatActivity implements
             fragmentScreen = SCREENS.MY_SCHEDULE;
             if (getIntent().hasExtra(SCREEN_FRAGMENT_KEY)) {
                 fragmentScreen = getIntent().getStringExtra(SCREEN_FRAGMENT_KEY);
-
             }
             switch (fragmentScreen) {
                 case SCREENS.GROUPS_LIST:
@@ -91,7 +89,6 @@ public class MainActivity extends MvpAppCompatActivity implements
             }
             presenter.loadName();
             navigator.applyCommand(new Replace(fragmentScreen, null));
-
         }
     }
 
@@ -219,8 +216,7 @@ public class MainActivity extends MvpAppCompatActivity implements
                     showSchoolSelector();
                     return;
                 } else if (replace.getScreenKey().equals(SCREENS.FORCE_REFRESH)) {
-                    Intent intent = new Intent(MainActivity.this, SplashActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    Intent intent = buildNewTaskIntent(SplashActivity.class);
                     intent.putExtra(SplashActivity.EXTRA_FORCE_UPDATE, true);
                     intent.putExtra(SplashActivity.SCREEN_RETURN_KEY, fragmentScreen);
                     startActivity(intent);
@@ -278,17 +274,12 @@ public class MainActivity extends MvpAppCompatActivity implements
 
         private void showDetail(Forward forward) {
             NamedEntity data = (NamedEntity) forward.getTransitionData();
-            Class activity = DetailGroupActivity.class;
-            if (forward.getScreenKey().equals(SCREENS.GROUP_DETAIL)) {
-                activity = DetailGroupActivity.class;
-            }
-            if (forward.getScreenKey().equals(SCREENS.TEACHER_DETAIL)) {
-                activity = DetailTeacherActivity.class;
-            }
 
-            Intent intent = new Intent(MainActivity.this, activity);
+            Intent intent = new Intent(MainActivity.this, DetailActivity.class);
+            intent.putExtra(DetailActivity.EXTRA_TYPE, forward.getScreenKey());
             intent.putExtra(Intent.EXTRA_TEXT, data.getId());
             intent.putExtra(Intent.EXTRA_TITLE, data.getName());
+
             startActivity(intent);
         }
     }

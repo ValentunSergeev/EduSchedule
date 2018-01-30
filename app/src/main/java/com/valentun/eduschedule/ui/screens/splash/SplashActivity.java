@@ -7,13 +7,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.valentun.eduschedule.Constants;
 import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.R;
-import com.valentun.eduschedule.ui.screens.detail_group.DetailGroupActivity;
-import com.valentun.eduschedule.ui.screens.detail_teacher.DetailTeacherActivity;
+import com.valentun.eduschedule.ui.common.BaseActivity;
+import com.valentun.eduschedule.ui.screens.detail.DetailActivity;
 import com.valentun.eduschedule.ui.screens.main.MainActivity;
 import com.valentun.eduschedule.ui.screens.school_selector.SchoolSelectActivity;
 import com.valentun.parser.pojo.NamedEntity;
@@ -27,7 +26,7 @@ import ru.terrakok.cicerone.NavigatorHolder;
 import ru.terrakok.cicerone.android.SupportAppNavigator;
 
 
-public class SplashActivity extends MvpAppCompatActivity implements SplashView {
+public class SplashActivity extends BaseActivity implements SplashView {
     public static final String EXTRA_FORCE_UPDATE = "FORCE_UPDATE";
     public static final String SCREEN_RETURN_KEY = "SCREEN_RETURN_KEY";
     public static final String SCREEN_DETAIL_RETURN_KEY = "SCREEN_DETAIL_RETURN_KEY";
@@ -101,34 +100,27 @@ public class SplashActivity extends MvpAppCompatActivity implements SplashView {
             Intent intent;
             switch (screenKey) {
                 case Constants.SCREENS.SCHOOL_SELECTOR:
-                    intent = new Intent(SplashActivity.this, SchoolSelectActivity.class);
+                    intent = buildNewTaskIntent(SchoolSelectActivity.class);
                     break;
                 case Constants.SCREENS.GROUP_DETAIL:
-                    intent = new Intent(SplashActivity.this, DetailGroupActivity.class);
-                    intent.putExtra(Intent.EXTRA_TEXT, transitionData.getId());
-                    intent.putExtra(Intent.EXTRA_TITLE, transitionData.getName());
-                    break;
                 case Constants.SCREENS.TEACHER_DETAIL:
-                    intent = new Intent(SplashActivity.this, DetailTeacherActivity.class);
+                    intent = buildNewTaskIntent(DetailActivity.class);
+                    intent.putExtra(DetailActivity.EXTRA_TYPE, screenKey);
                     intent.putExtra(Intent.EXTRA_TEXT, transitionData.getId());
                     intent.putExtra(Intent.EXTRA_TITLE, transitionData.getName());
                     break;
-                default:
-                    intent = new Intent(SplashActivity.this, MainActivity.class);
+                case Constants.SCREENS.MAIN:
+                    intent = buildNewTaskIntent(MainActivity.class);
                     break;
-            }
-
-
-            switch (screenKey) {
                 case Constants.SCREENS.TEACHERS_LIST:
-                    intent.putExtra(MainActivity.SCREEN_FRAGMENT_KEY, screenKey);
-                    break;
                 case Constants.SCREENS.GROUPS_LIST:
+                case Constants.SCREENS.MY_SCHEDULE:
+                case Constants.SCREENS.CHOOSE_GROUP:
+                    intent = buildNewTaskIntent(MainActivity.class);
                     intent.putExtra(MainActivity.SCREEN_FRAGMENT_KEY, screenKey);
                     break;
                 default:
-                    intent.putExtra(MainActivity.SCREEN_FRAGMENT_KEY, Constants.SCREENS.MY_SCHEDULE);
-                    break;
+                    throw new IllegalArgumentException("Unknown screen");
             }
 
             return intent;

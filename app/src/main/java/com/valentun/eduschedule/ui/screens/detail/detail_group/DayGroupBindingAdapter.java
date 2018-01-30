@@ -1,4 +1,4 @@
-package com.valentun.eduschedule.ui.screens.detail_group;
+package com.valentun.eduschedule.ui.screens.detail.detail_group;
 
 import android.databinding.BindingAdapter;
 import android.text.TextUtils;

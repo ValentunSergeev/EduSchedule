@@ -1,4 +1,4 @@
-package com.valentun.eduschedule.ui.screens.detail_teacher;
+package com.valentun.eduschedule.ui.screens.detail.detail_group;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
@@ -15,19 +15,19 @@ import javax.inject.Inject;
 
 @SuppressWarnings("WeakerAccess")
 @InjectViewState
-public class DayTeacherPresenter extends MvpPresenter<ListView<Lesson>> {
+public class DayGroupPresenter extends MvpPresenter<ListView<Lesson>> {
     @Inject
     IRepository repository;
 
     private List<Lesson> lessons;
 
-    private String teacherId;
+    private String groupId;
     private int dayNumber;
 
-    public DayTeacherPresenter(String teacherId, int dayNumber) {
+    public DayGroupPresenter(String groupId, int dayNumber) {
         initDagger();
 
-        this.teacherId = teacherId;
+        this.groupId = groupId;
         this.dayNumber = dayNumber;
 
         getViewState().showProgress();
@@ -35,7 +35,7 @@ public class DayTeacherPresenter extends MvpPresenter<ListView<Lesson>> {
 
     public void getData() {
         if (lessons == null) {
-            repository.getTeacherSchedule(teacherId, dayNumber)
+            repository.getGroupSchedule(groupId, dayNumber)
                     .subscribe(lessons -> {
                         this.lessons = lessons;
 
