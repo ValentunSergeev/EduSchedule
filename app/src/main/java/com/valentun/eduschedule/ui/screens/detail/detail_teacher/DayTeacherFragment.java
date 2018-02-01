@@ -11,12 +11,13 @@ import com.valentun.eduschedule.R;
 import com.valentun.eduschedule.ui.common.fragments.RecyclerViewFragment;
 import com.valentun.eduschedule.ui.common.views.ListView;
 import com.valentun.eduschedule.utils.DateUtils;
+import com.valentun.parser.pojo.Group;
 import com.valentun.parser.pojo.Lesson;
 
 import java.util.List;
 
 public class DayTeacherFragment extends RecyclerViewFragment<Lesson>
-        implements ListView<Lesson> {
+        implements ListView<Lesson>, DayTeacherAdapter.Handler {
 
     private static final String DAY_NUMBER_KEY = "DAY_NUMBER";
     private static final String TEACHER_ID_KEY = "TEACHER_ID";
@@ -53,7 +54,7 @@ public class DayTeacherFragment extends RecyclerViewFragment<Lesson>
 
     @Override
     protected RecyclerView.Adapter getAdapter(List<Lesson> data) {
-        return new DayTeacherAdapter(data, DateUtils.ViewPagerUtils.isPageCurrent(getDayNumber()));
+        return new DayTeacherAdapter(data, DateUtils.ViewPagerUtils.isPageCurrent(getDayNumber()), this);
     }
 
     @Override
@@ -70,7 +71,7 @@ public class DayTeacherFragment extends RecyclerViewFragment<Lesson>
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if(isVisible && !isHasAdapter()) {
+        if (isVisible && !isHasAdapter()) {
             presenter.getData();
         }
     }
@@ -97,5 +98,10 @@ public class DayTeacherFragment extends RecyclerViewFragment<Lesson>
 
     private String getTeacherId() {
         return getArguments().getString(TEACHER_ID_KEY);
+    }
+
+    @Override
+    public void showGroup(Group group) {
+        presenter.showGroupSchedule(group);
     }
 }

@@ -33,13 +33,11 @@ import ru.terrakok.cicerone.android.SupportAppNavigator;
 
 public class DetailActivity extends BaseActivity {
     public static final String EXTRA_TYPE = "DetailActivity.EXTRA_TYPE";
-    private ActivityDetailBinding binding;
-    private ActionBar actionBar;
-
-    private Navigator navigator;
-
     @Inject
     NavigatorHolder navigatorHolder;
+    private ActivityDetailBinding binding;
+    private ActionBar actionBar;
+    private Navigator navigator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,17 +144,14 @@ public class DetailActivity extends BaseActivity {
         protected Intent createActivityIntent(String screenKey, Object data) {
             Intent intent;
             NamedEntity extras = (NamedEntity) data;
-
-            switch (screenKey) {
-                case Constants.SCREENS.GROUP_DETAIL:
-                case Constants.SCREENS.TEACHER_DETAIL:
-                    intent = new Intent(DetailActivity.this, DetailActivity.class);
-                    intent.putExtra(DetailActivity.EXTRA_TYPE, screenKey);
-                    intent.putExtra(Intent.EXTRA_TEXT, extras.getId());
-                    intent.putExtra(Intent.EXTRA_TITLE, extras.getName());
-                    break;
-                default:
-                    throw new IllegalArgumentException("Unknown screen key");
+            if (screenKey.equals(Constants.SCREENS.GROUP_DETAIL) ||
+                    screenKey.equals(Constants.SCREENS.TEACHER_DETAIL)) {
+                intent = new Intent(DetailActivity.this, DetailActivity.class);
+                intent.putExtra(DetailActivity.EXTRA_TYPE, screenKey);
+                intent.putExtra(Intent.EXTRA_TEXT, extras.getId());
+                intent.putExtra(Intent.EXTRA_TITLE, extras.getName());
+            } else {
+                throw new IllegalArgumentException("Unknown screen key");
             }
 
             return intent;
