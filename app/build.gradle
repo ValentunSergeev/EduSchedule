@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 27
@@ -54,6 +55,7 @@ ext {
     okHttpVersion = "3.9.0"
     jobDispatcherVersion = "0.8.5"
     firebaseServicesVersion = "11.8.0"
+    crashlyticsVersion = "2.7.1@aar"
 }
 
 dependencies {
@@ -64,7 +66,7 @@ dependencies {
     implementation "com.arello-mobile:moxy:$moxyVersion"
     implementation "com.arello-mobile:moxy-app-compat:$moxyVersion"
     annotationProcessor "com.arello-mobile:moxy-compiler:$moxyVersion"
-    //DI
+    // DI
     implementation "com.google.dagger:dagger:$daggerVersion"
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
     // Navigation
@@ -76,7 +78,10 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'org.jsoup:jsoup:1.10.3'
     implementation "com.firebase:firebase-jobdispatcher:$jobDispatcherVersion"
-
+    // Analytics
+    compile("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion") {
+        transitive = true
+    }
     implementation "com.google.firebase:firebase-core:$firebaseServicesVersion"
 }
 
