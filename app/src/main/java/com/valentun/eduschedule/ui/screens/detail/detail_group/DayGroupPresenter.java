@@ -2,22 +2,29 @@ package com.valentun.eduschedule.ui.screens.detail.detail_group;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+import com.valentun.eduschedule.Constants;
 import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.data.IRepository;
 import com.valentun.eduschedule.data.network.ErrorHandler;
 import com.valentun.eduschedule.di.AppComponent;
 import com.valentun.eduschedule.ui.common.views.ListView;
 import com.valentun.parser.pojo.Lesson;
+import com.valentun.parser.pojo.Teacher;
 
 import java.util.List;
 
 import javax.inject.Inject;
+
+import ru.terrakok.cicerone.Router;
 
 @SuppressWarnings("WeakerAccess")
 @InjectViewState
 public class DayGroupPresenter extends MvpPresenter<ListView<Lesson>> {
     @Inject
     IRepository repository;
+
+    @Inject
+    Router router;
 
     private List<Lesson> lessons;
 
@@ -61,5 +68,9 @@ public class DayGroupPresenter extends MvpPresenter<ListView<Lesson>> {
         if (component != null) {
             component.inject(this);
         }
+    }
+
+    public void showTeacherSchedule(Teacher teacher) {
+        router.navigateTo(Constants.SCREENS.TEACHER_DETAIL, teacher);
     }
 }

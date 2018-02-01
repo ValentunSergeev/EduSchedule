@@ -7,6 +7,7 @@ import com.valentun.eduschedule.di.modules.JobModule;
 import com.valentun.eduschedule.di.modules.NavigationModule;
 import com.valentun.eduschedule.di.modules.NetworkModule;
 import com.valentun.eduschedule.jobs.schedule_checker.ScheduleCheckerService;
+import com.valentun.eduschedule.ui.screens.detail.DetailActivity;
 import com.valentun.eduschedule.ui.screens.detail.detail_group.DayGroupPresenter;
 import com.valentun.eduschedule.ui.screens.detail.detail_teacher.DayTeacherPresenter;
 import com.valentun.eduschedule.ui.screens.main.MainActivity;
@@ -57,4 +58,6 @@ public interface AppComponent {
     void inject(ChooseGroupPresenter chooseGroupPresenter);
 
     void inject(ScheduleCheckerService scheduleCheckerService);
+
+    void inject(DetailActivity detailActivity);
 }

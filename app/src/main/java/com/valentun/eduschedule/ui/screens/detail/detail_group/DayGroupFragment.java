@@ -12,11 +12,12 @@ import com.valentun.eduschedule.ui.common.fragments.RecyclerViewFragment;
 import com.valentun.eduschedule.ui.common.views.ListView;
 import com.valentun.eduschedule.utils.DateUtils;
 import com.valentun.parser.pojo.Lesson;
+import com.valentun.parser.pojo.Teacher;
 
 import java.util.List;
 
 public class DayGroupFragment extends RecyclerViewFragment<Lesson>
-        implements ListView<Lesson> {
+        implements ListView<Lesson>,DayGroupAdapter.Handler {
 
     private static final String DAY_NUMBER_KEY = "DAY_NUMBER";
     private static final String GROUP_ID_KEY = "GROUP_ID";
@@ -53,7 +54,7 @@ public class DayGroupFragment extends RecyclerViewFragment<Lesson>
 
     @Override
     protected RecyclerView.Adapter getAdapter(List<Lesson> data) {
-        return new DayGroupAdapter(data, DateUtils.ViewPagerUtils.isPageCurrent(getDayNumber()));
+        return new DayGroupAdapter(data, DateUtils.ViewPagerUtils.isPageCurrent(getDayNumber()), this);
     }
 
     @Override
@@ -97,5 +98,10 @@ public class DayGroupFragment extends RecyclerViewFragment<Lesson>
 
     private String getGroupId() {
         return getArguments().getString(GROUP_ID_KEY);
+    }
+
+    @Override
+    public void showTeacher(Teacher teacher) {
+        presenter.showTeacherSchedule(teacher);
     }
 }

@@ -3,6 +3,8 @@ package com.valentun.eduschedule.ui.screens.detail;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
@@ -10,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.valentun.eduschedule.Constants;
+import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.R;
 import com.valentun.eduschedule.databinding.ActivityDetailBinding;
 import com.valentun.eduschedule.ui.common.BaseActivity;
@@ -17,8 +20,15 @@ import com.valentun.eduschedule.ui.screens.detail.detail_group.WeekGroupPageAdap
 import com.valentun.eduschedule.ui.screens.detail.detail_teacher.WeekTeacherPageAdapter;
 import com.valentun.eduschedule.ui.screens.splash.SplashActivity;
 import com.valentun.eduschedule.utils.DateUtils;
+import com.valentun.parser.pojo.NamedEntity;
 
 import java.util.ArrayList;
+
+import javax.inject.Inject;
+
+import ru.terrakok.cicerone.Navigator;
+import ru.terrakok.cicerone.NavigatorHolder;
+import ru.terrakok.cicerone.android.SupportAppNavigator;
 
 
 public class DetailActivity extends BaseActivity {
@@ -26,13 +36,21 @@ public class DetailActivity extends BaseActivity {
     private ActivityDetailBinding binding;
     private ActionBar actionBar;
 
+    private Navigator navigator;
+
+    @Inject
+    NavigatorHolder navigatorHolder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MyApplication.INSTANCE.getAppComponent().inject(this);
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
         initToolbar();
         initPager();
+
+        navigator = new DetailNavigator(this);
     }
 
     @Override
@@ -60,6 +78,18 @@ public class DetailActivity extends BaseActivity {
         } else {
             return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onResumeFragments() {
+        super.onResumeFragments();
+        navigatorHolder.setNavigator(navigator);
+    }
+
+    @Override
+    protected void onPause() {
+        navigatorHolder.removeNavigator();
+        super.onPause();
     }
 
     private void initToolbar() {
@@ -105,5 +135,36 @@ public class DetailActivity extends BaseActivity {
 
     private String getType() {
         return getIntent().getStringExtra(EXTRA_TYPE);
+    }
+
+    private class DetailNavigator extends SupportAppNavigator {
+        private DetailNavigator(FragmentActivity activity) {
+            super(activity, 0);
+        }
+
+        @Override
+        protected Intent createActivityIntent(String screenKey, Object data) {
+            Intent intent;
+            NamedEntity extras = (NamedEntity) data;
+
+            switch (screenKey) {
+                case Constants.SCREENS.GROUP_DETAIL:
+                case Constants.SCREENS.TEACHER_DETAIL:
+                    intent = new Intent(DetailActivity.this, DetailActivity.class);
+                    intent.putExtra(DetailActivity.EXTRA_TYPE, screenKey);
+                    intent.putExtra(Intent.EXTRA_TEXT, extras.getId());
+                    intent.putExtra(Intent.EXTRA_TITLE, extras.getName());
+                    break;
+                default:
+                    throw new IllegalArgumentException("Unknown screen key");
+            }
+
+            return intent;
+        }
+
+        @Override
+        protected Fragment createFragment(String screenKey, Object data) {
+            return null;
+        }
     }
 }
