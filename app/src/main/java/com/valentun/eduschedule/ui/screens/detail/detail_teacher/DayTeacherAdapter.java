@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 import com.valentun.eduschedule.BR;
 import com.valentun.eduschedule.R;
 import com.valentun.eduschedule.databinding.ItemTeacherLessonBinding;
+import com.valentun.eduschedule.ui.common.dialogs.OptionsDialog;
 import com.valentun.eduschedule.utils.DateUtils;
+import com.valentun.parser.pojo.Group;
 import com.valentun.parser.pojo.Lesson;
 import com.valentun.parser.pojo.Period;
 
@@ -21,10 +23,12 @@ public class DayTeacherAdapter extends RecyclerView.Adapter<DayTeacherAdapter.Le
 
     private List<Lesson> lessons;
     private boolean isCurrentDay;
+    private Handler handler;
 
-    DayTeacherAdapter(List<Lesson> lessons, boolean isCurrentDay) {
+    DayTeacherAdapter(List<Lesson> lessons, boolean isCurrentDay, Handler handler) {
         this.lessons = lessons;
         this.isCurrentDay = isCurrentDay;
+        this.handler = handler;
     }
 
     @Override
@@ -48,13 +52,18 @@ public class DayTeacherAdapter extends RecyclerView.Adapter<DayTeacherAdapter.Le
         return lessons.size();
     }
 
+    interface Handler {
+        void showGroup(Group group);
+    }
 
     class LessonHolder extends RecyclerView.ViewHolder {
         private ItemTeacherLessonBinding binding;
+        private View indicator;
 
         LessonHolder(ItemTeacherLessonBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            indicator = binding.indicator;
         }
 
         @SuppressWarnings("RedundantCast")
@@ -72,6 +81,13 @@ public class DayTeacherAdapter extends RecyclerView.Adapter<DayTeacherAdapter.Le
             }
 
             binding.indicator.setVisibility(visibility);
+
+            Group group = current.getGroup();
+            binding.getRoot().setOnClickListener(v ->
+                    new OptionsDialog(group.getName())
+                            .show(indicator.getContext())
+                            .subscribe(ignored -> handler.showGroup(group))
+            );
         }
     }
 }
