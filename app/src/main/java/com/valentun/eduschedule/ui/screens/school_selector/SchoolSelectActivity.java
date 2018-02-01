@@ -60,7 +60,7 @@ public class SchoolSelectActivity extends MvpAppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.force_refresh) {
             Intent intent = new Intent(SchoolSelectActivity.this, SplashActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.putExtra(SplashActivity.EXTRA_FORCE_UPDATE, true);
             intent.putExtra(SplashActivity.SCREEN_RETURN_KEY, Constants.SCREENS.SCHOOL_SELECTOR);
             startActivity(intent);

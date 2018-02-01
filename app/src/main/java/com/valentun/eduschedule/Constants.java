@@ -12,6 +12,7 @@ public class Constants {
     public static final String NOTIFICATION_CHANNEL = "Eduschedule";
     public static final int NOTIFICATION_DELAY = 5; // 5 seconds
     public static final long[] VIBRATION_PATTERN = {0, 500, 500, 500};
+    public static final long BACK_MODE_TIME = 1000; // one second
 
     public static class SCREENS {
         public static final String GROUPS_LIST = "GROUPS_LIST";

@@ -1,4 +1,4 @@
-package com.valentun.eduschedule.ui.screens.detail_group;
+package com.valentun.eduschedule.ui.screens.detail.detail_group;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
@@ -12,9 +12,13 @@ import com.valentun.eduschedule.BR;
 import com.valentun.eduschedule.R;
 import com.valentun.eduschedule.databinding.ItemDoubleLessonBinding;
 import com.valentun.eduschedule.databinding.ItemGroupLessonBinding;
+import com.valentun.eduschedule.ui.common.dialogs.OptionsDialog;
 import com.valentun.eduschedule.utils.DateUtils;
 import com.valentun.parser.pojo.Lesson;
 import com.valentun.parser.pojo.Period;
+import com.valentun.parser.pojo.SingleLesson;
+import com.valentun.parser.pojo.SubGroupLesson;
+import com.valentun.parser.pojo.Teacher;
 
 import java.util.List;
 
@@ -24,12 +28,13 @@ class DayGroupAdapter extends RecyclerView.Adapter<DayGroupAdapter.LessonHolder>
 
     private List<Lesson> lessons;
     private boolean isCurrentDay;
+    private Handler handler;
 
-    DayGroupAdapter(List<Lesson> lessons, boolean isCurrentDay) {
+    DayGroupAdapter(List<Lesson> lessons, boolean isCurrentDay, Handler handler) {
         this.lessons = lessons;
         this.isCurrentDay = isCurrentDay;
+        this.handler = handler;
     }
-
 
     @Override
     public DayGroupAdapter.LessonHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -55,6 +60,10 @@ class DayGroupAdapter extends RecyclerView.Adapter<DayGroupAdapter.LessonHolder>
     @Override
     public int getItemViewType(int position) {
         return lessons.get(position).isSingle() ? SINGLE_LESSON : DOUBLE_LESSON;
+    }
+
+    interface Handler {
+        void showTeacher(Teacher teacher);
     }
 
     class LessonHolder extends RecyclerView.ViewHolder {
@@ -87,6 +96,34 @@ class DayGroupAdapter extends RecyclerView.Adapter<DayGroupAdapter.LessonHolder>
             }
 
             indicator.setVisibility(visibility);
+
+            if (getItemViewType() == SINGLE_LESSON) {
+                bindSingle((SingleLesson) current);
+            } else {
+                bindDouble((SubGroupLesson) current);
+            }
+        }
+
+        private void bindDouble(SubGroupLesson lesson) {
+            List<SingleLesson> subLessons = lesson.getSubLessons();
+            Teacher teacher1 = subLessons.get(0).getTeacher();
+            Teacher teacher2 = subLessons.get(1).getTeacher();
+
+            binding.getRoot().setOnClickListener(v ->
+                    new OptionsDialog(teacher1.getName(), teacher2.getName())
+                            .show(indicator.getContext())
+                            .subscribe(which ->
+                                    handler.showTeacher(subLessons.get(which).getTeacher()))
+            );
+        }
+
+        private void bindSingle(SingleLesson lesson) {
+            Teacher teacher = lesson.getTeacher();
+            binding.getRoot().setOnClickListener(v ->
+                    new OptionsDialog(teacher.getName())
+                            .show(indicator.getContext())
+                            .subscribe(ignored -> handler.showTeacher(teacher))
+            );
         }
     }
 }

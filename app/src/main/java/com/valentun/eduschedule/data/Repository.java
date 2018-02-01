@@ -3,13 +3,16 @@ package com.valentun.eduschedule.data;
 import android.text.TextUtils;
 
 import com.valentun.eduschedule.BuildConfig;
+import com.valentun.eduschedule.Constants;
 import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.data.dto.SchoolInfo;
 import com.valentun.eduschedule.data.network.ErrorHandler;
 import com.valentun.eduschedule.data.network.NetworkStatusChecker;
 import com.valentun.eduschedule.data.network.RestService;
 import com.valentun.eduschedule.data.persistance.PreferenceManager;
+import com.valentun.eduschedule.data.persistance.SettingsManager;
 import com.valentun.eduschedule.di.AppComponent;
+import com.valentun.eduschedule.jobs.JobManager;
 import com.valentun.parser.Parser;
 import com.valentun.parser.pojo.Group;
 import com.valentun.parser.pojo.Lesson;
@@ -49,6 +52,10 @@ public class Repository implements IRepository {
     PreferenceManager preferenceManager;
     @Inject
     Parser parser;
+    @Inject
+    JobManager jobManager;
+    @Inject
+    SettingsManager settingsManager;
 
     private School school;
     private boolean isCachedSchedule = false;
@@ -78,6 +85,9 @@ public class Repository implements IRepository {
 
                             this.school = result;
                             isCachedSchedule = false;
+
+                            if (settingsManager.isNotificationsEnabled())
+                                jobManager.startJob(Constants.JOBS.CHECK_SCHEDULE);
 
                             return result;
                         })
@@ -178,6 +188,8 @@ public class Repository implements IRepository {
     public void clearSchoolId() {
         preferenceManager.clearSchool();
         school = null;
+
+        jobManager.stopJob(Constants.JOBS.CHECK_SCHEDULE);
     }
 
     @Override

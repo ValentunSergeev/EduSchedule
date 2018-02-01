@@ -1,4 +1,4 @@
-package com.valentun.eduschedule.ui.screens.detail_teacher;
+package com.valentun.eduschedule.ui.screens.detail.detail_teacher;
 
 import android.databinding.DataBindingUtil;
 import android.support.annotation.Nullable;

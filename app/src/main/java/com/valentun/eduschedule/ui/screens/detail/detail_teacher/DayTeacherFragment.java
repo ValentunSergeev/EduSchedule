@@ -1,4 +1,4 @@
-package com.valentun.eduschedule.ui.screens.detail_group;
+package com.valentun.eduschedule.ui.screens.detail.detail_teacher;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,36 +15,45 @@ import com.valentun.parser.pojo.Lesson;
 
 import java.util.List;
 
-public class DayGroupFragment extends RecyclerViewFragment<Lesson>
+public class DayTeacherFragment extends RecyclerViewFragment<Lesson>
         implements ListView<Lesson> {
 
     private static final String DAY_NUMBER_KEY = "DAY_NUMBER";
-    private static final String GROUP_ID_KEY = "GROUP_ID";
+    private static final String TEACHER_ID_KEY = "TEACHER_ID";
 
     @InjectPresenter
-    DayGroupPresenter presenter;
+    DayTeacherPresenter presenter;
 
     private boolean isVisible;
 
-    public static DayGroupFragment newInstance(String groupId, int dayNumber) {
+    public static DayTeacherFragment newInstance(String teacherId, int dayNumber) {
         Bundle bundle = new Bundle();
         bundle.putInt(DAY_NUMBER_KEY, dayNumber);
-        bundle.putString(GROUP_ID_KEY, groupId);
+        bundle.putString(TEACHER_ID_KEY, teacherId);
 
-        DayGroupFragment fragment = new DayGroupFragment();
+        DayTeacherFragment fragment = new DayTeacherFragment();
         fragment.setArguments(bundle);
 
         return fragment;
     }
 
     @ProvidePresenter
-    public DayGroupPresenter providePresenter() {
-        return new DayGroupPresenter(getGroupId(), getDayNumber());
+    public DayTeacherPresenter providePresenter() {
+        return new DayTeacherPresenter(getTeacherId(), getDayNumber());
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if (isHasAdapter()) {
+            binding.list.getAdapter().notifyDataSetChanged();
+        }
     }
 
     @Override
     protected RecyclerView.Adapter getAdapter(List<Lesson> data) {
-        return new DayGroupAdapter(data, DateUtils.ViewPagerUtils.isPageCurrent(getDayNumber()));
+        return new DayTeacherAdapter(data, DateUtils.ViewPagerUtils.isPageCurrent(getDayNumber()));
     }
 
     @Override
@@ -86,7 +95,7 @@ public class DayGroupFragment extends RecyclerViewFragment<Lesson>
         return getArguments().getInt(DAY_NUMBER_KEY);
     }
 
-    private String getGroupId() {
-        return getArguments().getString(GROUP_ID_KEY);
+    private String getTeacherId() {
+        return getArguments().getString(TEACHER_ID_KEY);
     }
 }
