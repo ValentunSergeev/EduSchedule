@@ -77,11 +77,11 @@ dependencies {
     implementation project(':parser')
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'org.jsoup:jsoup:1.10.3'
-    implementation "com.firebase:firebase-jobdispatcher:$jobDispatcherVersion"
     // Analytics
-    compile("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion") {
+    implementation("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion") {
         transitive = true
     }
+    implementation "com.firebase:firebase-jobdispatcher:$jobDispatcherVersion"
     implementation "com.google.firebase:firebase-core:$firebaseServicesVersion"
 }
 
