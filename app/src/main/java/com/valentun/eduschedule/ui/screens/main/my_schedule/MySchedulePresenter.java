@@ -5,8 +5,10 @@ import com.arellomobile.mvp.MvpPresenter;
 import com.valentun.eduschedule.Constants;
 import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.data.IRepository;
+import com.valentun.eduschedule.data.persistance.SettingsManager;
 import com.valentun.eduschedule.di.AppComponent;
-import com.valentun.parser.pojo.Group;
+import com.valentun.eduschedule.utils.NavigationUtils;
+import com.valentun.parser.pojo.NamedEntity;
 
 import javax.inject.Inject;
 
@@ -21,41 +23,51 @@ public class MySchedulePresenter extends MvpPresenter<MyScheduleView> {
     @Inject
     Router router;
 
-    private Group group;
+    @Inject
+    SettingsManager settingsManager;
+
+    private NamedEntity object;
 
     public MySchedulePresenter() {
         initDagger();
 
-        if (repository.isGroupChosen()) {
-            getViewState().showMySchedule(repository.getGroupId());
+        if (!settingsManager.isTypeChosen()) {
+            repository.clearMyScheduleObjectId();
 
-            if (group == null)
-                repository.getChosenGroup()
-                        .subscribe(group1 -> {
-                            group = group1;
-                            getViewState().showGroupName(group.getName());
-                        });
-            else
-                getViewState().showGroupName(group.getName());
+            router.navigateTo(Constants.SCREENS.SCHEDULE_TYPE_CHOOSER);
         } else {
-            openGroupSelector();
+            if (repository.isObjectChosen()) {
+                getViewState().showMySchedule(repository.getObjectId(), settingsManager.getPreferredScheduleType());
+
+                if (object == null)
+                    repository.getChosenScheduleObject()
+                            .subscribe(object -> {
+                                this.object = object;
+                                getViewState().showObjectName(object.getName());
+                            });
+                else
+                    getViewState().showObjectName(object.getName());
+            } else {
+                openScheduleSelector();
+            }
         }
     }
 
     // ======= region MySchedulePresenter =======
 
     void changeGroupClicked() {
-        repository.clearGroupId();
+        repository.clearMyScheduleObjectId();
 
-        openGroupSelector();
+        openScheduleSelector();
     }
 
     // end
 
     // ======= region private methods =======
 
-    private void openGroupSelector() {
-        router.navigateTo(Constants.SCREENS.CHOOSE_GROUP);
+    private void openScheduleSelector() {
+        String screen = NavigationUtils.getScreenKeyFromScheduleType(settingsManager.getPreferredScheduleType());
+        router.navigateTo(screen);
     }
 
     private void initDagger() {

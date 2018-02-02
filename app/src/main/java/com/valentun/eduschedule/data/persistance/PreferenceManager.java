@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
 import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
 public class PreferenceManager {
-    private static final String GROUP_KEY = "SELECTED_GROUP";
+    private static final String MY_SCHEDULE_OBJECT_KEY = "SELECTED_GROUP";
     private static final String SCHOOL_KEY = "SELECTED_SCHOOL";
     private static final String SCHEDULE_KEY = "CACHED_SCHEDULE";
     private static final String SCHEDULE_TIME_KEY = "CACHED_SCHEDULE_DATE";
@@ -21,26 +21,26 @@ public class PreferenceManager {
         preferences = getDefaultSharedPreferences(context);
     }
 
-    public boolean isGroupChosen() {
-        return preferences.contains(GROUP_KEY);
+    public boolean isObjectChosen() {
+        return preferences.contains(MY_SCHEDULE_OBJECT_KEY);
     }
 
-    public void setGroup(String groupID) {
-        preferences.edit().putString(GROUP_KEY, groupID).apply();
+    public void setMyScheduleObject(String objectId) {
+        preferences.edit().putString(MY_SCHEDULE_OBJECT_KEY, objectId).apply();
     }
 
-    public String getGroupId() {
-        return preferences.getString(GROUP_KEY, null);
+    public String getObjectId() {
+        return preferences.getString(MY_SCHEDULE_OBJECT_KEY, null);
     }
 
-    public void clearGroup() {
-        preferences.edit().remove(GROUP_KEY).apply();
+    public void clearMyScheduleObject() {
+        preferences.edit().remove(MY_SCHEDULE_OBJECT_KEY).apply();
     }
 
     public void clearSchool() {
         preferences.edit()
                 .remove(SCHOOL_KEY)
-                .remove(GROUP_KEY)
+                .remove(MY_SCHEDULE_OBJECT_KEY)
                 .remove(SCHEDULE_KEY)
                 .remove(SCHEDULE_TIME_KEY)
                 .remove(SCHEDULE_PATH)
@@ -53,8 +53,8 @@ public class PreferenceManager {
                 .apply();
     }
 
-    public void setSchool(int groupId) {
-        preferences.edit().putInt(SCHOOL_KEY, groupId).apply();
+    public void setSchool(int schoolId) {
+        preferences.edit().putInt(SCHOOL_KEY, schoolId).apply();
     }
 
     public int getSchoolId() {

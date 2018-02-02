@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="schedule_type_entries">
+        <item>@string/type_student</item>
+        <item>@string/type_teacher</item>
+    </string-array>
+
+    <string-array name="schedule_type_values">
+        <item>STUDENT</item>
+        <item>TEACHER</item>
+    </string-array>
+</resources>

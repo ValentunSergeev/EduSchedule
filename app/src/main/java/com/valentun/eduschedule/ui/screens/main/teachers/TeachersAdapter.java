@@ -14,7 +14,7 @@ public class TeachersAdapter extends RecyclerView.Adapter<TeachersAdapter.Teache
     private List<Teacher> teachers;
     private EventHandler handler;
 
-    TeachersAdapter(List<Teacher> teachers, EventHandler handler) {
+    public TeachersAdapter(List<Teacher> teachers, EventHandler handler) {
         this.teachers = teachers;
         this.handler = handler;
     }

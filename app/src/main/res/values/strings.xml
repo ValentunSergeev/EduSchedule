@@ -8,7 +8,7 @@
     <string name="teachers">Teachers</string>
     <string name="my_schedule">My schedule</string>
     <string name="my_schedule_loaded">&#x2605; %s</string>
-    <string name="change_group">Change group</string>
+    <string name="change_group">Change schedule</string>
     <string name="group_selector_title">Choose your group</string>
     <string name="list_empty_placeholder">No items here</string>
     <string name="no_lessons">There are no lessons on this day</string>
@@ -38,4 +38,12 @@
     <string name="notifications_summary">Send notifications about schedule changes</string>
     <string name="refresh">Refresh</string>
     <string name="back_mode_message">Click one more time to exit</string>
+    <string name="type_chooser_title">Which type of schedule do you want to use?</string>
+    <string name="type_teacher">Teacher</string>
+    <string name="type_student">Student</string>
+    <string name="next">Next</string>
+    <string name="select_teacher">Select teacher</string>
+    <string name="schedule_type_title">My Schedule Type</string>
+    <string name="my_schedule_dialog_title">I am a…</string>
+    <string name="choose_type_hint">You can always change type in Settings</string>
 </resources>
