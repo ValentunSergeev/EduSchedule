@@ -1,4 +1,4 @@
-package com.valentun.eduschedule.ui.screens.main.choose_group;
+package com.valentun.eduschedule.ui.screens.main.choose_teacher;
 
 import android.widget.Filter;
 
@@ -11,8 +11,8 @@ import com.valentun.eduschedule.data.network.ErrorHandler;
 import com.valentun.eduschedule.di.AppComponent;
 import com.valentun.eduschedule.ui.common.BaseFilter;
 import com.valentun.eduschedule.ui.common.views.ListView;
-import com.valentun.parser.pojo.Group;
 import com.valentun.parser.pojo.NamedEntity;
+import com.valentun.parser.pojo.Teacher;
 
 import java.util.List;
 
@@ -21,45 +21,45 @@ import javax.inject.Inject;
 import ru.terrakok.cicerone.Router;
 
 @InjectViewState
-public class ChooseGroupPresenter extends MvpPresenter<ListView<Group>> {
+public class ChooseTeacherPresenter extends MvpPresenter<ListView<Teacher>> {
     @Inject
     Router router;
     @Inject
     IRepository repository;
 
-    Filter filter = new BaseFilter<Group>() {
+    Filter filter = new BaseFilter<Teacher>() {
         @Override
-        protected void showResult(List<Group> result) {
+        protected void showResult(List<Teacher> result) {
             getViewState().showData(result);
         }
 
         @Override
-        protected List<Group> findResult(CharSequence query) {
-            return repository.findGroups(query);
+        protected List<Teacher> findResult(CharSequence query) {
+            return repository.findTeachers(query);
         }
     };
 
-    public ChooseGroupPresenter() {
+    public ChooseTeacherPresenter() {
         initDagger();
 
         getViewState().showProgress();
         getData();
     }
 
-    // ======= region GroupsPresenter =======
+    // ======= region TeachersPresenter =======
 
     void getData() {
-        repository.getGroups()
-                .subscribe(groups -> {
-                    getViewState().showData(groups);
+        repository.getTeachers()
+                .subscribe(teachers -> {
+                    getViewState().showData(teachers);
                 }, error -> {
                     getViewState().showError(ErrorHandler.getErrorMessage(error));
                 });
     }
 
-    void itemClicked(NamedEntity group) {
-        repository.setMyScheduleObjectId(group.getId());
-        router.navigateTo(Constants.SCREENS.MY_SCHEDULE, group);
+    void itemClicked(NamedEntity teacher) {
+        repository.setMyScheduleObjectId(teacher.getId());
+        router.navigateTo(Constants.SCREENS.MY_SCHEDULE, teacher);
     }
 
     //endregion

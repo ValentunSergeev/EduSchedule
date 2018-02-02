@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -18,6 +19,7 @@ import com.valentun.eduschedule.Constants;
 import com.valentun.eduschedule.R;
 import com.valentun.eduschedule.databinding.ScreenMyScheduleBinding;
 import com.valentun.eduschedule.ui.screens.detail.detail_group.WeekGroupPageAdapter;
+import com.valentun.eduschedule.ui.screens.detail.detail_teacher.WeekTeacherPageAdapter;
 import com.valentun.eduschedule.ui.screens.main.IBarView;
 import com.valentun.eduschedule.utils.DateUtils;
 
@@ -82,16 +84,26 @@ public class MyScheduleFragment extends MvpAppCompatFragment
     }
 
     @Override
-    public void showMySchedule(String groupId) {
+    public void showMySchedule(String objectId, String scheduleType) {
         activity.setTitle(getString(R.string.my_schedule));
 
-        binding.detailPager.setAdapter(new WeekGroupPageAdapter(groupId, getChildFragmentManager()));
+        FragmentStatePagerAdapter adapter = null;
+
+        switch (scheduleType) {
+            case Constants.TYPE_TEACHER:
+                adapter = new WeekTeacherPageAdapter(objectId, getChildFragmentManager());
+                break;
+            case Constants.TYPE_STUDENT:
+                adapter = new WeekGroupPageAdapter(objectId, getChildFragmentManager());
+        }
+
+        binding.detailPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(binding.detailPager);
         binding.detailPager.setCurrentItem(DateUtils.ViewPagerUtils.getCurrentDayPosition());
     }
 
     @Override
-    public void showGroupName(String name) {
+    public void showObjectName(String name) {
         activity.setTitle(getString(R.string.my_schedule_loaded, name));
     }
 }

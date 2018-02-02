@@ -13,8 +13,11 @@ import com.valentun.eduschedule.ui.screens.detail.detail_teacher.DayTeacherPrese
 import com.valentun.eduschedule.ui.screens.main.MainActivity;
 import com.valentun.eduschedule.ui.screens.main.MainPresenter;
 import com.valentun.eduschedule.ui.screens.main.choose_group.ChooseGroupPresenter;
+import com.valentun.eduschedule.ui.screens.main.choose_teacher.ChooseTeacherPresenter;
+import com.valentun.eduschedule.ui.screens.main.choose_type.ChooseTypePresenter;
 import com.valentun.eduschedule.ui.screens.main.groups.GroupsPresenter;
 import com.valentun.eduschedule.ui.screens.main.my_schedule.MySchedulePresenter;
+import com.valentun.eduschedule.ui.screens.main.settings.SettingsFragment;
 import com.valentun.eduschedule.ui.screens.main.teachers.TeachersPresenter;
 import com.valentun.eduschedule.ui.screens.school_selector.SchoolSelectActivity;
 import com.valentun.eduschedule.ui.screens.school_selector.SchoolSelectPresenter;
@@ -60,4 +63,10 @@ public interface AppComponent {
     void inject(ScheduleCheckerService scheduleCheckerService);
 
     void inject(DetailActivity detailActivity);
+
+    void inject(ChooseTypePresenter chooseTypePresenter);
+
+    void inject(ChooseTeacherPresenter chooseTeacherPresenter);
+
+    void inject(SettingsFragment settingsFragment);
 }
