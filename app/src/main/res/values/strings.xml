@@ -38,7 +38,7 @@
     <string name="notifications_summary">Send notifications about schedule changes</string>
     <string name="refresh">Refresh</string>
     <string name="back_mode_message">Click one more time to exit</string>
-    <string name="type_chooser_title">Which type of schedule do you want to use?</string>
+    <string name="type_chooser_title">I am a…</string>
     <string name="type_teacher">Teacher</string>
     <string name="type_student">Student</string>
     <string name="next">Next</string>
