@@ -36,8 +36,8 @@ public class MySchedulePresenter extends MvpPresenter<MyScheduleView> {
 
             router.navigateTo(Constants.SCREENS.SCHEDULE_TYPE_CHOOSER);
         } else {
-            if (repository.isGroupChosen()) {
-                getViewState().showMySchedule(repository.getGroupId(), settingsManager.getPreferredScheduleType());
+            if (repository.isObjectChosen()) {
+                getViewState().showMySchedule(repository.getObjectId(), settingsManager.getPreferredScheduleType());
 
                 if (object == null)
                     repository.getChosenScheduleObject()

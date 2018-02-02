@@ -147,13 +147,13 @@ public class Repository implements IRepository {
     // ======= region selected Group =======
 
     @Override
-    public boolean isGroupChosen() {
-        return preferenceManager.isGroupChosen();
+    public boolean isObjectChosen() {
+        return preferenceManager.isObjectChosen();
     }
 
     @Override
-    public String getGroupId() {
-        return preferenceManager.getGroupId();
+    public String getObjectId() {
+        return preferenceManager.getObjectId();
     }
 
     @Override
@@ -200,11 +200,11 @@ public class Repository implements IRepository {
         switch (settingsManager.getPreferredScheduleType()) {
             case Constants.TYPE_STUDENT:
                 observable = getSchool(getSchoolId())
-                        .map(school1 -> (NamedEntity) school1.getGroup(String.valueOf(getGroupId())));
+                        .map(school1 -> (NamedEntity) school1.getGroup(String.valueOf(getObjectId())));
                 break;
             case Constants.TYPE_TEACHER:
                 observable = getSchool(getSchoolId())
-                        .map(school1 -> (NamedEntity) school1.getTeacher(String.valueOf(getGroupId())));
+                        .map(school1 -> (NamedEntity) school1.getTeacher(String.valueOf(getObjectId())));
                 break;
             default:
                 throw new IllegalArgumentException("Unknown type");

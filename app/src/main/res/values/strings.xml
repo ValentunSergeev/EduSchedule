@@ -44,6 +44,6 @@
     <string name="next">Next</string>
     <string name="select_teacher">Select teacher</string>
     <string name="schedule_type_title">My Schedule Type</string>
-    <string name="my_schedule_dialog_title">Select type you want to use</string>
+    <string name="my_schedule_dialog_title">I am a…</string>
     <string name="choose_type_hint">You can always change type in Settings</string>
 </resources>

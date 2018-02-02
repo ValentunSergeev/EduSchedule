@@ -21,15 +21,15 @@ public class PreferenceManager {
         preferences = getDefaultSharedPreferences(context);
     }
 
-    public boolean isGroupChosen() {
+    public boolean isObjectChosen() {
         return preferences.contains(MY_SCHEDULE_OBJECT_KEY);
     }
 
-    public void setMyScheduleObject(String groupID) {
-        preferences.edit().putString(MY_SCHEDULE_OBJECT_KEY, groupID).apply();
+    public void setMyScheduleObject(String objectId) {
+        preferences.edit().putString(MY_SCHEDULE_OBJECT_KEY, objectId).apply();
     }
 
-    public String getGroupId() {
+    public String getObjectId() {
         return preferences.getString(MY_SCHEDULE_OBJECT_KEY, null);
     }
 
@@ -53,8 +53,8 @@ public class PreferenceManager {
                 .apply();
     }
 
-    public void setSchool(int groupId) {
-        preferences.edit().putInt(SCHOOL_KEY, groupId).apply();
+    public void setSchool(int schoolId) {
+        preferences.edit().putInt(SCHOOL_KEY, schoolId).apply();
     }
 
     public int getSchoolId() {

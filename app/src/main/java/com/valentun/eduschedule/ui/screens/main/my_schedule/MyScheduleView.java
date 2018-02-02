@@ -4,6 +4,6 @@ import com.arellomobile.mvp.MvpView;
 
 @SuppressWarnings("WeakerAccess")
 public interface MyScheduleView extends MvpView {
-    void showMySchedule(String groupId, String scheduleType);
+    void showMySchedule(String objectId, String scheduleType);
     void showObjectName(String name);
 }

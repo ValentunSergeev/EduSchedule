@@ -44,6 +44,6 @@
     <string name="next">Дальше</string>
     <string name="select_teacher">Выберете учителя</string>
     <string name="schedule_type_title">Тип расписания быстрого доступа</string>
-    <string name="my_schedule_dialog_title">Выберите тип, который вы хотите использовать</string>
+    <string name="my_schedule_dialog_title">Вы студент или учитель?</string>
     <string name="choose_type_hint">Вы всегда можете изменить выбранные тип в Настройках</string>
 </resources>

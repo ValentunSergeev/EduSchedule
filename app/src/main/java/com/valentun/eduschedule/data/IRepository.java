@@ -26,11 +26,11 @@ public interface IRepository {
 
     Observable<List<SchoolInfo>> getSchools();
 
-    boolean isGroupChosen();
+    boolean isObjectChosen();
 
-    String getGroupId();
+    String getObjectId();
 
-    void setMyScheduleObjectId(String groupId);
+    void setMyScheduleObjectId(String objectId);
 
     void clearMyScheduleObjectId();
 
