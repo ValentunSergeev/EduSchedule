@@ -20,6 +20,7 @@ import com.valentun.parser.pojo.SingleLesson;
 import com.valentun.parser.pojo.SubGroupLesson;
 import com.valentun.parser.pojo.Teacher;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class DayGroupAdapter extends RecyclerView.Adapter<DayGroupAdapter.LessonHolder> {
@@ -105,24 +106,34 @@ class DayGroupAdapter extends RecyclerView.Adapter<DayGroupAdapter.LessonHolder>
         }
 
         private void bindDouble(SubGroupLesson lesson) {
-            List<SingleLesson> subLessons = lesson.getSubLessons();
-            Teacher teacher1 = subLessons.get(0).getTeacher();
-            Teacher teacher2 = subLessons.get(1).getTeacher();
+            List<Teacher> teachers = new ArrayList<>();
 
-            binding.getRoot().setOnClickListener(v ->
-                    new OptionsDialog(teacher1.getName(), teacher2.getName())
-                            .show(indicator.getContext())
-                            .subscribe(which ->
-                                    handler.showTeacher(subLessons.get(which).getTeacher()))
-            );
+            for(SingleLesson subLesson : lesson.getSubLessons()) {
+                if (subLesson != null) {
+                    teachers.add(subLesson.getTeacher());
+                }
+            }
+
+            setLessonListener(teachers.toArray(new Teacher[teachers.size()]));
         }
 
         private void bindSingle(SingleLesson lesson) {
-            Teacher teacher = lesson.getTeacher();
+            if (lesson != null) {
+                setLessonListener(lesson.getTeacher());
+            }
+        }
+
+        private void setLessonListener(Teacher... teachers) {
+            String[] names = new String[teachers.length];
+
+            for (int i = 0; i < teachers.length; i++) {
+                names[i] = teachers[i].getName();
+            }
+
             binding.getRoot().setOnClickListener(v ->
-                    new OptionsDialog(teacher.getName())
+                    new OptionsDialog(names)
                             .show(indicator.getContext())
-                            .subscribe(ignored -> handler.showTeacher(teacher))
+                            .subscribe(i -> handler.showTeacher(teachers[i]))
             );
         }
     }
