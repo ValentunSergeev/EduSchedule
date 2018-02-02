@@ -28,6 +28,8 @@ import com.valentun.eduschedule.ui.common.BaseActivity;
 import com.valentun.eduschedule.ui.common.callbacks.BackButtonListener;
 import com.valentun.eduschedule.ui.screens.detail.DetailActivity;
 import com.valentun.eduschedule.ui.screens.main.choose_group.ChooseGroupFragment;
+import com.valentun.eduschedule.ui.screens.main.choose_teacher.ChooseTeacherFragment;
+import com.valentun.eduschedule.ui.screens.main.choose_type.ChooseTypeFragment;
 import com.valentun.eduschedule.ui.screens.main.groups.GroupsFragment;
 import com.valentun.eduschedule.ui.screens.main.my_schedule.MyScheduleFragment;
 import com.valentun.eduschedule.ui.screens.main.settings.SettingsFragment;
@@ -200,15 +202,13 @@ public class MainActivity extends BaseActivity implements
             return;
         }
 
-        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
-            if (isBackMode) {
-                finish();
-            } else {
-                isBackMode = true;
-                navigator.applyCommand(new SystemMessage(getString(R.string.back_mode_message)));
-                backModeHandler.removeCallbacksAndMessages(null);
-                backModeHandler.postDelayed(() -> isBackMode = false, Constants.BACK_MODE_TIME);
-            }
+        if (isBackMode) {
+            finish();
+        } else {
+            isBackMode = true;
+            navigator.applyCommand(new SystemMessage(getString(R.string.back_mode_message)));
+            backModeHandler.removeCallbacksAndMessages(null);
+            backModeHandler.postDelayed(() -> isBackMode = false, Constants.BACK_MODE_TIME);
         }
     }
 
@@ -264,6 +264,10 @@ public class MainActivity extends BaseActivity implements
                     return new ChooseGroupFragment();
                 case SCREENS.SETTINGS:
                     return new SettingsFragment();
+                case SCREENS.SCHEDULE_TYPE_CHOOSER:
+                    return new ChooseTypeFragment();
+                case SCREENS.CHOOSE_TEACHER:
+                    return new ChooseTeacherFragment();
                 default:
                     throw new UnsupportedOperationException("Unknown screen key");
             }

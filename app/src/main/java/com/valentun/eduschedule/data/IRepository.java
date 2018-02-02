@@ -4,6 +4,7 @@ package com.valentun.eduschedule.data;
 import com.valentun.eduschedule.data.dto.SchoolInfo;
 import com.valentun.parser.pojo.Group;
 import com.valentun.parser.pojo.Lesson;
+import com.valentun.parser.pojo.NamedEntity;
 import com.valentun.parser.pojo.School;
 import com.valentun.parser.pojo.Teacher;
 
@@ -29,9 +30,9 @@ public interface IRepository {
 
     String getGroupId();
 
-    void setGroupId(String groupId);
+    void setMyScheduleObjectId(String groupId);
 
-    void clearGroupId();
+    void clearMyScheduleObjectId();
 
     boolean isSchoolChosen();
 
@@ -41,7 +42,7 @@ public interface IRepository {
 
     void clearSchoolId();
 
-    Observable<Group> getChosenGroup();
+    Observable<NamedEntity> getChosenScheduleObject();
 
     Observable<School> getSchool(int schoolId, boolean forceUpdate);
 

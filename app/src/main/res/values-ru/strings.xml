@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Расписание занятий</string>
-    <string name="change_group">Изменить свою группу</string>
+    <string name="change_group">Выбрать другое расписание</string>
     <string name="change_school">Выбрать другую школу</string>
     <string name="close_drawer">Закрыть</string>
     <string name="group_selector_title">Выберите ваше расписание</string>
@@ -38,4 +38,12 @@
     <string name="notifications_summary">Отправлять уведомления об изменении расписания</string>
     <string name="refresh">Обновить</string>
     <string name="back_mode_message">Нажмите ещё раз для выхода</string>
+    <string name="type_chooser_title">Какой тип расписания вы хотите использовать?</string>
+    <string name="type_teacher">Учитель</string>
+    <string name="type_student">Ученик</string>
+    <string name="next">Дальше</string>
+    <string name="select_teacher">Выберете учителя</string>
+    <string name="schedule_type_title">Тип расписания быстрого доступа</string>
+    <string name="my_schedule_dialog_title">Выберите тип, который вы хотите использовать</string>
+    <string name="choose_type_hint">Вы всегда можете изменить выбранные тип в Настройках</string>
 </resources>

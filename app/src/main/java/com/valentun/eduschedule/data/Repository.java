@@ -16,6 +16,7 @@ import com.valentun.eduschedule.jobs.JobManager;
 import com.valentun.parser.Parser;
 import com.valentun.parser.pojo.Group;
 import com.valentun.parser.pojo.Lesson;
+import com.valentun.parser.pojo.NamedEntity;
 import com.valentun.parser.pojo.School;
 import com.valentun.parser.pojo.Teacher;
 
@@ -156,13 +157,13 @@ public class Repository implements IRepository {
     }
 
     @Override
-    public void setGroupId(String groupId) {
-        preferenceManager.setGroup(groupId);
+    public void setMyScheduleObjectId(String objectId) {
+        preferenceManager.setMyScheduleObject(objectId);
     }
 
     @Override
-    public void clearGroupId() {
-        preferenceManager.clearGroup();
+    public void clearMyScheduleObjectId() {
+        preferenceManager.clearMyScheduleObject();
     }
 
     // end
@@ -193,10 +194,23 @@ public class Repository implements IRepository {
     }
 
     @Override
-    public Observable<Group> getChosenGroup() {
-        return getSchool(getSchoolId())
-                .map(school1 -> school1.getGroup(String.valueOf(getGroupId())))
-                .observeOn(AndroidSchedulers.mainThread());
+    public Observable<NamedEntity> getChosenScheduleObject() {
+        Observable<NamedEntity> observable;
+
+        switch (settingsManager.getPreferredScheduleType()) {
+            case Constants.TYPE_STUDENT:
+                observable = getSchool(getSchoolId())
+                        .map(school1 -> (NamedEntity) school1.getGroup(String.valueOf(getGroupId())));
+                break;
+            case Constants.TYPE_TEACHER:
+                observable = getSchool(getSchoolId())
+                        .map(school1 -> (NamedEntity) school1.getTeacher(String.valueOf(getGroupId())));
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown type");
+        }
+
+        return observable.observeOn(AndroidSchedulers.mainThread());
     }
 
     // end
