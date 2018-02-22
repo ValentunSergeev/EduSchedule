@@ -27,7 +27,6 @@ public class ScheduleCheckerService extends JobService {
 
     @Inject
     IRepository repository;
-
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Override
@@ -42,7 +41,7 @@ public class ScheduleCheckerService extends JobService {
         Disposable disposable = repository.checkScheduleChangedAndUpdate()
                 .subscribe(isScheduleChanged -> {
                     if (isScheduleChanged) {
-                       showNotification();
+                        showNotification();
                     }
                     jobFinished(job, false);
                 }, error ->
@@ -86,9 +85,9 @@ public class ScheduleCheckerService extends JobService {
                 .setVibrate(Constants.VIBRATION_PATTERN)
                 .build();
 
-        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        if (manager != null) {
-            manager.notify(SESSION_ID, notification);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        if (notificationManager != null) {
+            notificationManager.notify(SESSION_ID, notification);
         }
     }
 }

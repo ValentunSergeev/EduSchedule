@@ -35,12 +35,19 @@
         <activity android:name=".ui.screens.school_selector.SchoolSelectActivity" />
 
         <service
-            android:exported="false"
-            android:name=".jobs.schedule_checker.ScheduleCheckerService">
+            android:name=".jobs.schedule_checker.ScheduleCheckerService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
             </intent-filter>
         </service>
+        <receiver
+            android:name=".NotificationReceiver"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

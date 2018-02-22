@@ -24,7 +24,7 @@ public class NavigationModule {
 
     @Provides
     @Singleton
-    NavigatorHolder providesNavigationHodler() {
+    NavigatorHolder providesNavigationHolder() {
         return cicerone.getNavigatorHolder();
     }
 }
