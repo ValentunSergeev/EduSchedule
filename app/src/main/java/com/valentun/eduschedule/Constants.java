@@ -4,7 +4,7 @@ package com.valentun.eduschedule;
 import android.support.annotation.StringDef;
 
 public class Constants {
-    public static final String BASE_URL = "http://eduschedule.apps.skbrii.ru";
+    public static final String BASE_URL = "https://eduschedule.herokuapp.com";
 
     public static final long MAX_TIMEOUT = 10_000;
     public static final int DAY_NUMBER = 6;

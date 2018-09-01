@@ -3,11 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/EduSchedule.iml" filepath="$PROJECT_DIR$/EduSchedule.iml" />
-      <module fileurl="file://C:\Users\skeleton96\Desktop\EduSchedule\EduSchedule.iml" filepath="C:\Users\skeleton96\Desktop\EduSchedule\EduSchedule.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\skeleton96\Desktop\EduSchedule\app\app.iml" filepath="C:\Users\skeleton96\Desktop\EduSchedule\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/parser/parser.iml" filepath="$PROJECT_DIR$/parser/parser.iml" />
-      <module fileurl="file://C:\Users\skeleton96\Desktop\EduSchedule\parser\parser.iml" filepath="C:\Users\skeleton96\Desktop\EduSchedule\parser\parser.iml" />
     </modules>
   </component>
 </project>
