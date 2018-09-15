@@ -46,4 +46,8 @@
     <string name="schedule_type_title">Тип расписания быстрого доступа</string>
     <string name="my_schedule_dialog_title">Вы студент или учитель?</string>
     <string name="choose_type_hint">Вы всегда можете изменить выбранные тип в Настройках</string>
+    <string name="update_title">Необходимо обнрвление</string>
+    <string name="update_message">Вы используете старую версию приложения. Это может вызвать непредвиденные проблемы. Для стабильной работы необходимо обновление.</string>
+    <string name="update_action">Обновить</string>
+    <string name="update_continue">Позже</string>
 </resources>
