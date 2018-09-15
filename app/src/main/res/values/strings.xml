@@ -46,4 +46,8 @@
     <string name="schedule_type_title">My Schedule Type</string>
     <string name="my_schedule_dialog_title">I am a…</string>
     <string name="choose_type_hint">You can always change type in Settings</string>
+    <string name="update_title">Update needed</string>
+    <string name="update_message">You are using old app version. It may cause unexcepted problems. Please update it</string>
+    <string name="update_action">Update</string>
+    <string name="update_continue">Continue</string>
 </resources>

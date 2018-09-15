@@ -6,6 +6,7 @@ import com.valentun.eduschedule.BuildConfig;
 import com.valentun.eduschedule.Constants;
 import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.data.dto.SchoolInfo;
+import com.valentun.eduschedule.data.dto.VersionInfo;
 import com.valentun.eduschedule.data.network.ErrorHandler;
 import com.valentun.eduschedule.data.network.NetworkStatusChecker;
 import com.valentun.eduschedule.data.network.RestService;
@@ -325,6 +326,12 @@ public class Repository implements IRepository {
 
                     return isChanged || BuildConfig.DEBUG_NOTIFICATIONS;
                 });
+    }
+
+    @Override
+    public Observable<VersionInfo> loadVersionInfo() {
+        return restService.getVersionInfo()
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     private Observable<School> getSchool(int schoolId) {

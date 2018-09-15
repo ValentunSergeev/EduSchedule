@@ -2,6 +2,7 @@ package com.valentun.eduschedule.data;
 
 
 import com.valentun.eduschedule.data.dto.SchoolInfo;
+import com.valentun.eduschedule.data.dto.VersionInfo;
 import com.valentun.parser.pojo.Group;
 import com.valentun.parser.pojo.Lesson;
 import com.valentun.parser.pojo.NamedEntity;
@@ -57,4 +58,6 @@ public interface IRepository {
     Single<List<SchoolInfo>> findSchools(CharSequence filter);
 
     Observable<Boolean> checkScheduleChangedAndUpdate();
+
+    Observable<VersionInfo> loadVersionInfo();
 }

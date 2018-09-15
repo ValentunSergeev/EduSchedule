@@ -1,6 +1,9 @@
 package com.valentun.eduschedule.ui.screens.splash;
 
+import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
@@ -12,6 +15,7 @@ import com.valentun.eduschedule.Constants;
 import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.R;
 import com.valentun.eduschedule.ui.common.BaseActivity;
+import com.valentun.eduschedule.ui.common.dialogs.SimpleDialog;
 import com.valentun.eduschedule.ui.screens.detail.DetailActivity;
 import com.valentun.eduschedule.ui.screens.main.MainActivity;
 import com.valentun.eduschedule.ui.screens.school_selector.SchoolSelectActivity;
@@ -25,7 +29,7 @@ import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.NavigatorHolder;
 import ru.terrakok.cicerone.android.SupportAppNavigator;
 
-
+@SuppressLint("CheckResult")
 public class SplashActivity extends BaseActivity implements SplashView {
     public static final String EXTRA_FORCE_UPDATE = "FORCE_UPDATE";
     public static final String SCREEN_RETURN_KEY = "SCREEN_RETURN_KEY";
@@ -44,20 +48,7 @@ public class SplashActivity extends BaseActivity implements SplashView {
 
         navigator = new SplashNavigator(this);
 
-        boolean forceUpdate = getIntent().getBooleanExtra(EXTRA_FORCE_UPDATE, false);
-
-        String screenKey = Constants.SCREENS.MAIN;
-        if (getIntent().hasExtra(SCREEN_RETURN_KEY)) {
-            screenKey = getIntent().getStringExtra(SCREEN_RETURN_KEY);
-        }
-
-        NamedEntity data = null;
-        if (getIntent().hasExtra(SCREEN_DETAIL_RETURN_KEY)) {
-            ArrayList<String> transition = getIntent().getStringArrayListExtra(SCREEN_DETAIL_RETURN_KEY);
-            screenKey = transition.get(0);
-            data = new NamedEntity(transition.get(1), transition.get(2));
-        }
-        presenter.loadSchool(forceUpdate, screenKey, data);
+        loadInfo(false);
     }
 
     @Override
@@ -87,6 +78,61 @@ public class SplashActivity extends BaseActivity implements SplashView {
                             presenter.useCache();
                     }
                 });
+    }
+
+    @Override
+    public void showUpdateDialog() {
+        SimpleDialog dialog = new SimpleDialog.Builder()
+                .setTitle(R.string.update_title)
+                .setMessage(R.string.update_message)
+                .setPositiveText(R.string.update_action)
+                .setNegativeText(R.string.update_continue)
+                .build();
+
+        dialog.show(this)
+                .subscribe(which -> {
+                    switch (which) {
+                        case SimpleDialog.POSITIVE_CLICK:
+                            openPlayStorePage();
+                            break;
+                        case SimpleDialog.NEGATIVE_CLICK:
+                            loadInfo(true);
+                    }
+                });
+    }
+
+    private void openPlayStorePage() {
+        final String appPackageName = getPackageName();
+
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+        } catch (ActivityNotFoundException e) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+        }
+
+        presenter.exit();
+    }
+
+    private void loadInfo(boolean skipVersionCheck) {
+        boolean forceUpdate = getIntent().getBooleanExtra(EXTRA_FORCE_UPDATE, false);
+
+        String screenKey = Constants.SCREENS.MAIN;
+        if (getIntent().hasExtra(SCREEN_RETURN_KEY)) {
+            screenKey = getIntent().getStringExtra(SCREEN_RETURN_KEY);
+        }
+
+        NamedEntity data = null;
+        if (getIntent().hasExtra(SCREEN_DETAIL_RETURN_KEY)) {
+            ArrayList<String> transition = getIntent().getStringArrayListExtra(SCREEN_DETAIL_RETURN_KEY);
+            screenKey = transition.get(0);
+            data = new NamedEntity(transition.get(1), transition.get(2));
+        }
+
+        if (skipVersionCheck) {
+            presenter.loadSchool(forceUpdate, screenKey, data);
+        } else {
+            presenter.loadInfo(forceUpdate, screenKey, data);
+        }
     }
 
     private class SplashNavigator extends SupportAppNavigator {

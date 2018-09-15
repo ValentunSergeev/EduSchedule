@@ -9,6 +9,7 @@ import android.support.v4.app.NotificationCompat;
 
 import com.firebase.jobdispatcher.JobParameters;
 import com.firebase.jobdispatcher.JobService;
+import com.valentun.eduschedule.BuildConfig;
 import com.valentun.eduschedule.Constants;
 import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.R;

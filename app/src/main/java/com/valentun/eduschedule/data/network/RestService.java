@@ -2,6 +2,7 @@ package com.valentun.eduschedule.data.network;
 
 
 import com.valentun.eduschedule.data.dto.SchoolInfo;
+import com.valentun.eduschedule.data.dto.VersionInfo;
 
 import java.util.List;
 
@@ -15,4 +16,7 @@ public interface RestService {
 
     @GET("schools.json")
     Observable<List<SchoolInfo>> getSchools();
+
+    @GET("app_version")
+    Observable<VersionInfo> getVersionInfo();
 }

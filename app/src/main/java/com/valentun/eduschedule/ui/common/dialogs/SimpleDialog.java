@@ -3,6 +3,7 @@ package com.valentun.eduschedule.ui.common.dialogs;
 import android.content.Context;
 import android.support.annotation.StringRes;
 import android.support.v7.app.AlertDialog;
+import android.widget.Button;
 
 import com.valentun.eduschedule.MyApplication;
 
@@ -13,6 +14,7 @@ public class SimpleDialog {
     public static final int POSITIVE_CLICK = 0;
     public static final int NEGATIVE_CLICK = 1;
     public static final int NEUTRAL_CLICK = 2;
+    private boolean notCloseOnClick = false;
 
     protected String positiveText;
     protected String negativeText;
@@ -40,12 +42,12 @@ public class SimpleDialog {
                 builder.setNeutralButton(neutralText, ((dialogInterface, i) ->
                         source.onNext(NEUTRAL_CLICK)));
 
-            builder.show();
+            AlertDialog dialog = builder.show();
         });
     }
 
-    public class Builder {
-        private SimpleDialog dialog;
+    public static class Builder {
+        private SimpleDialog dialog = new SimpleDialog();
 
         public Builder setPositiveText(@StringRes int textRes) {
             dialog.positiveText = MyApplication.INSTANCE.getString(textRes);
@@ -85,6 +87,10 @@ public class SimpleDialog {
         public Builder setMessage(@StringRes int textRes) {
             dialog.message = MyApplication.INSTANCE.getString(textRes);
             return this;
+        }
+
+        public SimpleDialog build() {
+            return dialog;
         }
     }
 }

@@ -1,7 +1,10 @@
 package com.valentun.eduschedule.ui.screens.splash;
 
+import android.annotation.SuppressLint;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+import com.valentun.eduschedule.BuildConfig;
 import com.valentun.eduschedule.Constants;
 import com.valentun.eduschedule.MyApplication;
 import com.valentun.eduschedule.R;
@@ -19,6 +22,7 @@ import ru.terrakok.cicerone.Router;
 
 @SuppressWarnings("WeakerAccess")
 @InjectViewState
+@SuppressLint("CheckResult")
 public class SplashPresenter extends MvpPresenter<SplashView> {
 
     private static final int SCHOOL_USE_CACHED = -1;
@@ -31,6 +35,17 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
 
     public SplashPresenter() {
         initDagger();
+    }
+
+    public void loadInfo(boolean forceUpdate, String screenKey, NamedEntity data) {
+        repository.loadVersionInfo()
+                .subscribe(versionInfo -> {
+                    if (versionInfo.getVersion() > BuildConfig.VERSION_CODE) {
+                        getViewState().showUpdateDialog();
+                    } else {
+                        loadSchool(forceUpdate, screenKey, data);
+                    }
+                }, error -> loadSchool(forceUpdate, screenKey, data));
     }
 
     public void loadSchool(boolean forceUpdate, String screenKey, NamedEntity data) {
@@ -47,7 +62,7 @@ public class SplashPresenter extends MvpPresenter<SplashView> {
     }
 
     public void exit() {
-        router.exit();
+        router.finishChain();
     }
 
     public void useCache() {
