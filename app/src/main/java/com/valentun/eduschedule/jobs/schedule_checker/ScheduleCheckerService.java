@@ -80,7 +80,7 @@ public class ScheduleCheckerService extends JobService {
                 .setContentIntent(pendingIntent)
                 .setContentTitle(title)
                 .setContentText(message)
-                .setSmallIcon(R.drawable.logo)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setAutoCancel(true)
                 .setVibrate(Constants.VIBRATION_PATTERN)
                 .build();
