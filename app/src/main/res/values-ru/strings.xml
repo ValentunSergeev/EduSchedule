@@ -50,4 +50,26 @@
     <string name="update_message">Вы используете старую версию приложения. Это может вызвать непредвиденные проблемы. Для стабильной работы необходимо обновление.</string>
     <string name="update_action">Обновить</string>
     <string name="update_continue">Позже</string>
+
+    <string name="app_info">
+        Приложение, позволяющее просматривать расписание учебных заведений, подключенных к системе NikaSoft.\n\n
+
+        Возможности:\n
+            * Расписание групп\n
+            * Расписание учителей\n
+            * Выбор группы для возможности быстрого доступа\n
+            * Просмотр расписания без сети Интернет\n
+            * Подсвечивание текущего урока\n
+            * Уведомление об изменении расписания\n\n
+
+
+        Разработчики:\n
+            * Сергеев Валентин\n
+            * Сабалевский Сергей\n\n
+
+        Icons made by Icon Pond www.flaticon.com is licensed by Creative Commons BY 3.0
+    </string>
+    <string name="info">О приложении</string>
+    <string name="help_devs">Поддержите разработчиков</string>
+    <string name="wallet_copied">Номер кошелька скопирован в буффер обмена</string>
 </resources>

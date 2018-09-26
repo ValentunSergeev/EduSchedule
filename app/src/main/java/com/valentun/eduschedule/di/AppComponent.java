@@ -16,6 +16,7 @@ import com.valentun.eduschedule.ui.screens.main.choose_group.ChooseGroupPresente
 import com.valentun.eduschedule.ui.screens.main.choose_teacher.ChooseTeacherPresenter;
 import com.valentun.eduschedule.ui.screens.main.choose_type.ChooseTypePresenter;
 import com.valentun.eduschedule.ui.screens.main.groups.GroupsPresenter;
+import com.valentun.eduschedule.ui.screens.main.info.InfoPresenter;
 import com.valentun.eduschedule.ui.screens.main.my_schedule.MySchedulePresenter;
 import com.valentun.eduschedule.ui.screens.main.settings.SettingsFragment;
 import com.valentun.eduschedule.ui.screens.main.teachers.TeachersPresenter;
@@ -69,4 +70,6 @@ public interface AppComponent {
     void inject(ChooseTeacherPresenter chooseTeacherPresenter);
 
     void inject(SettingsFragment settingsFragment);
+
+    void inject(InfoPresenter infoPresenter);
 }

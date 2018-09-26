@@ -50,4 +50,28 @@
     <string name="update_message">You are using old app version. It may cause unexcepted problems. Please update it</string>
     <string name="update_action">Update</string>
     <string name="update_continue">Later</string>
+    <string name="info">About</string>
+    <string name="app_info">
+        An application that allows you to view the schedule of educational institutions connected to the NikaSoft system.\n\n
+
+        Capabilities:\n
+            * Group schedules\n
+            * Teacher schedule\n
+            * Select a group for quick access\n
+            * View the schedule without the Internet\n
+            * Highlighting current lesson\n
+            * Notification of schedule change\n\n
+
+
+        Developers:\n
+            * Sergeev Valentin\n
+            * Sabalevskii Sergey\n\n
+
+
+        Icons made by Icon Pond www.flaticon.com is licensed by Creative Commons BY 3.0
+    </string>
+    <string name="help_info" translatable="false">Yandex.Money: %s</string>
+
+    <string name="help_devs">Support developers</string>
+    <string name="wallet_copied">Wallet copied to clipboard</string>
 </resources>

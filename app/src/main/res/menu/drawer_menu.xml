@@ -23,6 +23,11 @@
             android:id="@+id/nav_item_settings"
             android:title="@string/settings"
             android:icon="@drawable/ic_settings"/>
+
+        <item
+            android:id="@+id/nav_logo_info"
+            android:icon="@drawable/ic_info"
+            android:title="@string/info" />
     </group>
 
     <group android:id="@+id/nav_bottom_group">
@@ -32,9 +37,4 @@
             android:icon="@drawable/ic_exit"
             android:title="@string/change_school" />
     </group>
-
-    <item
-        android:id="@+id/nav_logo_info"
-        android:enabled="false"
-        android:title="@string/nav_license" />
 </menu>

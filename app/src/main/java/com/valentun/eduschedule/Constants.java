@@ -17,6 +17,9 @@ public class Constants {
     public static final String TYPE_STUDENT = "STUDENT";
     public static final String TYPE_TEACHER = "TEACHER";
     public static final String TYPE_NONE = "NONE";
+    public static final String WALLET_CLIP_LABEL = "Wallet";
+
+    public static final String WALLET_VALUE = "410016467298531";
 
     public static class SCREENS {
         public static final String GROUPS_LIST = "GROUPS_LIST";
@@ -27,6 +30,8 @@ public class Constants {
         public static final String MY_SCHEDULE = "MY_SCHEDULE";
         public static final String CHOOSE_GROUP = "CHOOSE_GROUP";
         public static final String CHOOSE_TEACHER = "CHOOSE_TEACHER";
+
+        public static final String INFO = "INFO";
 
         public static final String SCHOOL_SELECTOR = "SCHOOL_SELECTOR";
         public static final String MAIN = "MAIN";

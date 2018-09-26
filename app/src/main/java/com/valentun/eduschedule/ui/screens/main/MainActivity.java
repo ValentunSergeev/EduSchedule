@@ -16,6 +16,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -31,6 +32,7 @@ import com.valentun.eduschedule.ui.screens.main.choose_group.ChooseGroupFragment
 import com.valentun.eduschedule.ui.screens.main.choose_teacher.ChooseTeacherFragment;
 import com.valentun.eduschedule.ui.screens.main.choose_type.ChooseTypeFragment;
 import com.valentun.eduschedule.ui.screens.main.groups.GroupsFragment;
+import com.valentun.eduschedule.ui.screens.main.info.InfoFragment;
 import com.valentun.eduschedule.ui.screens.main.my_schedule.MyScheduleFragment;
 import com.valentun.eduschedule.ui.screens.main.settings.SettingsFragment;
 import com.valentun.eduschedule.ui.screens.main.teachers.TeachersFragment;
@@ -43,6 +45,7 @@ import javax.inject.Inject;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.NavigatorHolder;
 import ru.terrakok.cicerone.android.SupportFragmentNavigator;
+import ru.terrakok.cicerone.commands.Back;
 import ru.terrakok.cicerone.commands.Command;
 import ru.terrakok.cicerone.commands.Forward;
 import ru.terrakok.cicerone.commands.Replace;
@@ -183,10 +186,21 @@ public class MainActivity extends BaseActivity implements
             case R.id.nav_item_settings:
                 screenKey = SCREENS.SETTINGS;
                 break;
+            case R.id.nav_logo_info:
+                screenKey = SCREENS.INFO;
+                break;
             default:
                 screenKey = SCREENS.MY_SCHEDULE;
         }
-        navigator.applyCommand(new Replace(screenKey, null));
+
+        Command command;
+
+        if (screenKey.equals(SCREENS.INFO)) {
+            command = new Forward(screenKey, null);
+        } else {
+            command = new Replace(screenKey, null);
+        }
+        navigator.applyCommand(command);
         binding.drawerLayout.closeDrawer(GravityCompat.START);
 
         return true;
@@ -215,6 +229,20 @@ public class MainActivity extends BaseActivity implements
     @Override
     public AppBarLayout getToolbarContainer() {
         return binding.appbarLayout;
+    }
+
+    @Override
+    public void setUpArrowEnabled(boolean enabled) {
+        drawerToggle.setDrawerIndicatorEnabled(!enabled);
+        actionBar.setDisplayHomeAsUpEnabled(enabled);
+
+        if (enabled) {
+            drawerToggle.setToolbarNavigationClickListener(v -> navigator.applyCommand(new Back()));
+        } else {
+            drawerToggle.setToolbarNavigationClickListener(null);
+        }
+
+        drawerToggle.syncState();
     }
 
     private class MainNavigator extends SupportFragmentNavigator {
@@ -268,6 +296,8 @@ public class MainActivity extends BaseActivity implements
                     return new ChooseTypeFragment();
                 case SCREENS.CHOOSE_TEACHER:
                     return new ChooseTeacherFragment();
+                case SCREENS.INFO:
+                    return new InfoFragment();
                 default:
                     throw new UnsupportedOperationException("Unknown screen key");
             }

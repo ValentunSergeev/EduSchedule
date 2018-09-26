@@ -4,4 +4,5 @@ import android.support.design.widget.AppBarLayout;
 
 public interface IBarView {
     AppBarLayout getToolbarContainer();
+    void setUpArrowEnabled(boolean isEnabled);
 }

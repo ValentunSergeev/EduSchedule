@@ -56,6 +56,7 @@ ext {
     jobDispatcherVersion = "0.8.5"
     firebaseServicesVersion = "11.8.0"
     crashlyticsVersion = "2.7.1@aar"
+    expandlayoutVersion = "2.9.2"
 }
 
 dependencies {
@@ -83,6 +84,8 @@ dependencies {
     }
     implementation "com.firebase:firebase-jobdispatcher:$jobDispatcherVersion"
     implementation "com.google.firebase:firebase-core:$firebaseServicesVersion"
+
+    implementation "net.cachapa.expandablelayout:expandablelayout:$expandlayoutVersion"
 }
 
 apply plugin: 'com.google.gms.google-services'
